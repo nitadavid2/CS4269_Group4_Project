@@ -1,15 +1,16 @@
 import pandas as pd
 
 # constants (enter file path names here)
-FILE_PATH_WEIGHTS = "./input_files/country_weights.csv"
-FILE_PATH_INITSTATES = "./input_files/initial_states.csv"
+FILE_PATH_WEIGHTS = "./input_files/Resources.xlsx"
+FILE_PATH_INITSTATES = "./input_files/Example-Initial-World.xlsx"
+
 
 
 # reads in the country weights
-weightFrame = pd.read_csv(FILE_PATH_WEIGHTS).set_index("Resource")
+weightFrame = pd.read_excel(FILE_PATH_WEIGHTS).set_index("Resource")
 
 # reads in the initial country states
-initStates = pd.read_csv(FILE_PATH_INITSTATES)
+initStates = pd.read_excel(FILE_PATH_INITSTATES)
 
 
 # uses a dot product to produces a weighted resource sum (One possible
