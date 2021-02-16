@@ -1,8 +1,8 @@
 import pandas as pd
 
 # constants (enter file path names here)
-FILE_PATH_WEIGHTS = "./input_files/country_weights.csv"
-FILE_PATH_INITSTATES = "./input_files/initial_states.csv"
+FILE_PATH_WEIGHTS = "./input_files/Resources.csv"
+FILE_PATH_INITSTATES = "./input_files/countries.csv"
 
 
 # reads in the country weights
@@ -14,4 +14,4 @@ initStates = pd.read_csv(FILE_PATH_INITSTATES)
 
 # uses a dot product to produces a weighted resource sum (One possible
 # metric of state quality) for each nation.
-initStates["Weighted Resource Sum"] = initStates.loc[:, "R1":"R23'"].dot(weightFrame["Weight"])
+initStates["Weighted Resource Sum"] = initStates.loc[:, "R1":"R23'"].dot(weightFrame.loc[:, "Resource":"Weight"])
