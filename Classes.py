@@ -1,5 +1,4 @@
-import pandas as pd
-import ReadInFile
+import ReadInFile as data
 
 
 class Country:
@@ -7,18 +6,21 @@ class Country:
         self.resources = dict
         self.name = countryName
 
-    def state_quality(self):
+    def stateQuality(self):
         return 0
 
     def readCountryResource(self):
-        self.resources
+        ptr = data.initStates
 
-    def calc_rawutility(self):
+        self.resources
         return 0
+
+    def getPopulation(self):
+        return self.resources.get("population");
 
 
 class State:
-    def __init__(self, depth, countries, schedule):
+    def __init__(self, countries, schedule = [], depth = 0):
         self.countries = countries
         self.depth = depth
         self.path = schedule
@@ -26,5 +28,5 @@ class State:
     def findSuccessor(self, actions):
         return 0
 
-    def discounted_reward(self,country):
+    def discountedReward(self,country):
         return 0
