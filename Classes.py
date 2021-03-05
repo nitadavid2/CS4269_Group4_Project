@@ -4,9 +4,9 @@ import ResourceQuality
 
 
 class Country:
-    def __init__(self, countryName):
+    def __init__(self, countryName, country_dict):
         self.name = countryName
-        self.resources = ReadInFile.getCountryDict()[self.name]
+        self.resources = country_dict[self.name]
 
     def state_quality(self):
         resource_dict = ReadInFile.getResourceDict()
@@ -30,6 +30,3 @@ class State:
 
     def discounted_reward(self,country):
         return 0
-
-Atlantis = Country('Atlantis')
-print(Atlantis.state_quality())

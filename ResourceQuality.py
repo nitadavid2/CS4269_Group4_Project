@@ -41,7 +41,7 @@ def rawMaterialsModel(quantity, weight, t1, t2):
     x1 = min(max(0, quantity - t1), t2 - t1)
     x2 = max(0, quantity - t2)
 
-    return weight * (0.5 * x0 + 1 * x1 + math.log(x2))
+    return weight * (0.5 * x0 + 1 * x1 + math.log1p(x2))
 
 
 def producedMaterialModel(quantity, weight, t1, t2):
@@ -49,7 +49,7 @@ def producedMaterialModel(quantity, weight, t1, t2):
     x1 = min(max(0, quantity - t1), t2 - t1)
     x2 = max(0, quantity - t2)
 
-    return weight * (math.pow(x0, 0.25) + 1 * x1 + math.log(x2))
+    return weight * (math.pow(x0, 0.25) + 1 * x1 + math.log1p(x2))
 
 
 def wasteModel(quantity, weight, t1):
@@ -57,3 +57,4 @@ def wasteModel(quantity, weight, t1):
     x1 = max(0, quantity - t1)
 
     return weight * (0.5 * x0 + 1 * x1)
+
