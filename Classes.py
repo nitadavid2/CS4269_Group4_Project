@@ -1,14 +1,16 @@
 import pandas as pd
 import ReadInFile
+import ResourceQuality
 
 
 class Country:
     def __init__(self, countryName):
-        self.resources = dict
         self.name = countryName
+        self.resources = ReadInFile.getCountryDict()[self.name]
 
     def state_quality(self):
-        return 0
+        resource_dict = ReadInFile.getResourceDict()
+        return ResourceQuality.getStateQuality(self.resources, resource_dict)
 
     def readCountryResource(self):
         self.resources
@@ -28,3 +30,6 @@ class State:
 
     def discounted_reward(self,country):
         return 0
+
+Atlantis = Country('Atlantis')
+print(Atlantis.state_quality())

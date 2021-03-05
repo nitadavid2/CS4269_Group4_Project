@@ -2,7 +2,14 @@
 import math
 
 
-def getResourceQuality(resource, raw_quantity, country, resourceDict):
+def getStateQuality(country_resource_dict, resource_dict):
+    state_quality = 0
+    for key in country_resource_dict:
+        state_quality += getResourceQuality(key, country_resource_dict[key], resource_dict)
+    return state_quality
+
+
+def getResourceQuality(resource, raw_quantity, resourceDict):
     # Look up the resource in the dictionary of resources.
     # weight, model, scaling, t1, t2
     data = resourceDict[resource]
