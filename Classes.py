@@ -34,17 +34,44 @@ class State:
                         path_to_update = path.copy()
                         countries_to_update = countries.copy()
                         path_to_update.append(a)
-                        countries_to_update[country] = b
+                        countries_to_update[country].resources = b
                         new_state = State(depth + 1, countries_to_update, path_to_update)
                         successor_list.append(new_state)
 
         def successors_for_transfer(path, countries, depth):
-            successor_list.append([])
+            for quantity in quantity_choices:
+                positive_resource_unit_prices = transfer_unit_prices[0:6]
+                for desired_resource in positive_resource_unit_prices:
+                    other_resources = transfer_unit_prices.copy()
+                    other_resources.remove(desired_resource)
+                    for coun in countries:
+                        if coun != 'MyCountry':
+                            for r in other_resources:
+                                a1, b1, c1 = BasicOperations.transfer(coun, country, countries[coun].resources,
+                                                                      resources, desired_resource[0], quantity)
+                                trade_amount = desired_resource[1] * quantity / abs(r[1])
+                                if 'Waste' in r[0]:
+                                    a2, b2, c2 = BasicOperations.transfer(coun, country, b1,
+                                                                          c1, r[0], trade_amount)
+                                else:
+                                    a2, c2, b2 = BasicOperations.transfer(country, coun, c1,
+                                                                          b1, r[0], trade_amount)
+                                if a1 != False and a2 != False:
+                                    path_to_update = path.copy()
+                                    countries_to_update = countries.copy()
+                                    path_to_update.append(a1)
+                                    path_to_update.append(a2)
+                                    countries_to_update[coun].resources = b2
+                                    countries_to_update[country].resources = c2
+                                    new_state = State(depth + 1, countries_to_update, path_to_update)
+                                    successor_list.append(new_state)
 
         quantity_choices = [2 ** 0, 2 ** 1, 2 ** 2, 2 ** 3, 2 ** 4, 2 ** 5, 2 ** 6]
         transform_types = ['housing', 'food', 'electronics', 'metalAlloys']
-        transfer_resource_type = ['metalElements', 'timber', 'metalAlloys', 'electronics', 'food',
-                                  'metalAlloysWaste', 'housingWaste', 'electronicsWaste', 'foodWaste']
+        transfer_unit_prices = [('metalElements', 100), ('timber', 80), ('metalAlloys', 90),
+                                ('electronics', 200), ('food', 60), ('water', 20),
+                                ('metalAlloysWaste', -100), ('housingWaste', -150),
+                                ('electronicsWaste', -200), ('foodWaste', -100)]
         successor_list = list()
         country = 'MyCountry'
         resources = self.countries[country].resources

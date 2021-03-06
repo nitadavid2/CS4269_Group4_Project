@@ -39,7 +39,7 @@ def getCountryDict():
         if i.value != 'Country':
             resource_list.append(i.value)
 
-    for row in initStates['A{}:K{}'.format(initStates.min_row + 1, initStates.max_row)]:
+    for row in initStates['A{}:N{}'.format(initStates.min_row + 1, initStates.max_row)]:
         country = row[0].value
         data_dict = {}
 
@@ -54,4 +54,3 @@ def getCountryDict():
 
     return countryDictionary
 
-State(0, getCountryDict(), []).findSuccessor()

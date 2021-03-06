@@ -18,17 +18,17 @@ def expected_utility(probability, self_discounted_reward):
     return probability * self_discounted_reward
 
 
-def a_star_search(graph, start_state, goal):
+def a_star_search(start, depth, utility):
     # TODO: Implement A* search algorithm
     return 0
 
 
-def depth_first_search(graph, start_state, goal):
+def depth_first_search(start, depth, utility):
     # TODO: Implement depth first search algorithm
     return 0
 
 
-def breadth_first_search(graph, start_state, goal):
+def breadth_first_search(start, depth, utility):
     # TODO: Implement breadth first search algorithm
     return 0
 
@@ -38,6 +38,8 @@ if __name__ == '__main__':
     resource_dict = ReadInFile.getResourceDict()
     start_state = State(0, country_dict, [])
     my_country = country_dict["MyCountry"]
-    for i in start_state.findSuccessor():
+    suc_list = start_state.findSuccessor()
+    print(len(suc_list))
+    for i in suc_list:
         print(i.path)
     # TODO: Test and Run Search

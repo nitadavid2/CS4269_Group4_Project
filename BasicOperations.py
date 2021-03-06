@@ -1,3 +1,4 @@
+import ReadInFile
 def return_transform_info(resources, updated_resources, input_resources, output_resources, operator_summary):
     for key in input_resources:
         if updated_resources[key] < input_resources[key]:
@@ -61,26 +62,25 @@ def metallicaloys_transform(country, resources, n):
     return return_transform_info(resources, updated_resources, input_resources, output_resources, operator_summary)
 
 
-def transform(country, resources, n, type):
-    if type == 'housing':
+def transform(country, resources, n, transform_type):
+    if transform_type == 'housing':
         return housing_transform(country, resources, n)
-    if type == 'food':
+    if transform_type == 'food':
         return food_transform(country, resources, n)
-    if type == 'electronics':
+    if transform_type == 'electronics':
         return electronics_transform(country, resources, n)
-    if type == 'metalAlloys':
+    if transform_type == 'metalAlloys':
         return metallicaloys_transform(country, resources, n)
 
 
-def transfer(sender, receiver, sender_resources, receiver_resources, transfer_resources):
+def transfer(sender, receiver, sender_resources, receiver_resources, transfer_resource, amount):
     sender_updated_resources = sender_resources.copy()
     receiver_updated_resources = receiver_resources.copy()
-    operator_summary = ('TRANSFER', sender, receiver, transfer_resources)
-    for key in transfer_resources:
-        if sender_updated_resources[key] < transfer_resources[key]:
-            return False, sender_resources, receiver_resources
-        else:
-            receiver_updated_resources[key] += transfer_resources[key]
-            sender_updated_resources[key] -= transfer_resources[key]
+    operator_summary = ('TRANSFER', sender, receiver, {transfer_resource: amount})
+    if sender_updated_resources[transfer_resource] < amount:
+        return False, sender_resources, receiver_resources
+    else:
+        receiver_updated_resources[transfer_resource] += amount
+        sender_updated_resources[transfer_resource] -= amount
     return operator_summary, sender_updated_resources, receiver_updated_resources
 
