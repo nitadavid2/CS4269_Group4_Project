@@ -25,8 +25,8 @@ def housing_transform(country, resources, n):
     return return_transform_info(resources, updated_resources, input_resources, output_resources, operator_summary)
 
 
-def food_transform(resources):
-    return resources
+def food_transform(country, resources, n):
+    return False, resources
 
 
 def electronics_transform(country, resources, n):
@@ -56,9 +56,20 @@ def metallicaloys_transform(country, resources, n):
     """
     updated_resources = resources.copy()
     input_resources = {'population': n, 'metalElements': 2 * n}
-    output_resources = {'population': n, 'metalAlloys': n, 'electronicsWaste': n}
+    output_resources = {'population': n, 'metalAlloys': n, 'metalAlloysWaste': n}
     operator_summary = ('TRANSFORM', country, input_resources, output_resources)
     return return_transform_info(resources, updated_resources, input_resources, output_resources, operator_summary)
+
+
+def transform(country, resources, n, type):
+    if type == 'housing':
+        return housing_transform(country, resources, n)
+    if type == 'food':
+        return food_transform(country, resources, n)
+    if type == 'electronics':
+        return electronics_transform(country, resources, n)
+    if type == 'metalAlloys':
+        return metallicaloys_transform(country, resources, n)
 
 
 def transfer(sender, receiver, sender_resources, receiver_resources, transfer_resources):

@@ -1,6 +1,7 @@
 import openpyxl as xl
 import ResourceQuality
 from Classes import Country
+from Classes import State
 
 # constants (enter file path names here)
 
@@ -53,3 +54,4 @@ def getCountryDict():
 
     return countryDictionary
 
+State(0, getCountryDict(), []).findSuccessor()

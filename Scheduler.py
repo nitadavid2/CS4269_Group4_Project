@@ -3,7 +3,6 @@ import ReadInFile
 from Classes import State
 from Classes import Country
 import ResourceQuality
-from random import randint
 import math
 
 
@@ -39,4 +38,6 @@ if __name__ == '__main__':
     resource_dict = ReadInFile.getResourceDict()
     start_state = State(0, country_dict, [])
     my_country = country_dict["MyCountry"]
+    for i in start_state.findSuccessor():
+        print(i.path)
     # TODO: Test and Run Search
