@@ -39,5 +39,4 @@ if __name__ == '__main__':
     resource_dict = ReadInFile.getResourceDict()
     start_state = State(0, country_dict, [])
     my_country = country_dict["MyCountry"]
-    print(my_country)
     # TODO: Test and Run Search
