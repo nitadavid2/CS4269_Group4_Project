@@ -1,16 +1,19 @@
 import openpyxl as xl
+import ResourceQuality
+from Classes import Country
 
 # constants (enter file path names here)
 
 FILE_PATH_WEIGHTS = "./input_files/Resources.xlsx"
 FILE_PATH_INITSTATES = "./input_files/countries.xlsx"
 
+
 def getResourceDict():
     # reads in the resource data
     weightFrame = xl.load_workbook(FILE_PATH_WEIGHTS, data_only=True).active
 
     resourcesDictionary = dict()
-    for row in weightFrame['A{}:F{}'.format(weightFrame.min_row + 1,weightFrame.max_row)]:
+    for row in weightFrame['A{}:F{}'.format(weightFrame.min_row + 1, weightFrame.max_row)]:
         resource = row[0].value
         data_list = list()
 
@@ -19,15 +22,15 @@ def getResourceDict():
         for cell in data:
             data_list.append(cell.value)
 
-        # print(data_list)
         resourcesDictionary[resource] = data_list
 
-    #print(resourcesDictionary)
     return resourcesDictionary
+
 
 def getCountryDict():
     # reads in the initial country states
     initStates = xl.load_workbook(FILE_PATH_INITSTATES, data_only=True).active
+    resource_dict = getResourceDict()
 
     countryDictionary = dict()
     resource_list = list()
@@ -35,7 +38,7 @@ def getCountryDict():
         if i.value != 'Country':
             resource_list.append(i.value)
 
-    for row in initStates['A{}:K{}'.format(initStates.min_row + 1,initStates.max_row)]:
+    for row in initStates['A{}:K{}'.format(initStates.min_row + 1, initStates.max_row)]:
         country = row[0].value
         data_dict = {}
 
@@ -45,12 +48,8 @@ def getCountryDict():
             data_dict[resource_list[i]] = data[i].value
 
         # print(data_list)
-        countryDictionary[country] = data_dict
+        init_state_quality = ResourceQuality.getStateQuality(data_dict, resource_dict)
+        countryDictionary[country] = Country(country, data_dict, resource_dict, init_state_quality)
 
-    # print(countryDictionary)
     return countryDictionary
 
-# uses a dot product to produces a weighted resource sum (One possible
-# metric of state quality) for each nation.
-# Do we still need this?
-# initStates["Weighted Resource Sum"] = initStates.loc[:, "R1":"R23'"].dot(weightFrame.loc[:, "Resource":"Weight"])
