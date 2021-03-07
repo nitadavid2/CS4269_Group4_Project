@@ -21,7 +21,7 @@ def housing_transform(country, resources, n):
     :return: The resources dictionary after the transformation.
     """
     updated_resources = copy.deepcopy(resources)
-    input_resources = {'population': 5 * n, 'metalElements': n, 'timber': 5 * n, 'metalAlloys': 3 * n}
+    input_resources = {'population': 5 * n, 'metalElements': n, 'timber': 5 * n, 'metalAlloys': 3 * n, 'landArea': 1 * n}
     output_resources = {'population': 5 * n, 'housing': n, 'housingWaste': n}
     operator_summary = ('TRANSFORM', country, input_resources, output_resources)
     return return_transform_info(resources, updated_resources, input_resources, output_resources, operator_summary)

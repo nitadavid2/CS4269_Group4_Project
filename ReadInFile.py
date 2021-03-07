@@ -1,5 +1,4 @@
 import openpyxl as xl
-
 import ResourceQuality
 from Classes import Country
 
@@ -26,10 +25,6 @@ def getResourceDict():
         resourcesDictionary[resource] = data_list
 
     return resourcesDictionary
-
-
-# reads in the resource data
-weightFrame = xl.load_workbook(FILE_PATH_WEIGHTS).active
 
 
 def getCountryDict():
