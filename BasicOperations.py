@@ -1,4 +1,3 @@
-import ReadInFile
 def return_transform_info(resources, updated_resources, input_resources, output_resources, operator_summary):
     for key in input_resources:
         if updated_resources[key] < input_resources[key]:

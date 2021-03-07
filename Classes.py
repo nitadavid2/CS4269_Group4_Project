@@ -56,7 +56,7 @@ class State:
                                 else:
                                     a2, c2, b2 = BasicOperations.transfer(country, coun, c1,
                                                                           b1, r[0], trade_amount)
-                                if a1 != False and a2 != False:
+                                if a1 and a2:
                                     path_to_update = path.copy()
                                     countries_to_update = countries.copy()
                                     path_to_update.append(a1)
@@ -85,4 +85,3 @@ class State:
 
     def discounted_reward(self, gamma, country):
         return gamma ** self.depth * self.undiscounted_reward(country)
-
