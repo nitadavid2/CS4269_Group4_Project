@@ -1,5 +1,6 @@
 import ResourceQuality
 import BasicOperations
+import copy
 
 
 class Country:
@@ -8,7 +9,6 @@ class Country:
         self.resources = resources
         self.resource_dict = resource_dict
         self.init_state_quality = init_state_quality
-        self.undiscounted_reward = 0
         self.discounted_reward = 0
         self.participation_prob = -1
 
@@ -31,11 +31,13 @@ class State:
                 for transform_type in transform_types:
                     a, b = BasicOperations.transform(country, resources, quantity, transform_type)
                     if a:
-                        path_to_update = path.copy()
-                        countries_to_update = countries.copy()
+                        path_to_update = copy.deepcopy(path)
+                        countries_to_update = copy.deepcopy(countries)
                         path_to_update.append(a)
                         countries_to_update[country].resources = b
                         new_state = State(depth + 1, countries_to_update, path_to_update)
+                        new_my_country = new_state.countries[country]
+                        new_my_country.discounted_reward = self.discounted_reward(0.9, new_my_country)
                         successor_list.append(new_state)
 
         def successors_for_transfer(path, countries, depth):
@@ -57,13 +59,17 @@ class State:
                                     a2, c2, b2 = BasicOperations.transfer(country, coun, c1,
                                                                           b1, r[0], trade_amount)
                                 if a1 and a2:
-                                    path_to_update = path.copy()
-                                    countries_to_update = countries.copy()
+                                    path_to_update = copy.deepcopy(path)
+                                    countries_to_update = copy.deepcopy(countries)
                                     path_to_update.append(a1)
                                     path_to_update.append(a2)
                                     countries_to_update[coun].resources = b2
                                     countries_to_update[country].resources = c2
                                     new_state = State(depth + 1, countries_to_update, path_to_update)
+                                    new_my_country = new_state.countries[country]
+                                    new_other_country = new_state.countries[coun]
+                                    new_my_country.discounted_reward = self.discounted_reward(0.9, new_my_country)
+                                    new_other_country.discounted_reward = self.discounted_reward(0.9, new_other_country)
                                     successor_list.append(new_state)
 
         quantity_choices = [2 ** 0, 2 ** 1, 2 ** 2, 2 ** 3, 2 ** 4, 2 ** 5, 2 ** 6]
