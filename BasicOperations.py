@@ -19,14 +19,27 @@ def housing_transform(country, resources, n):
     :return: The resources dictionary after the transformation.
     """
     updated_resources = resources.copy()
-    input_resources = {'population': 5 * n, 'metalElements': n, 'timber': 5 * n, 'metalAlloys': 3 * n}
+    input_resources = {'population': 5 * n, 'metalElements': n, 'timber': 5 * n, 'metalAlloys': 3 * n, 'landArea': 1 * n}
     output_resources = {'population': 5 * n, 'housing': n, 'housingWaste': n}
     operator_summary = ('TRANSFORM', country, input_resources, output_resources)
     return return_transform_info(resources, updated_resources, input_resources, output_resources, operator_summary)
 
 
 def food_transform(country, resources, n):
-    return False, resources
+    """
+    The TRANSFORM operation that we use to generate food. Our definition of food
+    transformation also alludes to Group 7's idea, which is in the 5th page of their Defining Additional
+    Key Transformations slide (presentation on 2/11/2021). We, however, do not produce a farm intermediate
+    resource in our food production.
+    :param resources: A dictionary containing the amounts of resources in the country
+    :param n: Number multiplied to increase the transformation yield
+    :return: The resources dictionary after the transformation.
+    """
+    updated_resources = resources.copy()
+    input_resources = {'population': 4 * n, 'water': 2 * n, 'timber': 3 * n, 'landArea': 1 * n}
+    output_resources = {'population': 4 * n, 'food': 12 * n, 'foodWaste': 4 * n, 'landArea': 1 * n}
+    operator_summary = ('TRANSFORM', country, input_resources, output_resources)
+    return return_transform_info(resources, updated_resources, input_resources, output_resources, operator_summary)
 
 
 def electronics_transform(country, resources, n):
