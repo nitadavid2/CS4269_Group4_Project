@@ -1,6 +1,7 @@
 import ResourceQuality
 import BasicOperations
 import copy
+import math
 
 
 class Country:
@@ -38,6 +39,8 @@ class State:
                         new_state = State(depth + 1, countries_to_update, path_to_update)
                         new_my_country = new_state.countries[country]
                         new_my_country.discounted_reward = self.discounted_reward(0.9, new_my_country)
+                        new_my_country.participation_prob = self.country_participation_probability\
+                            (new_my_country.discounted_reward, 0, 1)
                         successor_list.append(new_state)
 
         def successors_for_transfer(path, countries, depth):
@@ -70,6 +73,10 @@ class State:
                                     new_other_country = new_state.countries[coun]
                                     new_my_country.discounted_reward = self.discounted_reward(0.9, new_my_country)
                                     new_other_country.discounted_reward = self.discounted_reward(0.9, new_other_country)
+                                    new_my_country.participation_prob = self.country_participation_probability \
+                                        (new_my_country.discounted_reward, 0, 1)
+                                    new_other_country.participation_prob = self.country_participation_probability \
+                                        (new_other_country.discounted_reward, 0, 1)
                                     successor_list.append(new_state)
 
         quantity_choices = [2 ** 0, 2 ** 1, 2 ** 2, 2 ** 3, 2 ** 4, 2 ** 5, 2 ** 6]
@@ -91,3 +98,6 @@ class State:
 
     def discounted_reward(self, gamma, country):
         return gamma ** self.depth * self.undiscounted_reward(country)
+
+    def country_participation_probability(self, discounted_reward, x_0, k, L=1):
+        return L / (1 + math.exp(-k * (discounted_reward - x_0)))

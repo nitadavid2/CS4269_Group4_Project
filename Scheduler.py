@@ -7,10 +7,6 @@ import math
 import queue
 
 
-def country_participation_probability(discounted_reward, x_0, k, L=1):
-    return L / (1 + math.exp(-k * (discounted_reward - x_0)))
-
-
 def schedule_probability(probability_for_countries):
     return np.product(probability_for_countries)
 
@@ -82,11 +78,7 @@ if __name__ == '__main__':
     country_dict = ReadInFile.getCountryDict()
     resource_dict = ReadInFile.getResourceDict()
     start_state = State(0, country_dict, [])
-    my_country = country_dict["MyCountry"]
-    suc_list = start_state.findSuccessor()
-    print(len(suc_list))
-    for i in suc_list:
-        print(i.path)
+    my_country = country_dict['MyCountry']
     # TODO: Test and Run Search
 
     test = a_star_search(start_state, 1, 1)
