@@ -1,0 +1,4 @@
+# Ignore the /.idea folder and files, we don't want to track these changes
+.idea/CS4269_Group4_Project.iml
+.idea/misc.xml
+.idea
