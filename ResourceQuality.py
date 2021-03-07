@@ -5,11 +5,11 @@ import math
 def getStateQuality(country_resource_dict, resource_dict):
     state_quality = 0
     for key in country_resource_dict:
-        state_quality += getResourceQuality(key, country_resource_dict[key], resource_dict)
+        state_quality += getResourceQuality(key, country_resource_dict, resource_dict)
     return state_quality
 
 
-def getResourceQuality(resource, raw_quantity, resourceDict):
+def getResourceQuality(resource, country_resource_dict, resourceDict):
     # Look up the resource in the dictionary of resources.
     # weight, model, scaling, t1, t2
     data = resourceDict[resource]
@@ -21,7 +21,7 @@ def getResourceQuality(resource, raw_quantity, resourceDict):
     t2 = data[4]
 
     # Apply scaling, if applicable
-    true_quantity = raw_quantity
+    true_quantity = country_resource_dict[resource]
     # TODO: Finish this
 
     # Determine what type of model to call, what quantity to pass, and what thresholds/weights to use.

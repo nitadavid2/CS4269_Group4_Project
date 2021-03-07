@@ -1,7 +1,6 @@
 import openpyxl as xl
 import ResourceQuality
 from Classes import Country
-from Classes import State
 
 # constants (enter file path names here)
 
