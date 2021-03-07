@@ -26,6 +26,11 @@ class State:
         self.depth = depth
         self.path = schedule
 
+    # Define the notion of '<' for a State, used in PriorityQueue when priority of
+    # two states is otherwise equal. We prefer the lower depth in that case
+    def __lt__(self, other):
+        return self.depth < other.depth
+
     def findSuccessor(self):
         def successors_for_transform(path, countries, depth):
             for quantity in quantity_choices:
