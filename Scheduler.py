@@ -15,9 +15,7 @@ def expected_utility(probability, self_discounted_reward):
     return probability * self_discounted_reward
 
 
-def a_star_search(start, depth, utility):
-    # TODO: Implement A* search algorithm
-
+def a_star_search(start, depth):
     # We will use a priority queue for the A* implementation.
     # We will expand the frontier each time by expanding the "best path" using the
     # (expected utility - utility) as heuristic.
@@ -33,12 +31,21 @@ def a_star_search(start, depth, utility):
 
     # Initialize search_queue
     for suc in start.findSuccessor():
-        util = suc.discounted_reward()  # TODO: Fix
+        # Get schedule probability
+        country_probs = [c.participation_prob for c in suc.countries.values()]
+        total_prob = schedule_probability(country_probs)
+
+        # Get discounted reward of MyCountry
+        dr = suc.countries['MyCountry'].discounted_reward
+
+        # Calculate E.U.
+        eu = expected_utility(total_prob, dr)
+
         # Use -util since PriorityQueue.get() takes item with lowest priority
-        search_queue.put((-util, suc))
+        search_queue.put((-eu, suc))
 
     # Explore search_queue
-    while search_queue.not_empty:
+    while search_queue.qsize() > 0:
         next_item = search_queue.get()
         next_state_value, next_state = next_item[0], next_item[1]
 
@@ -49,17 +56,28 @@ def a_star_search(start, depth, utility):
         if next_state.depth < depth:
             # Now generate successors
             for suc in next_state.findSuccessor():
-                util = suc.discounted_reward()  # TODO: Fix
-                search_queue.put((-util, suc))
+                # Get schedule probability
+                country_probs = [c.participation_prob for c in suc.countries.values()]
+                total_prob = schedule_probability(country_probs)
+
+                # Get discounted reward of MyCountry
+                dr = suc.countries['MyCountry'].discounted_reward
+
+                # Calculate E.U.
+                eu = expected_utility(total_prob, dr)
+
+                # Add to queue
+                search_queue.put((-eu, suc))
 
     # Return best option
     answer_item = solution_queue.get()
     answer_value = -answer_item[0]
-    answer_path = answer_item[1]
+    answer_path = answer_item[1].path
 
     # TODO: Remove after testing.
-    print(answer_value)
-    print(answer_path)
+    print("Number of solutions: ", solution_queue.qsize())
+    print("Best solution EU: ", answer_value)
+    print("Best Path: ", answer_path)
 
     return answer_path
 
@@ -81,5 +99,5 @@ if __name__ == '__main__':
     my_country = country_dict['MyCountry']
     # TODO: Test and Run Search
 
-    test = a_star_search(start_state, 1, 1)
+    test = a_star_search(start_state, 1)
     print(test)
