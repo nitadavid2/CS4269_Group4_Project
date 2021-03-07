@@ -22,7 +22,9 @@ def getResourceQuality(resource, country_resource_dict, resourceDict):
 
     # Apply scaling, if applicable
     true_quantity = country_resource_dict[resource]
-    # TODO: Finish this
+
+    if scaling != "":
+        true_quantity = true_quantity / country_resource_dict[scaling]
 
     # Determine what type of model to call, what quantity to pass, and what thresholds/weights to use.
     if model == "rawMaterialModel":
