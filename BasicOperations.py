@@ -20,7 +20,7 @@ def housing_transform(country, resources, n):
     :param n: Number multiplied to increase the transformation yield
     :return: The resources dictionary after the transformation.
     """
-    updated_resources = copy.deepcopy(resources)
+    updated_resources = resources.copy()
     input_resources = {'population': 5 * n, 'metalElements': n, 'timber': 5 * n, 'metalAlloys': 3 * n, 'landArea': 1 * n}
     output_resources = {'population': 5 * n, 'housing': n, 'housingWaste': n}
     operator_summary = ('TRANSFORM', country, input_resources, output_resources)
@@ -53,7 +53,7 @@ def electronics_transform(country, resources, n):
     :param n: Number multiplied to increase the transformation yield
     :return: The resources dictionary after the transformation.
     """
-    updated_resources = copy.deepcopy(resources)
+    updated_resources = resources.copy()
     input_resources = {'population': 3 * n, 'metalElements': 2 * n, 'metalAlloys': 2 * n}
     output_resources = {'population': 3 * n, 'electronics': 2 * n, 'electronicsWaste': 2 * n}
     operator_summary = ('TRANSFORM', country, input_resources, output_resources)
@@ -69,7 +69,7 @@ def metallicaloys_transform(country, resources, n):
     :param n: Number multiplied to increase the transformation yield
     :return: The resources dictionary after the transformation.
     """
-    updated_resources = copy.deepcopy(resources)
+    updated_resources = resources.copy()
     input_resources = {'population': n, 'metalElements': 2 * n}
     output_resources = {'population': n, 'metalAlloys': n, 'metalAlloysWaste': n}
     operator_summary = ('TRANSFORM', country, input_resources, output_resources)
@@ -88,8 +88,8 @@ def transform(country, resources, n, transform_type):
 
 
 def transfer(sender, receiver, sender_resources, receiver_resources, transfer_resource, amount):
-    sender_updated_resources = copy.deepcopy(sender_resources)
-    receiver_updated_resources = copy.deepcopy(receiver_resources)
+    sender_updated_resources = sender_resources.copy()
+    receiver_updated_resources = receiver_resources.copy()
     operator_summary = ('TRANSFER', sender, receiver, {transfer_resource: amount})
     if sender_updated_resources[transfer_resource] < amount:
         return False, sender_resources, receiver_resources

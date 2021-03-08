@@ -6,6 +6,8 @@ import ResourceQuality
 import math
 import queue
 import time
+import multiprocessing
+from functools import partial
 
 
 def schedule_probability(probability_for_countries):
@@ -100,7 +102,8 @@ def a_star_search(start, depth):
     # Initialize search_queue
     for suc in start.findSuccessor():
         # Get schedule probability
-        country_probs = [c.participation_prob for c in suc.countries.values()]
+        country_probs = [c.participation_prob for c in suc.countries.values() if c.participation_prob != -1]
+        print(country_probs)
         total_prob = schedule_probability(country_probs)
 
         # Get discounted reward of MyCountry
@@ -168,6 +171,9 @@ if __name__ == '__main__':
     my_country = country_dict['MyCountry']
     # TODO: Test and Run Search
     start = time.perf_counter()
+    # pool = multiprocessing.Pool(processes=4)
+    # prod_x = partial(a_star_search, depth=2)
+    # test = pool.map(prod_x, (start_state,))
     test = a_star_search(start_state, 1)
     end = time.perf_counter()
     print(test)

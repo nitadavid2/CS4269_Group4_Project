@@ -33,10 +33,11 @@ def getCountryDict():
     resource_dict = getResourceDict()
 
     countryDictionary = dict()
-    resource_list = list()
-    for i in initStates[1]:
-        if i.value != 'Country':
-            resource_list.append(i.value)
+    # resource_list = []
+    resource_list = [i.value for i in initStates[1] if i.value != 'Country']
+    # for i in initStates[1]:
+    #     if i.value != 'Country':
+    #         resource_list.append(i.value)
 
     for row in initStates['A{}:N{}'.format(initStates.min_row + 1, initStates.max_row)]:
         country = row[0].value
