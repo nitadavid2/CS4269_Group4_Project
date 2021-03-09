@@ -133,6 +133,18 @@ def a_star_search(start, depth):
 
         # Trim solution queue to size of about 100 when it grows too big
         if solution_queue.qsize() > 5000:
+            # Return best option
+            answer_item = solution_queue.get()
+            answer_value = -answer_item[0]
+            answer_path = answer_item[1].path
+
+            # TODO: Remove after testing.
+            print("Number of solutions: ", solution_queue.qsize())
+            print("Best solution EU: ", answer_value)
+            print("Best Path: ", answer_path)
+
+            return answer_path
+
             print("Trim Solution queue")
             swap_queue = queue.PriorityQueue()
             for i in range(50):
@@ -190,7 +202,7 @@ if __name__ == '__main__':
     # pool = multiprocessing.Pool(processes=4)
     # prod_x = partial(a_star_search, depth=2)
     # test = pool.map(prod_x, (start_state,))
-    test = a_star_search(start_state, 1)
+    test = a_star_search(start_state, 5)
     end = time.perf_counter()
     print(test)
     print(f"Search time: {end - start:0.4f}")
