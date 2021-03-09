@@ -55,6 +55,14 @@ def mp_a_star_search(start, depth):
         # Push current state to queue storing possible solutions
         solution_queue.put(next_item)
 
+        # Trim solution queue to size of about 100 when it grows too big
+        if solution_queue.qsize() > 5000:
+            print("Trim Solution queue")
+            swap_queue = queue.PriorityQueue()
+            for i in range(50):
+                swap_queue.put(solution_queue.get())
+            solution_queue = swap_queue
+
         # Before we go on, check current depth
         if next_state.depth < depth:
             # Now generate successors
@@ -103,7 +111,7 @@ def a_star_search(start, depth):
     for suc in start.findSuccessor():
         # Get schedule probability
         country_probs = [c.participation_prob for c in suc.countries.values() if c.participation_prob != -1]
-        print(country_probs)
+        # print(country_probs)
         total_prob = schedule_probability(country_probs)
 
         # Get discounted reward of MyCountry
@@ -122,6 +130,14 @@ def a_star_search(start, depth):
 
         # Push current state to queue storing possible solutions
         solution_queue.put(next_item)
+
+        # Trim solution queue to size of about 100 when it grows too big
+        if solution_queue.qsize() > 5000:
+            print("Trim Solution queue")
+            swap_queue = queue.PriorityQueue()
+            for i in range(50):
+                swap_queue.put(solution_queue.get())
+            solution_queue = swap_queue
 
         # Before we go on, check current depth
         if next_state.depth < depth:
