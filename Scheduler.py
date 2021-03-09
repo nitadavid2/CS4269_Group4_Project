@@ -174,7 +174,7 @@ if __name__ == '__main__':
     # pool = multiprocessing.Pool(processes=4)
     # prod_x = partial(a_star_search, depth=2)
     # test = pool.map(prod_x, (start_state,))
-    test = a_star_search(start_state, 1)
+    test = a_star_search(start_state, 2)
     end = time.perf_counter()
     print(test)
     print(f"Search time: {end - start:0.4f}")
