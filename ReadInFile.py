@@ -1,6 +1,4 @@
 import openpyxl as xl
-import ResourceQuality
-from Classes import Country
 
 # constants (enter file path names here)
 
@@ -8,29 +6,31 @@ FILE_PATH_WEIGHTS = "./input_files/Resources.xlsx"
 FILE_PATH_INITSTATES = "./input_files/countries.xlsx"
 
 
-def getResourceDict():
-    # reads in the resource data
-    weightFrame = xl.load_workbook(FILE_PATH_WEIGHTS, data_only=True).active
+# def getResourceDict():
+#     # reads in the resource data
+#     weightFrame = xl.load_workbook(FILE_PATH_WEIGHTS, data_only=True).active
+#
+#     resourcesDictionary = dict()
+#     for row in weightFrame['A{}:F{}'.format(weightFrame.min_row + 1, weightFrame.max_row)]:
+#         resource = row[0].value
+#         data_list = list()
+#
+#         data = row[1:len(row)]
+#
+#         for cell in data:
+#             data_list.append(cell.value)
+#
+#         resourcesDictionary[resource] = data_list
+#
+#     return resourcesDictionary
 
-    resourcesDictionary = dict()
-    for row in weightFrame['A{}:F{}'.format(weightFrame.min_row + 1, weightFrame.max_row)]:
-        resource = row[0].value
-        data_list = list()
-
-        data = row[1:len(row)]
-
-        for cell in data:
-            data_list.append(cell.value)
-
-        resourcesDictionary[resource] = data_list
-
-    return resourcesDictionary
-
+from ResourceQuality import getStateQuality
+from Classes import Country
 
 def getCountryDict():
     # reads in the initial country states
     initStates = xl.load_workbook(FILE_PATH_INITSTATES, data_only=True).active
-    resource_dict = getResourceDict()
+    #resource_dict = getResourceDict()
 
     countryDictionary = dict()
     # resource_list = []
@@ -49,8 +49,10 @@ def getCountryDict():
             data_dict[resource_list[i]] = data[i].value
 
         # print(data_list)
-        init_state_quality = ResourceQuality.getStateQuality(data_dict, resource_dict)
-        countryDictionary[country] = Country(country, data_dict, resource_dict, init_state_quality)
+        init_state_quality = getStateQuality(data_dict)
+        countryDictionary[country] = Country(country, data_dict, init_state_quality)
 
     return countryDictionary
 
+# a = getCountryDict()['Atlantis']
+# print(a.init_state_quality)

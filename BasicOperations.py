@@ -1,13 +1,13 @@
 import copy
 
 def return_transform_info(resources, updated_resources, input_resources, output_resources, operator_summary):
-    for key in input_resources:
-        if updated_resources[key] < input_resources[key]:
+    for i in input_resources:
+        if updated_resources[i[0]] < i[1]:
             return False, resources
         else:
-            updated_resources[key] -= input_resources[key]
-    for key in output_resources:
-        updated_resources[key] += output_resources[key]
+            updated_resources[i[0]] -= i[1]
+    for j in output_resources:
+        updated_resources[j[0]] += j[1]
     return operator_summary, updated_resources
 
 
@@ -21,8 +21,8 @@ def housing_transform(country, resources, n):
     :return: The resources dictionary after the transformation.
     """
     updated_resources = resources.copy()
-    input_resources = {'population': 5 * n, 'metalElements': n, 'timber': 5 * n, 'metalAlloys': 3 * n, 'landArea': 1 * n}
-    output_resources = {'population': 5 * n, 'housing': n, 'housingWaste': n}
+    input_resources = (('population', 5 * n), ('metalElements', n), ('timber', 5 * n), ('metalAlloys', 3 * n), ('landArea', 1 * n))
+    output_resources = (('population', 5 * n), ('housing', n), ('housingWaste', n))
     operator_summary = ('TRANSFORM', country, input_resources, output_resources)
     return return_transform_info(resources, updated_resources, input_resources, output_resources, operator_summary)
 
@@ -38,8 +38,8 @@ def food_transform(country, resources, n):
     :return: The resources dictionary after the transformation.
     """
     updated_resources = resources.copy()
-    input_resources = {'population': 4 * n, 'water': 2 * n, 'timber': 3 * n, 'landArea': 1 * n}
-    output_resources = {'population': 4 * n, 'food': 12 * n, 'foodWaste': 4 * n, 'landArea': 1 * n}
+    input_resources = (('population', 4 * n), ('water', 2 * n), ('timber', 3 * n), ('landArea', 1 * n))
+    output_resources = (('population', 4 * n), ('food', 12 * n), ('foodWaste', 4 * n), ('landArea', 1 * n))
     operator_summary = ('TRANSFORM', country, input_resources, output_resources)
     return return_transform_info(resources, updated_resources, input_resources, output_resources, operator_summary)
 
@@ -54,8 +54,8 @@ def electronics_transform(country, resources, n):
     :return: The resources dictionary after the transformation.
     """
     updated_resources = resources.copy()
-    input_resources = {'population': 3 * n, 'metalElements': 2 * n, 'metalAlloys': 2 * n}
-    output_resources = {'population': 3 * n, 'electronics': 2 * n, 'electronicsWaste': 2 * n}
+    input_resources = (('population', 3 * n), ('metalElements', 2 * n), ('metalAlloys', 2 * n))
+    output_resources = (('population', 3 * n), ('electronics', 2 * n), ('electronicsWaste', 2 * n))
     operator_summary = ('TRANSFORM', country, input_resources, output_resources)
     return return_transform_info(resources, updated_resources, input_resources, output_resources, operator_summary)
 
@@ -70,8 +70,8 @@ def metallicaloys_transform(country, resources, n):
     :return: The resources dictionary after the transformation.
     """
     updated_resources = resources.copy()
-    input_resources = {'population': n, 'metalElements': 2 * n}
-    output_resources = {'population': n, 'metalAlloys': n, 'metalAlloysWaste': n}
+    input_resources = (('population', n), ('metalElements', 2 * n))
+    output_resources = (('population', n), ('metalAlloys', n), ('metalAlloysWaste', n))
     operator_summary = ('TRANSFORM', country, input_resources, output_resources)
     return return_transform_info(resources, updated_resources, input_resources, output_resources, operator_summary)
 
@@ -90,11 +90,10 @@ def transform(country, resources, n, transform_type):
 def transfer(sender, receiver, sender_resources, receiver_resources, transfer_resource, amount):
     sender_updated_resources = sender_resources.copy()
     receiver_updated_resources = receiver_resources.copy()
-    operator_summary = ('TRANSFER', sender, receiver, {transfer_resource: amount})
+    operator_summary = ('TRANSFER', sender, receiver, (transfer_resource, amount))
     if sender_updated_resources[transfer_resource] < amount:
         return False, sender_resources, receiver_resources
     else:
         receiver_updated_resources[transfer_resource] += amount
         sender_updated_resources[transfer_resource] -= amount
     return operator_summary, sender_updated_resources, receiver_updated_resources
-

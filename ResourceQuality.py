@@ -1,15 +1,17 @@
 # Evaluate the quality of a resource given some quantity of the resource.
 import math
+import ReadResources
 
+resourceDict = ReadResources.getResources()
 
-def getStateQuality(country_resource_dict, resource_dict):
+def getStateQuality(country_resource_dict):
     state_quality = 0
     for key in country_resource_dict:
-        state_quality += getResourceQuality(key, country_resource_dict, resource_dict)
+        state_quality += getResourceQuality(key, country_resource_dict)
     return state_quality
 
 
-def getResourceQuality(resource, country_resource_dict, resourceDict):
+def getResourceQuality(resource, country_resource_dict):
     # Look up the resource in the dictionary of resources.
     # weight, model, scaling, t1, t2
     data = resourceDict[resource]

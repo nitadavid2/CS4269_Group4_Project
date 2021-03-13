@@ -14,19 +14,19 @@ def evalTransform(args):
 
 
 class Country:
-    def __init__(self, countryName, resources, resource_dict, init_state_quality):
+    def __init__(self, countryName, resources, init_state_quality):
         self.name = countryName
         self.resources = resources
-        self.resource_dict = resource_dict
+        #self.resource_dict = resource_dict
         self.init_state_quality = init_state_quality
-        self.discounted_reward = 0
+        #self.discounted_reward = 0
         self.participation_prob = -1
 
-    def state_quality(self):
-        return ResourceQuality.getStateQuality(self.resources, self.resource_dict)
-
-    def calc_rawutility(self):
-        return 0
+    # def state_quality(self):
+    #     return ResourceQuality.getStateQuality(self.resources)
+    #
+    # def calc_rawutility(self):
+    #     return 0
 
 
 class State:
@@ -34,7 +34,9 @@ class State:
         self.countries = countries
         self.depth = depth
         self.path = schedule
-        resources = self.countries['MyCountry'].resources
+        # self.my_discounted_reward = 0
+        self.eu = 0
+        #resources = self.countries['MyCountry'].resources
 
     # Define the notion of '<' for a State, used in PriorityQueue when priority of
     # two states is otherwise equal. We prefer the lower depth in that case
@@ -47,19 +49,28 @@ class State:
                 for transform_type in transform_types:
                     a, b = BasicOperations.transform(country, resources, quantity, transform_type)
                     if a:
-                        path_to_update = copy.deepcopy(path)
-                        countries_to_update = copy.deepcopy(countries)
-                        path_to_update.append(a)
-                        countries_to_update[country].resources = b
-                        new_state = State(depth + 1, countries_to_update, path_to_update)
-                        new_my_country = new_state.countries[country]
-                        new_my_country.discounted_reward = self.discounted_reward(0.9, new_my_country)
-                        new_my_country.participation_prob = self.country_participation_probability\
-                            (new_my_country.discounted_reward, 0, 1)
-                        successor_list.append(new_state)
+                        init_state = countries[country].init_state_quality
+                        d_r, par_p = self.country_participation_probability(b, init_state, 0.9, depth+1, 0, 1)
+                        p = 1
+                        for i in countries:
+                            if i != country and countries[i].participation_prob != -1:
+                                 p = p * countries[i].participation_prob
+                        eu = p * par_p * d_r
+
+                        # if par_p >= 0.01:
+                        if eu >= 10:
+                            path_to_update = copy.deepcopy(path)
+                            countries_to_update = copy.deepcopy(countries)
+                            path_to_update.append(a)
+                            countries_to_update[country].resources = b
+                            countries_to_update[country].participation_prob = par_p
+                            new_state = State(depth + 1, countries_to_update, path_to_update)
+                            # new_state.my_discounted_reward = d_r
+                            new_state.eu = eu
+                            successor_list.append(new_state)
 
         def successors_for_transfer(path, countries, depth):
-            for quantity in quantity_choices:
+            for quantity in quantity_choices_1:
                 positive_resource_unit_prices = transfer_unit_prices[0:6]
                 for desired_resource in positive_resource_unit_prices:
                     other_resources = transfer_unit_prices.copy()
@@ -77,25 +88,35 @@ class State:
                                     a2, c2, b2 = BasicOperations.transfer(country, coun, c1,
                                                                           b1, r[0], trade_amount)
                                 if a1 and a2:
-                                    path_to_update = copy.deepcopy(path)
-                                    countries_to_update = copy.deepcopy(countries)
-                                    path_to_update.append(a1)
-                                    path_to_update.append(a2)
-                                    countries_to_update[coun].resources = b2
-                                    countries_to_update[country].resources = c2
-                                    new_state = State(depth + 1, countries_to_update, path_to_update)
-                                    new_my_country = new_state.countries[country]
-                                    new_other_country = new_state.countries[coun]
-                                    new_my_country.discounted_reward = self.discounted_reward(0.9, new_my_country)
-                                    new_other_country.discounted_reward = self.discounted_reward(0.9, new_other_country)
-                                    new_my_country.participation_prob = self.country_participation_probability \
-                                        (new_my_country.discounted_reward, 0, 1)
-                                    new_other_country.participation_prob = self.country_participation_probability \
-                                        (new_other_country.discounted_reward, 0, 1)
-                                    successor_list.append(new_state)
+                                    init_state1 = countries[coun].init_state_quality
+                                    init_state2 = countries[country].init_state_quality
+                                    d_r1, par_p1 = self.country_participation_probability(b2, init_state1, 0.9,
+                                                                                          depth + 1, 0, 1)
+                                    d_r2, par_p2 = self.country_participation_probability(c2, init_state2, 0.9,
+                                                                                          depth + 1, 0, 1)
+                                    p = 1
+                                    for i in countries:
+                                        if i != coun and i != country and countries[i].participation_prob != -1:
+                                            p = p * countries[i].participation_prob
+                                    eu = p * par_p1 * par_p2 * d_r2
 
-        quantity_choices = [2 ** 0, 2 ** 1, 2 ** 2, 2 ** 3, 2 ** 4, 2 ** 5, 2 ** 6]
-        transform_types = ['housing', 'food', 'electronics', 'metalAlloys']
+                                    # if par_p1 >= 0.01 and par_p2 >= 0.01:
+                                    if eu >= 10:
+                                        path_to_update = copy.deepcopy(path)
+                                        countries_to_update = copy.deepcopy(countries)
+                                        path_to_update.append(a1)
+                                        path_to_update.append(a2)
+                                        countries_to_update[coun].resources = b2
+                                        countries_to_update[country].resources = c2
+                                        countries_to_update[coun].participation_prob = par_p1
+                                        countries_to_update[country].participation_prob = par_p2
+                                        new_state = State(depth + 1, countries_to_update, path_to_update)
+                                        new_state.eu = eu
+                                        successor_list.append(new_state)
+
+        quantity_choices = (2 ** 0, 2 ** 1, 2 ** 2, 2 ** 3, 2 ** 4, 2 ** 5, 2 ** 6)
+        quantity_choices_1 = (1, 10, 100)
+        transform_types = ('housing', 'food', 'electronics', 'metalAlloys')
         transfer_unit_prices = [('metalElements', 100), ('timber', 80), ('metalAlloys', 90),
                                 ('electronics', 200), ('food', 60), ('water', 20),
                                 ('metalAlloysWaste', -100), ('housingWaste', -150),
@@ -106,7 +127,7 @@ class State:
         successors_for_transform(self.path, self.countries, self.depth)
         successors_for_transfer(self.path, self.countries, self.depth)
 
-        return successor_list
+        return tuple(successor_list)
 
 
 
@@ -190,11 +211,17 @@ class State:
 
         return successor_list
 
-    def undiscounted_reward(self, country):
-        return country.state_quality() - country.init_state_quality
+    # def state_quality(self, resources):
+    #     return ResourceQuality.getStateQuality(resources)
+    #
+    # def undiscounted_reward(self, country):
+    #     return country.state_quality() - country.init_state_quality
+    #
+    # def discounted_reward(self, gamma, depth, country):
+    #     return gamma ** depth * self.undiscounted_reward(country)
 
-    def discounted_reward(self, gamma, country):
-        return gamma ** self.depth * self.undiscounted_reward(country)
-
-    def country_participation_probability(self, discounted_reward, x_0, k, L=1):
-        return L / (1 + math.exp(-k * (discounted_reward - x_0)))
+    def country_participation_probability(self, resources, init_s, gamma, depth, x_0, k, L=1):
+        sq = ResourceQuality.getStateQuality(resources)
+        dr = gamma ** depth * (sq - init_s)
+        cpp = L / (1 + math.exp(-k * (dr - x_0)))
+        return dr, cpp

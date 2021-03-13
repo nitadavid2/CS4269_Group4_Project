@@ -55,14 +55,6 @@ def mp_a_star_search(start, depth):
         # Push current state to queue storing possible solutions
         solution_queue.put(next_item)
 
-        # Trim solution queue to size of about 100 when it grows too big
-        if solution_queue.qsize() > 5000:
-            print("Trim Solution queue")
-            swap_queue = queue.PriorityQueue()
-            for i in range(50):
-                swap_queue.put(solution_queue.get())
-            solution_queue = swap_queue
-
         # Before we go on, check current depth
         if next_state.depth < depth:
             # Now generate successors
@@ -110,18 +102,18 @@ def a_star_search(start, depth):
     # Initialize search_queue
     for suc in start.findSuccessor():
         # Get schedule probability
-        country_probs = [c.participation_prob for c in suc.countries.values() if c.participation_prob != -1]
-        # print(country_probs)
-        total_prob = schedule_probability(country_probs)
+        # country_probs = [c.participation_prob for c in suc.countries.values() if c.participation_prob != -1]
+        # total_prob = schedule_probability(country_probs)
 
         # Get discounted reward of MyCountry
-        dr = suc.countries['MyCountry'].discounted_reward
+        # dr = suc.my_discounted_reward
 
         # Calculate E.U.
-        eu = expected_utility(total_prob, dr)
+        # eu = expected_utility(total_prob, dr)
 
         # Use -util since PriorityQueue.get() takes item with lowest priority
-        search_queue.put((-eu, suc))
+        # if eu >= 10:
+        search_queue.put((-suc.eu, suc))
 
     # Explore search_queue
     while search_queue.qsize() > 0:
@@ -131,52 +123,37 @@ def a_star_search(start, depth):
         # Push current state to queue storing possible solutions
         solution_queue.put(next_item)
 
-        # Trim solution queue to size of about 100 when it grows too big
-        if solution_queue.qsize() > 5000:
-            # Return best option
-            answer_item = solution_queue.get()
-            answer_value = -answer_item[0]
-            answer_path = answer_item[1].path
-
-            # TODO: Remove after testing.
-            print("Number of solutions: ", solution_queue.qsize())
-            print("Best solution EU: ", answer_value)
-            print("Best Path: ", answer_path)
-
-            return answer_path
-
-            print("Trim Solution queue")
-            swap_queue = queue.PriorityQueue()
-            for i in range(50):
-                swap_queue.put(solution_queue.get())
-            solution_queue = swap_queue
-
         # Before we go on, check current depth
         if next_state.depth < depth:
             # Now generate successors
             for suc in next_state.findSuccessor():
                 # Get schedule probability
-                country_probs = [c.participation_prob for c in suc.countries.values()]
-                total_prob = schedule_probability(country_probs)
+                # country_probs = [c.participation_prob for c in suc.countries.values()]
+                # total_prob = schedule_probability(country_probs)
 
                 # Get discounted reward of MyCountry
-                dr = suc.countries['MyCountry'].discounted_reward
+                # dr = suc.my_discounted_reward
 
                 # Calculate E.U.
-                eu = expected_utility(total_prob, dr)
+                # eu = expected_utility(total_prob, dr)
 
                 # Add to queue
-                search_queue.put((-eu, suc))
+                # if eu >= 10:
+                search_queue.put((-suc.eu, suc))
 
+    answer_path = []
     # Return best option
-    answer_item = solution_queue.get()
-    answer_value = -answer_item[0]
-    answer_path = answer_item[1].path
+    for i in range(40):
+        if solution_queue.empty():
+            break
+        answer_item = solution_queue.get()
+        answer_value = -answer_item[0]
+        answer_path = answer_item[1].path
 
-    # TODO: Remove after testing.
-    print("Number of solutions: ", solution_queue.qsize())
-    print("Best solution EU: ", answer_value)
-    print("Best Path: ", answer_path)
+        # TODO: Remove after testing.
+        print("Number of solutions: ", solution_queue.qsize())
+        print("Best solution EU: ", answer_value)
+        print("Best Path: ", answer_path)
 
     return answer_path
 
@@ -194,7 +171,7 @@ def breadth_first_search(start, depth, utility):
 
 if __name__ == '__main__':
     country_dict = ReadInFile.getCountryDict()
-    resource_dict = ReadInFile.getResourceDict()
+    # resource_dict = ReadInFile.getResourceDict()
     start_state = State(0, country_dict, [])
     my_country = country_dict['MyCountry']
     # TODO: Test and Run Search
@@ -202,7 +179,6 @@ if __name__ == '__main__':
     # pool = multiprocessing.Pool(processes=4)
     # prod_x = partial(a_star_search, depth=2)
     # test = pool.map(prod_x, (start_state,))
-    test = a_star_search(start_state, 5)
+    test = a_star_search(start_state, 4)
     end = time.perf_counter()
-    print(test)
     print(f"Search time: {end - start:0.4f}")
