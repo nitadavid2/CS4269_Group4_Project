@@ -1,0 +1,21 @@
+import openpyxl as xl
+
+FILE_PATH_WEIGHTS = "./input_files/Resources.xlsx"
+
+
+def getResources():
+    weightFrame = xl.load_workbook(FILE_PATH_WEIGHTS, data_only=True).active
+
+    resourceDict = dict()
+    for row in weightFrame['A{}:F{}'.format(weightFrame.min_row + 1, weightFrame.max_row)]:
+        resource = row[0].value
+        data_list = list()
+
+        data = row[1:len(row)]
+
+        for cell in data:
+            data_list.append(cell.value)
+
+        resourceDict[resource] = data_list
+
+    return resourceDict
