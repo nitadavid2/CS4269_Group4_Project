@@ -101,6 +101,7 @@ class State:
                             countries_to_update = copy.deepcopy(countries)
 
                             # update the path (schedule)
+                            a += ("EU: %d" % eu, )
                             path_to_update.append(a)
 
                             # update MyCountry's resources dictionary
@@ -210,6 +211,8 @@ class State:
                                         countries_to_update = copy.deepcopy(countries)
 
                                         # update the path (schedule)
+                                        a1 += ("EU: %d" % eu, )
+                                        a2 += ("EU: %d" % eu, )
                                         path_to_update.append(a1)
                                         path_to_update.append(a2)
 

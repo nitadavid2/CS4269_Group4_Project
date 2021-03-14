@@ -2,11 +2,10 @@ import openpyxl as xl
 from ResourceQuality import getStateQuality
 from Classes import Country
 
-# constants (enter file path names here)
-FILE_PATH_INITSTATES = "./input_files/countries.xlsx"
 
 
-def getCountryDict():
+
+def getCountryDict(FILE_PATH_INITSTATES):
     # reads in the initial country states
     initStates = xl.load_workbook(FILE_PATH_INITSTATES, data_only=True).active
     #resource_dict = getResourceDict()
@@ -32,4 +31,3 @@ def getCountryDict():
         countryDictionary[country] = Country(country, data_dict, init_state_quality)
 
     return countryDictionary
-
