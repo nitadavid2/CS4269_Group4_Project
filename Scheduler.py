@@ -4,19 +4,23 @@ import queue
 import time
 
 
+# a_star_search:
+# Implement a search algorithm based on A* algorithm. The specific implementation we use
+# does not currently use a heuristic (so it is more like a greedy search algorithm for now).
+# In addition, this is a depth limited algorithm, so the most promising successors that
+# do not violate the depth limit are explored before less promising successors. The function is designed
+# to either run to completion or it can be modified with a timer/frontier limit to behave like
+# an "anytime algorithm."
 def a_star_search(start, depth):
     # We will use a priority queue for the A* implementation.
     # We will expand the frontier each time by expanding the "best path" using the
-    # (expected utility - utility) as heuristic.
+    # -(expected utility - utility) as priority.
     search_queue = queue.PriorityQueue()
 
-    # We will have a queue of possible, valid paths
+    # We will have a queue of possible, valid paths discovered in the search
     solution_queue = queue.PriorityQueue()
 
     # A "schedule" is defined as list of actions (transfers or transforms)
-    # Query the .path attribute of a state for path to current state.
-    # Query .countries for states of countries currently in state.
-    # Query .depth to get current depth
 
     # Initialize search_queue
     for suc in start.findSuccessor():
@@ -49,7 +53,7 @@ def a_star_search(start, depth):
         answer_value = -answer_item[0]
         answer_path = answer_item[1].path
 
-        # TODO: Remove after testing.
+        # Print statements that report best solution found
         print("Number of solutions: ", solution_queue.qsize())
         print("Best solution EU: ", answer_value)
         print("Best Path: ", answer_path)
