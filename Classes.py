@@ -117,10 +117,10 @@ class State:
         quantity_choices = (2 ** 0, 2 ** 1, 2 ** 2, 2 ** 3, 2 ** 4, 2 ** 5, 2 ** 6)
         quantity_choices_1 = (1, 10, 100)
         transform_types = ('housing', 'food', 'electronics', 'metalAlloys')
-        transfer_unit_prices = [('metalElements', 100), ('timber', 80), ('metalAlloys', 90),
-                                ('electronics', 200), ('food', 60), ('water', 20),
-                                ('metalAlloysWaste', -100), ('housingWaste', -150),
-                                ('electronicsWaste', -200), ('foodWaste', -100)]
+        transfer_unit_prices = [('metalElements', 2100), ('timber', 200), ('metalAlloys', 2200),
+                                ('electronics', 4300), ('food', 220), ('water', 2),
+                                ('metalAlloysWaste', -53), ('housingWaste', -53),
+                                ('electronicsWaste', -53), ('foodWaste', -53)]
         successor_list = list()
         country = 'MyCountry'
         resources = self.countries[country].resources
@@ -223,5 +223,7 @@ class State:
     def country_participation_probability(self, resources, init_s, gamma, depth, x_0, k, L=1):
         sq = ResourceQuality.getStateQuality(resources)
         dr = gamma ** depth * (sq - init_s)
-        cpp = L / (1 + math.exp(-k * (dr - x_0)))
+        cpp = -1
+        if -k * (dr - x_0) < 100:
+            cpp = L / (1 + math.exp(-k * (dr - x_0)))
         return dr, cpp

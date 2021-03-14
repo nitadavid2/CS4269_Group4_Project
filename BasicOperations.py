@@ -38,7 +38,7 @@ def food_transform(country, resources, n):
     :return: The resources dictionary after the transformation.
     """
     updated_resources = resources.copy()
-    input_resources = (('population', 4 * n), ('water', 2 * n), ('timber', 3 * n), ('landArea', 1 * n))
+    input_resources = (('population', 4 * n), ('water', 2000 * n), ('timber', 3 * n), ('landArea', 1 * n))
     output_resources = (('population', 4 * n), ('food', 12 * n), ('foodWaste', 4 * n), ('landArea', 1 * n))
     operator_summary = ('TRANSFORM', country, input_resources, output_resources)
     return return_transform_info(resources, updated_resources, input_resources, output_resources, operator_summary)
