@@ -4,6 +4,10 @@ FILE_PATH_WEIGHTS = "./input_files/Resources.xlsx"
 
 
 def getResources():
+    """
+    Read resources information from Resources.xlsx file and pass in all the information to a dictionary.
+    :return A dictionary containing information (weights, type, etc.) of each resource
+    """
     weightFrame = xl.load_workbook(FILE_PATH_WEIGHTS, data_only=True).active
 
     resourceDict = dict()
