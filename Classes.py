@@ -96,7 +96,7 @@ class State:
         quantity_choices_1 = (1, 10, 100)
         transform_types = ('housing', 'food', 'electronics', 'metalAlloys')
         transfer_unit_prices = [('metalElements', 2100), ('timber', 200), ('metalAlloys', 2200),
-                                ('electronics', 4300), ('food', 220), ('water', 2),
+                                ('electronics', 4300), ('food', 180), ('water', 2),
                                 ('metalAlloysWaste', -53), ('housingWaste', -53),
                                 ('electronicsWaste', -53), ('foodWaste', -53)]
         successor_list = list()
