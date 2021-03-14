@@ -6,7 +6,7 @@ import time
 
 def a_star_search(start, depth):
     """
-    # Implement a search algorithm based on A* algorithm. The specific implementation we use
+    Implement a search algorithm based on A* algorithm. The specific implementation we use
     does not currently use a heuristic (so it is more like a greedy search algorithm for now).
     In addition, this is a depth limited algorithm, so the most promising successors that
     do not violate the depth limit are explored before less promising successors. The function is designed
