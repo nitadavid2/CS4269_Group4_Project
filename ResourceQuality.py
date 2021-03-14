@@ -4,7 +4,9 @@
 import math
 import ReadResources
 
+# This is the main dictionary of resources and their weights, thresholds, and other relevant info.
 resourceDict = ReadResources.getResources()
+
 
 def getStateQuality(country_resource_dict):
     """

@@ -19,10 +19,10 @@ def a_star_search(start, depth, output_schedule_filename, solution_limit):
     """
     # We will use a priority queue for the A* implementation.
     # We will expand the frontier each time by expanding the "best path" using the
-    # (expected utility - utility) as heuristic.
+    # -(expected utility - utility) as priority.
     search_queue = queue.PriorityQueue()
 
-    # We will have a queue of possible, valid paths
+    # We will have a queue of possible, valid paths discovered in the search
     solution_queue = queue.PriorityQueue()
 
     # A "schedule" is defined as list of actions (transfers or transforms)
