@@ -4,14 +4,18 @@ import queue
 import time
 
 
-# a_star_search:
-# Implement a search algorithm based on A* algorithm. The specific implementation we use
-# does not currently use a heuristic (so it is more like a greedy search algorithm for now).
-# In addition, this is a depth limited algorithm, so the most promising successors that
-# do not violate the depth limit are explored before less promising successors. The function is designed
-# to either run to completion or it can be modified with a timer/frontier limit to behave like
-# an "anytime algorithm."
 def a_star_search(start, depth):
+    """
+    # Implement a search algorithm based on A* algorithm. The specific implementation we use
+    does not currently use a heuristic (so it is more like a greedy search algorithm for now).
+    In addition, this is a depth limited algorithm, so the most promising successors that
+    do not violate the depth limit are explored before less promising successors. The function is designed
+    to either run to completion or it can be modified with a timer/frontier limit to behave like
+    an "anytime algorithm."
+    :param start: the start state.
+    :param depth: the depth limit
+    :return: The best solution (expected utility) found.
+    """
     # We will use a priority queue for the A* implementation.
     # We will expand the frontier each time by expanding the "best path" using the
     # -(expected utility - utility) as priority.
