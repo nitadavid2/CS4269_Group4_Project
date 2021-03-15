@@ -1,4 +1,4 @@
-import ReadInFile
+import ReadCountries
 from Classes import State
 import queue
 import time
@@ -84,7 +84,7 @@ output_schedule_filename = "./output_files/equal.txt"
 depth = 4
 solution_limit = 100000
 if __name__ == '__main__':
-    country_dict = ReadInFile.getCountryDict(initial_state_filename)
+    country_dict = ReadCountries.getCountryDict(initial_state_filename)
     start_state = State(0, country_dict, [])
     start = time.perf_counter()
     test = a_star_search(start_state, depth, output_schedule_filename, solution_limit)
