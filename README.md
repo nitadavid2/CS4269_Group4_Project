@@ -5,7 +5,7 @@ We simulate a world of N virtual countries, each with M resources and some amoun
 Files needed: 
       - BasicOperations.py
       - Classes.py
-      - ReadInFile.py
+      - ReadCountries.py
       - ReadResources.py
       - Resources.py
       - ResourceQuality.py
