@@ -44,7 +44,7 @@ class State:
     def __lt__(self, other):
         return self.depth < other.depth
 
-    def findSuccessor(self):
+    def findSuccessor(self, player, type):
         """
         This function finds all possible successor states for the given state. It contains two inner functions:
         successors_for_transform and successors_for_transfer which find successor states for different TRANSFORM and
@@ -52,7 +52,7 @@ class State:
         :return: A tuple containing all the states found.
         """
 
-        def successors_for_transform(path, countries, depth):
+        def successors_for_transform(path, countries, depth, player):
             """
             This function finds all possible successor states after performing TRANSFORM for the given state. I explores
             all possible TRANSFORM operations for MyCountry in this state and only passes in states whose expected
@@ -69,14 +69,14 @@ class State:
                 for transform_type in transform_types:
 
                     # perform the TRANSFORM operator
-                    a, b = BasicOperations.transform('MyCountry', resources, quantity, transform_type)
+                    a, b = BasicOperations.transform(player, resources, quantity, transform_type)
 
                     # look at the new state if the operator is successfully performed
                     if a:
 
                         # get initial state quality of MyCountry in order to calculate the probability that the country
                         # participates in the schedule
-                        init_state = countries['MyCountry'].init_state_quality
+                        init_state = countries[player].init_state_quality
 
                         # calculate the probability: d_r as the discounted reward and par_p as the probability
                         d_r, par_p = self.country_participation_probability(b, init_state, 0.9, depth + 1, 0, 1)
@@ -88,7 +88,7 @@ class State:
                         for i in countries:
 
                             # multiply all involved countries' participation probability except MyCountry
-                            if i != 'MyCountry' and countries[i].participation_prob != -1:
+                            if i != player and countries[i].participation_prob != -1:
                                 p = p * countries[i].participation_prob
 
                         # get utility by multiply p with MyCountry's participation probability and discounted reward
@@ -105,10 +105,10 @@ class State:
                             path_to_update.append(a)
 
                             # update MyCountry's resources dictionary
-                            countries_to_update['MyCountry'].resources = b
+                            countries_to_update[player].resources = b
 
                             # update MyCountry's participation probability
-                            countries_to_update['MyCountry'].participation_prob = par_p
+                            countries_to_update[player].participation_prob = par_p
 
                             # create new state
                             new_state = State(depth + 1, countries_to_update, path_to_update)
@@ -119,7 +119,7 @@ class State:
                             # append new state to the successor state list
                             successor_list.append(new_state)
 
-        def successors_for_transfer(path, countries, depth):
+        def successors_for_transfer(path, countries, depth, player):
             """
             This function finds all possible successor states after performing TRANSFER for the given state. I explores
             all possible TRANSFER operations for MyCountry in this state and only passes in states whose expected
@@ -148,7 +148,7 @@ class State:
                     for target_c in countries:
 
                         # only trade with other countries
-                        if target_c != 'MyCountry':
+                        if target_c != player:
 
                             # go through the list of resources without the desired resource to perform different
                             # possible trades
@@ -156,7 +156,7 @@ class State:
 
                                 # perform step 1 of the trade by doing one TRANSFER (MyCountry accepts desired
                                 # resources from the target country)
-                                a1, b1, c1 = BasicOperations.transfer(target_c, 'MyCountry',
+                                a1, b1, c1 = BasicOperations.transfer(target_c, player,
                                                                       countries[target_c].resources, resources,
                                                                       desired_resource[0], quantity)
 
@@ -166,11 +166,11 @@ class State:
 
                                 # perform step 2 of the trade (when we choose to accept wastes)
                                 if 'Waste' in r[0]:
-                                    a2, b2, c2 = BasicOperations.transfer(target_c, 'MyCountry', b1,
+                                    a2, b2, c2 = BasicOperations.transfer(target_c, player, b1,
                                                                           c1, r[0], trade_amount)
                                 # perform step 2 of the trade (when we choose to give out other resources)
                                 else:
-                                    a2, c2, b2 = BasicOperations.transfer('MyCountry', target_c, c1,
+                                    a2, c2, b2 = BasicOperations.transfer(player, target_c, c1,
                                                                           b1, r[0], trade_amount)
 
                                 # look at the new state if the 2 TRANSFER operators for both steps of the trade are
@@ -180,7 +180,7 @@ class State:
                                     # get initial state quality of MyCountry and the other country in the trade in
                                     # order to calculate the probability that the countries participate in the schedule
                                     init_state1 = countries[target_c].init_state_quality
-                                    init_state2 = countries['MyCountry'].init_state_quality
+                                    init_state2 = countries[player].init_state_quality
 
                                     # calculate the probabilities for both countries: d_r as the discounted reward and
                                     # par_p as the probability
@@ -197,7 +197,7 @@ class State:
 
                                         # multiply all involved countries' participation probability except the two
                                         # countries involved in the trade
-                                        if i != target_c and i != 'MyCountry' and countries[i].participation_prob != -1:
+                                        if i != target_c and i != player and countries[i].participation_prob != -1:
                                             p = p * countries[i].participation_prob
 
                                     # get utility by multiply p with both countries' participation probabilities and
@@ -218,11 +218,11 @@ class State:
 
                                         # update both countries' resources dictionaries
                                         countries_to_update[target_c].resources = b2
-                                        countries_to_update['MyCountry'].resources = c2
+                                        countries_to_update[player].resources = c2
 
                                         # update both countries' participation probabilities
                                         countries_to_update[target_c].participation_prob = par_p1
-                                        countries_to_update['MyCountry'].participation_prob = par_p2
+                                        countries_to_update[player].participation_prob = par_p2
 
                                         # generate new state
                                         new_state = State(depth + 1, countries_to_update, path_to_update)
@@ -252,11 +252,13 @@ class State:
         successor_list = list()
 
         # MyCountry's resources dictionary
-        resources = self.countries['MyCountry'].resources
+        resources = self.countries[player].resources
 
         # finding all possible successor states from both TRANSFORM and TRANSFER
-        successors_for_transform(self.path, self.countries, self.depth)
-        successors_for_transfer(self.path, self.countries, self.depth)
+        if type == "transform":
+            successors_for_transform(self.path, self.countries, self.depth, player)
+        if type == "transfer":
+            successors_for_transfer(self.path, self.countries, self.depth, player)
 
         return tuple(successor_list)
 
