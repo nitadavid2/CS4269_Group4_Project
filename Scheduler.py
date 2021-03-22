@@ -1,4 +1,5 @@
 import ReadCountries
+import ReadInterventions
 from Classes import State
 import queue
 import time
@@ -88,6 +89,10 @@ solution_limit = 100
 if __name__ == '__main__':
     country_dict = ReadCountries.getCountryDict(initial_state_filename)
     cur_state = State(0, country_dict, [])
+
+    # get interventions
+    interventions = ReadInterventions.getInterventions()
+
     start = time.perf_counter()
     f = open(output_schedule_filename, "w")
     for i in range(num_rounds):
