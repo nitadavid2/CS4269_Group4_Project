@@ -2,6 +2,7 @@ import ResourceQuality
 import BasicOperations
 import copy
 import math
+import csv
 
 
 class Country:
@@ -286,3 +287,20 @@ class State:
         cpp = L / (1 + math.exp(-k * (dr - x_0))) if -k * (dr - x_0) < 100 else -1
 
         return dr, cpp
+
+    def current_output(self):
+        csv_file = "./game_output_files/Output1.csv"
+        csv_columns = ['Name', 'population', 'metalElements', 'timber', 'landArea', 'water', 'metalAlloys',
+                       'electronics', 'housing', 'food', 'metalAlloysWaste', 'housingWaste', 'electronicsWaste',
+                       'foodWaste', 'score']
+        with open(csv_file, 'w', newline='') as csv_file:
+            writer = csv.DictWriter(csv_file, fieldnames=csv_columns)
+            writer.writeheader()
+            for i in self.countries:
+                score = ResourceQuality.getStateQuality(self.countries[i].resources) - self.countries[i].init_state_quality
+                s = {'score': score}
+                a = {'Name': i}
+                a.update(self.countries[i].resources)
+                a.update(s)
+                writer.writerow(a)
+        csv_file.close()
