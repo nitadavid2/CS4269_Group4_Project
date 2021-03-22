@@ -303,5 +303,4 @@ class State:
                 a.update(self.countries[i].resources)
                 a.update(s)
                 writer.writerow(a)
-                print(a)
         csv_file.close()
