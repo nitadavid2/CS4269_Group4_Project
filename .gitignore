@@ -2,3 +2,5 @@
 .idea/CS4269_Group4_Project.iml
 .idea/misc.xml
 .idea
+*__pycache__*
+*.pyc
