@@ -30,7 +30,8 @@ class State:
     """
     def __init__(self, depth, countries, schedule):
         """
-        Initializing the state's countries dictionary, depth, path, and expected utility here.
+        Initializing the stat
+        e's countries dictionary, depth, path, and expected utility here.
         :param depth: Int for the depth of the state in the search tree
         :param countries: A dictionary containing country objects
         :param schedule: A list for the initial schedule
