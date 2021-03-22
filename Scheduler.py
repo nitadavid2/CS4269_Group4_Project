@@ -1,4 +1,6 @@
 import ReadCountries
+import ReadInterventions
+from InterventionManager import intervention_manager
 from Classes import State
 import queue
 import time
@@ -86,6 +88,10 @@ solution_limit = 100000
 if __name__ == '__main__':
     country_dict = ReadCountries.getCountryDict(initial_state_filename)
     start_state = State(0, country_dict, [])
+
+    # interventions
+    ints = ReadInterventions.getInterventions()
+
     start = time.perf_counter()
     test = a_star_search(start_state, depth, output_schedule_filename, solution_limit)
     end = time.perf_counter()

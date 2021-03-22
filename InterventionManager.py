@@ -1,6 +1,8 @@
-import ReadInterventions
 # Determine whether an event should happen to a country for a given turn.
 # If the event does transpire, modify the state appropriately.
+
+from ast import literal_eval
+import ReadInterventions
 
 
 def intervention_manager(country, interventions_list = ReadInterventions.getInterventions()):
@@ -14,23 +16,55 @@ def intervention_manager(country, interventions_list = ReadInterventions.getInte
     """
     c_resources = country.resources
 
-    for intervention in interventions_list:
+    for i_name in interventions_list:
         # name, type, base probability, min probability, max probability, scaling formula, impacts
-        i_name = intervention[0]
-        i_type = intervention[1]
-        i_base_prob = intervention[2]
-        i_min_prob = intervention[3]
-        i_max_prob = intervention[4]
-        i_scaling_list = intervention[5]
-        i_impacts_list = intervention[6]
+        intervention = interventions_list.get(i_name)
+
+        i_type = intervention[0]
+        i_base_prob = intervention[1]
+        i_min_prob = intervention[2]
+        i_max_prob = intervention[3]
+        i_scaling_list = intervention[4]
+        i_impacts_list = intervention[5]
 
         # Now determine if this is a natural or deterministic event
         probability = i_base_prob
 
         if i_type == "deterministic":
-            # TODO: Apply scaling
-            probability = probability
+            # [] syntax to {} in case user forgot to use {} in place of [] in excel file.
+            i_scaling_list = str.replace(i_scaling_list, "[", "'{")
+            i_scaling_list = str.replace(i_scaling_list, "]", "}'")
 
-        continue  # TODO finish impl.
+            # Convert String in the input file into a Python Dictionary
+            scale_dict = literal_eval(i_scaling_list)
+
+            # Now apply the scaling
+            for res in scale_dict:
+                scalar = scale_dict[res]
+
+                quantity = country.resources[res]
+
+                incremental_prob = scalar * quantity
+                probability += incremental_prob
+
+            probability = max(min(i_max_prob, probability), i_min_prob)
+            print("Probability of disaster (",
+                  i_name,
+                  ") for country (",
+                  country.name,
+                  ") is ",
+                  probability*100,
+                  "%.",
+                  sep='')
+
+        # TODO finish impl.
+
+        # Get impacts
+        # [] syntax to {} in case user forgot to use {} in place of [] in excel file.
+        i_impacts_list = str.replace(i_impacts_list, "[", "'{")
+        i_impacts_list = str.replace(i_impacts_list, "]", "}'")
+
+        # Convert String in the input file into a Python Dictionary
+        impact_dict = literal_eval(i_impacts_list)
 
     return -1  # TODO: replace with final logic
