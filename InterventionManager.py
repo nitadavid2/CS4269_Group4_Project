@@ -42,7 +42,7 @@ def intervention_manager(country, interventions_list = ReadInterventions.getInte
             for res in scale_dict:
                 scalar = scale_dict[res]
 
-                quantity = country.resources[res]
+                quantity = c_resources[res]
 
                 incremental_prob = scalar * quantity
                 probability += incremental_prob
