@@ -1,11 +1,12 @@
 import ReadCountries
+import ReadInterventions
 from Classes import State
 import queue
 import time
 
 
 
-def a_star_search(start, depth, output_schedule_filename, solution_limit):
+def a_star_search(start, depth, f, solution_limit, player, type):
     """
     Implement a search algorithm based on A* algorithm. The specific implementation we use
     does not currently use a heuristic (so it is more like a greedy search algorithm for now).
@@ -31,10 +32,9 @@ def a_star_search(start, depth, output_schedule_filename, solution_limit):
     count = 0
 
     # Open output file
-    f = open(output_schedule_filename, "w")
 
     # Initialize search_queue
-    for suc in start.findSuccessor():
+    for suc in start.findSuccessor(player, type):
         # Use -util since PriorityQueue.get() takes item with lowest priority
         # if eu >= 10:
         search_queue.put((-suc.eu, suc))
@@ -58,35 +58,57 @@ def a_star_search(start, depth, output_schedule_filename, solution_limit):
         # Push current state to queue storing possible solutions
         solution_queue.put(next_item)
         count = count + 1
-        if count == 1 or count == 5 or count == 10 or count == 50 or count == 100 or count == 500 or count == 1000:
-            answer_item = solution_queue.get()
-            print_solution(answer_item)
-            solution_queue.put(answer_item)
+        #if count == 1 or count == 5 or count == 10 or count == 50 or count == 100 or count == 500 or count == 1000:
+        #    answer_item = solution_queue.get()
+        #    print_solution(answer_item)
+        #    solution_queue.put(answer_item)
         if count == solution_limit:
             break
 
         # Before we go on, check current depth
         if next_state.depth < depth:
             # Now generate successors
-            for suc in next_state.findSuccessor():
+            for suc in next_state.findSuccessor(player, type):
                 # Add to queue
                 search_queue.put((-suc.eu, suc))
 
     # Return best option
     answer_item = solution_queue.get()
     print_solution(answer_item)
+    other = "testing"
+    if type == "transfer":
+        other = answer_item[1].path[0][1]
+    answer_item[1].path = []
+    answer_item[1].depth = 0
+    return answer_item[1], other
 
-    f.close()
-    return answer_item[1].path
-
-initial_state_filename = "./input_files/equalCountries.xlsx"
+initial_state_filename = "./input_files/countries.xlsx"
 output_schedule_filename = "./output_files/equal.txt"
-depth = 4
-solution_limit = 100000
+num_rounds = 2
+solution_limit = 100
 if __name__ == '__main__':
     country_dict = ReadCountries.getCountryDict(initial_state_filename)
-    start_state = State(0, country_dict, [])
+    cur_state = State(0, country_dict, [])
+
+    # interventions
+    ints = ReadInterventions.getInterventions()
+    print("Possible Interventions: ", ints)
+
     start = time.perf_counter()
-    test = a_star_search(start_state, depth, output_schedule_filename, solution_limit)
+    f = open(output_schedule_filename, "w")
+    for i in range(num_rounds):
+        for key in country_dict:
+            cur_state, notpartner = a_star_search(cur_state, 4, f, solution_limit, key, "transform")
+            proposed_state, partner = a_star_search(cur_state, 1, f, solution_limit, key, "transfer")
+            accept, notpartner = a_star_search(proposed_state, 4, f, solution_limit, partner, "transform")
+            decline, notpartner = a_star_search(cur_state, 4, f, solution_limit, partner, "transform")
+            if accept.eu >= decline.eu:
+                cur_state = proposed_state
+                print("accepted transfer")
+            else:
+                print("declined transfer")
+
+    #    cur_state, notpartner = a_star_search(cur_state, 4, f, solution_limit, key, "transform")
     end = time.perf_counter()
-    print(f"Search time: {end - start:0.4f}")
+    f.close()
+    print(f"Execution time: {end - start:0.4f}")
