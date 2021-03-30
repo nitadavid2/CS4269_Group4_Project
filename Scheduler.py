@@ -105,10 +105,12 @@ if __name__ == '__main__':
     for i in range(num_rounds):
         for key in country_dict:
             cur_state = InterventionManager.intervention_manager(cur_state, key)
-            cur_state, notpartner = a_star_search(cur_state, 4, f, solution_limit, key, "transform")
+            solution_limit = (country_dict[key].resources["population"] - 9000) / 100
+            depth = (country_dict[key].resources["population"] - 8000) / 1000
+            cur_state, notpartner = a_star_search(cur_state, depth, f, solution_limit, key, "transform")
             proposed_state, partner = a_star_search(cur_state, 1, f, solution_limit, key, "transfer")
-            accept, notpartner = a_star_search(proposed_state, 4, f, solution_limit, partner, "transform")
-            decline, notpartner = a_star_search(cur_state, 4, f, solution_limit, partner, "transform")
+            accept, notpartner = a_star_search(proposed_state, depth, f, solution_limit, partner, "transform")
+            decline, notpartner = a_star_search(cur_state, depth, f, solution_limit, partner, "transform")
             if accept.eu >= decline.eu:
                 cur_state = proposed_state
                 print("accepted transfer")
