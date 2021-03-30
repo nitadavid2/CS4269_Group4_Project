@@ -2,18 +2,21 @@
 # If the event does transpire, modify the state appropriately.
 
 from ast import literal_eval
+import random
 import ReadInterventions
 
 
-def intervention_manager(country, interventions_list = ReadInterventions.getInterventions()):
+def intervention_manager(state, key, interventions_list=ReadInterventions.getInterventions()):
     """
     Manage the interventions that may/may not occur to a country during a given turn.
     NOTE: This function relies on a file being read in to populate interventions_list.
-    :param country: The country that is to be given (or spared) interventions.
+    :param state: The current world state
+    :param key: The country that is to be given (or spared) interventions.
     :param interventions_list: A dictionary of possible interventions.
     TODO: Format details
     :return: The country state after any possible interventions are applied.
     """
+    country = state.countries[key]
     c_resources = country.resources
 
     for i_name in interventions_list:
@@ -48,23 +51,35 @@ def intervention_manager(country, interventions_list = ReadInterventions.getInte
                 probability += incremental_prob
 
             probability = max(min(i_max_prob, probability), i_min_prob)
-            print("Probability of disaster (",
-                  i_name,
-                  ") for country (",
-                  country.name,
-                  ") is ",
-                  probability*100,
-                  "%.",
-                  sep='')
+            # print("Probability of disaster (",
+            #       i_name,
+            #       ") for country (",
+            #       country.name,
+            #       ") is ",
+            #       probability*100,
+            #       "%.",
+            #       sep='')
 
         # TODO finish impl.
+        r = random.random()
 
-        # Get impacts
-        # [] syntax to {} in case user forgot to use {} in place of [] in excel file.
-        i_impacts_list = str.replace(i_impacts_list, "[", "'{")
-        i_impacts_list = str.replace(i_impacts_list, "]", "}'")
+        # Do we apply event?
+        if r <= probability:
+            print("Event Occurs: ", i_name)
 
-        # Convert String in the input file into a Python Dictionary
-        impact_dict = literal_eval(i_impacts_list)
+            # Get impacts
+            # [] syntax to {} in case user forgot to use {} in place of [] in excel file.
+            i_impacts_list = str.replace(i_impacts_list, "[", "'{")
+            i_impacts_list = str.replace(i_impacts_list, "]", "}'")
 
-    return -1  # TODO: replace with final logic
+            # Convert String in the input file into a Python Dictionary
+            impact_dict = literal_eval(i_impacts_list)
+
+            for impact in impact_dict:
+                country.resources[impact] += country.resources[impact] * impact_dict[impact]
+
+            state.countries[key] = country
+
+            return state
+
+    return state  # TODO: replace with final logic
