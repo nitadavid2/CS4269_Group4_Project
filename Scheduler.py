@@ -1,9 +1,12 @@
 import ReadCountries
 import ReadInterventions
+import InterventionManager
+import random
 from Classes import State
 import queue
 import time
 
+seed = 123456654321
 
 
 def a_star_search(start, depth, f, solution_limit, player, type):
@@ -90,6 +93,9 @@ if __name__ == '__main__':
     country_dict = ReadCountries.getCountryDict(initial_state_filename)
     cur_state = State(0, country_dict, [])
 
+    # Set random "seed"
+    random.seed(seed)
+
     # interventions
     ints = ReadInterventions.getInterventions()
     print("Possible Interventions: ", ints)
@@ -98,6 +104,7 @@ if __name__ == '__main__':
     f = open(output_schedule_filename, "w")
     for i in range(num_rounds):
         for key in country_dict:
+            cur_state = InterventionManager.intervention_manager(cur_state, key)
             cur_state, notpartner = a_star_search(cur_state, 4, f, solution_limit, key, "transform")
             proposed_state, partner = a_star_search(cur_state, 1, f, solution_limit, key, "transfer")
             accept, notpartner = a_star_search(proposed_state, 4, f, solution_limit, partner, "transform")
