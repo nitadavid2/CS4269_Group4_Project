@@ -86,8 +86,8 @@ def a_star_search(start, depth, f, solution_limit, player, type):
     return answer_item[1], other
 
 initial_state_filename = "./input_files/countries.xlsx"
-output_schedule_filename = "./output_files/equal.txt"
-num_rounds = 2
+output_schedule_filename = "./output_files/equal2.txt"
+num_rounds = 4
 solution_limit = 100
 if __name__ == '__main__':
     country_dict = ReadCountries.getCountryDict(initial_state_filename)

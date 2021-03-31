@@ -22,6 +22,15 @@ class Country:
         self.init_state_quality = init_state_quality
         self.participation_prob = -1
 
+    def warfare_quality(self):
+
+        # TODO: define implentation
+        return -1
+
+    def deterrence_score(self,state):
+
+        # TODO: define
+        return -1
 
 class State:
     """
