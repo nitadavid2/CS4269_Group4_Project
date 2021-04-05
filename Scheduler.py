@@ -2,7 +2,7 @@ import ReadCountries
 from Classes import State
 import queue
 import time
-
+import Inequality
 
 
 def a_star_search(start, depth, output_schedule_filename, solution_limit):
@@ -77,16 +77,20 @@ def a_star_search(start, depth, output_schedule_filename, solution_limit):
     print_solution(answer_item)
 
     f.close()
-    return answer_item[1].path
+    return answer_item[1]
 
-initial_state_filename = "./input_files/equalCountries.xlsx"
-output_schedule_filename = "./output_files/equal.txt"
+initial_state_filename = "./input_files/MLD0_ARQ1.xlsx"
+output_schedule_filename = "./output_files/MLD0_ARQ1.txt"
 depth = 4
-solution_limit = 100000
+solution_limit = 1000
 if __name__ == '__main__':
     country_dict = ReadCountries.getCountryDict(initial_state_filename)
     start_state = State(0, country_dict, [])
     start = time.perf_counter()
+    print(Inequality.mean_log_dev(start_state))
+    print(Inequality.actor_rel_quality(start_state))
     test = a_star_search(start_state, depth, output_schedule_filename, solution_limit)
+    print(Inequality.mean_log_dev(test))
+    print(Inequality.actor_rel_quality(test))
     end = time.perf_counter()
     print(f"Search time: {end - start:0.4f}")
