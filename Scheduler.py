@@ -81,7 +81,7 @@ def a_star_search(start, depth, output_schedule_filename, solution_limit):
 
 initial_state_filename = "./input_files/equalCountries.xlsx"
 output_schedule_filename = "./output_files/equal9.txt"
-depth = 3
+depth = 4
 solution_limit = 100000
 if __name__ == '__main__':
     country_dict = ReadInFile.getCountryDict(initial_state_filename)
