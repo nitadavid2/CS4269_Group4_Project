@@ -2,11 +2,15 @@ import openpyxl as xl
 from ResourceQuality import getStateQuality
 from Classes import Country
 
-
+FILE_PATH_INITSTATES = "./input_files/countries.xlsx"
 
 
 def getCountryDict(FILE_PATH_INITSTATES):
-    # reads in the initial country states
+    """
+    Read countries information from countries.xlsx file, create country object for every country in the list, and pass
+    in all the information to a dictionary.
+     :return A dictionary containing all country objects
+     """
     initStates = xl.load_workbook(FILE_PATH_INITSTATES, data_only=True).active
 
     countryDictionary = dict()

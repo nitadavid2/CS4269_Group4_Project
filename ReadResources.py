@@ -1,6 +1,6 @@
 import openpyxl as xl
 
-FILE_PATH_WEIGHTS = "./input_files/Resources.xlsx"
+FILE_PATH_WEIGHTS = "./input_files/Resources-waste 0.75.xlsx"
 
 
 def getResources():
