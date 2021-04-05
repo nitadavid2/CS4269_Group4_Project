@@ -80,7 +80,7 @@ def a_star_search(start, depth, output_schedule_filename, solution_limit):
     return answer_item[1].path
 
 initial_state_filename = "./input_files/equalCountries.xlsx"
-output_schedule_filename = "./output_files/equal9.txt"
+output_schedule_filename = "./output_files/equal.txt"
 depth = 3
 solution_limit = 100000
 if __name__ == '__main__':
