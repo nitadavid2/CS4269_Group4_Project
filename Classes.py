@@ -32,6 +32,12 @@ class Country:
         # TODO: define
         return -1
 
+    def relationship_score(self,):
+        return -1
+
+    def war_inclination(self,country):
+        return -1
+
 class State:
     """
     A class that defines the country object for every state in our search tree. Each state object contains information
@@ -298,7 +304,7 @@ class State:
         return dr, cpp
 
     def current_output(self):
-        csv_file = "./game_output_files/Output1.csv"
+        csv_file = "./game_output_files/Output4.csv"
         csv_columns = ['Name', 'population', 'metalElements', 'timber', 'landArea', 'water', 'metalAlloys',
                        'electronics', 'housing', 'food', 'metalAlloysWaste', 'housingWaste', 'electronicsWaste',
                        'foodWaste', 'score']
