@@ -1,4 +1,5 @@
 import ResourceQuality
+import War
 import BasicOperations
 import copy
 import math
@@ -10,7 +11,7 @@ class Country:
     A class that defines the country object for every country in our countries dictionary. Each country object contains
     all kinds of information for this country.
     """
-    def __init__(self, countryName, resources, init_state_quality):
+    def __init__(self, countryName, resources, init_state_quality, weights):
         """
         Initializing the country's name, resources, initial state quality, and participation probability here.
         :param countryName: String for the country's name
@@ -24,19 +25,49 @@ class Country:
 
     def warfare_quality(self):
 
-        # TODO: define implentation
+        # TODO: define implementation
         return -1
 
-    def deterrence_score(self,state):
+    def deterrence_score(self, country):
 
         # TODO: define
         return -1
 
-    def relationship_score(self,):
-        return -1
+    def relationship_score(self, country):
+        res_dict = ResourceQuality.resourceDict
 
-    def war_inclination(self,country):
-        return -1
+        diff_dict = {}
+
+        for res in res_dict:
+            # Iterative look in dictionary
+            data = res_dict[res]
+
+            weight = data[0]  # Economic weights
+            model = data[1]
+            scaling = data[2]
+
+            # TODO: Do we want scaling?
+
+            our_quantity = self.resources[res]
+            country_quantity = country.resources[res]
+
+            # Analyze diff (- of this is the advantage of other country to us)
+            diff_dict[res] = our_quantity - country_quantity
+
+        # Now find max, min in diff_dict. Negate min and apply to formula
+        MaxDiff_XY = max(diff_dict)
+        MaxDiff_YX = -min(diff_dict)
+
+        rel = MaxDiff_XY * MaxDiff_YX # TODO: Normalize
+
+        return rel
+
+    def war_inclination(self, country):
+        det = self.deterrence_score(country)
+        rel = self.relationship_score(country)
+
+        return det / rel
+
 
 class State:
     """
