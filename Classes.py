@@ -5,6 +5,7 @@ import copy
 import math
 import csv
 
+res_dict = ResourceQuality.resourceDict
 
 class Country:
     """
@@ -22,11 +23,22 @@ class Country:
         self.resources = resources
         self.init_state_quality = init_state_quality
         self.participation_prob = -1
+        self.war_quality = self.warfare_quality()
 
     def warfare_quality(self):
+        war_Quality = 0
+        # TODO: define set up war weights in excel
+        for res in res_dict:
 
-        # TODO: define implementation
-        return -1
+            set = res_dict[res]
+            thresh1 = set[3]
+            our_res = self.resources[res]
+            warweight = 1
+
+            #no the war weights yet
+            war_Quality += (((thresh1 - our_res)/thresh1) * warweight)
+
+        return war_Quality
 
     def deterrence_score(self, country):
 
@@ -34,7 +46,6 @@ class Country:
         return -1
 
     def relationship_score(self, country):
-        res_dict = ResourceQuality.resourceDict
 
         diff_dict = {}
 
