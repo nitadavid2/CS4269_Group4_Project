@@ -63,10 +63,10 @@ def actor_rel_quality(state):
                 constant_offset = 1 - quality
 
     # Now determine the x-bar and N
-    xbar = (total_state_qual / n_countries) + constant_offset
+    xbar = total_state_qual / n_countries
 
     # Now iterate through countries again for final calculation steps
     ARQ = 0
-    xi = ResourceQuality.getStateQuality(state.countries["MyCountry"].resources) + constant_offset
-    ARQ = xbar / xi
+    xi = ResourceQuality.getStateQuality(state.countries["MyCountry"].resources)
+    ARQ = xi / xbar
     return ARQ
