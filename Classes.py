@@ -42,18 +42,13 @@ class Country:
 
     def deterrence_score(self, country):
 
-        total_diff = 0
+        det = 0
 
         # TODO: check on which quality to use
+        det = (War.warpower(self)/War.warpower(country))
 
-        for res in res_dict:
-            our_res = self.resources[res]
-            their_res = country.resources[res]
+        return det
 
-            total_diff += our_res - their_res
-
-
-        return (self.init_state_quality - total_diff)/self.init_state_quality
 
     def relationship_score(self, country):
 
