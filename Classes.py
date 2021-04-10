@@ -12,7 +12,7 @@ class Country:
     A class that defines the country object for every country in our countries dictionary. Each country object contains
     all kinds of information for this country.
     """
-    def __init__(self, countryName, resources, init_state_quality, weights):
+    def __init__(self, countryName, resources, init_state_quality):
         """
         Initializing the country's name, resources, initial state quality, and participation probability here.
         :param countryName: String for the country's name
