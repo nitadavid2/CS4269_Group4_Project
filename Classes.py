@@ -52,7 +52,7 @@ class Country:
 
     def relationship_score(self, country):
 
-        diff_dict = {}
+        diff_dict = list
 
         for res in res_dict:
             # Iterative look in dictionary
@@ -68,7 +68,7 @@ class Country:
             country_quantity = country.resources[res]
 
             # Analyze diff (- of this is the advantage of other country to us)
-            diff_dict[res] = our_quantity - country_quantity
+            diff_dict.append(our_quantity - country_quantity)
 
         # Now find max, min in diff_dict. Negate min and apply to formula
         MaxDiff_XY = max(diff_dict)
