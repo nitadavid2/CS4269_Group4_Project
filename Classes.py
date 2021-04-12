@@ -33,7 +33,7 @@ class Country:
             set = res_dict[res]
             thresh1 = set[3]
             our_res = self.resources[res]
-            warweight = 1
+            warweight = set[5]
 
             #no the war weights yet
             war_Quality += (((thresh1 - our_res)/thresh1) * warweight)
