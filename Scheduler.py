@@ -53,7 +53,7 @@ initial_state_filename = "./input_files/countries.xlsx"
 output_schedule_filename = "./output_files/equal2.txt"
 num_rounds = 3
 solution_limit = 10000
-depth = 10
+depth = 15
 frontier_size = 100
 if __name__ == '__main__':
     country_dict = ReadCountries.getCountryDict(initial_state_filename)
