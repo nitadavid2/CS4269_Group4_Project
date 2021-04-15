@@ -1,6 +1,5 @@
 import ResourceQuality
-import War
-import BasicOperations
+import BasicOperations as Ops
 import copy
 import math
 import csv
@@ -45,7 +44,7 @@ class Country:
         det = 0
 
         # TODO: check on which quality to use
-        det = (War.warpower(self)/War.warpower(country))
+        det = (Ops.warpower(self)/Ops.warpower(country))
 
         return det
 
@@ -82,7 +81,7 @@ class Country:
         det = self.deterrence_score(country)
         rel = self.relationship_score(country)
 
-        return det / rel
+        return 1 - det * rel
 
 
 class State:
@@ -133,7 +132,7 @@ class State:
                 for transform_type in transform_types:
 
                     # perform the TRANSFORM operator
-                    a, b = BasicOperations.transform(player, resources, quantity, transform_type)
+                    a, b = Ops.transform(player, resources, quantity, transform_type)
 
                     # look at the new state if the operator is successfully performed
                     if a:
@@ -220,7 +219,7 @@ class State:
 
                                 # perform step 1 of the trade by doing one TRANSFER (MyCountry accepts desired
                                 # resources from the target country)
-                                a1, b1, c1 = BasicOperations.transfer(target_c, player,
+                                a1, b1, c1 = Ops.transfer(target_c, player,
                                                                       countries[target_c].resources, resources,
                                                                       desired_resource[0], quantity)
 
@@ -230,11 +229,11 @@ class State:
 
                                 # perform step 2 of the trade (when we choose to accept wastes)
                                 if 'Waste' in r[0]:
-                                    a2, b2, c2 = BasicOperations.transfer(target_c, player, b1,
+                                    a2, b2, c2 = Ops.transfer(target_c, player, b1,
                                                                           c1, r[0], trade_amount)
                                 # perform step 2 of the trade (when we choose to give out other resources)
                                 else:
-                                    a2, c2, b2 = BasicOperations.transfer(player, target_c, c1,
+                                    a2, c2, b2 = Ops.transfer(player, target_c, c1,
                                                                           b1, r[0], trade_amount)
 
                                 # look at the new state if the 2 TRANSFER operators for both steps of the trade are
