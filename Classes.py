@@ -3,6 +3,7 @@ import BasicOperations as Ops
 import copy
 import math
 import csv
+import random
 
 res_dict = ResourceQuality.resourceDict
 
@@ -32,7 +33,7 @@ class Country:
             set = res_dict[res]
             thresh1 = set[3]
             our_res = self.resources[res]
-            warweight = set[5]
+            warweight = set[8]
 
             #no the war weights yet
             war_Quality += (((thresh1 - our_res)/thresh1) * warweight)
@@ -44,14 +45,14 @@ class Country:
         det = 0
 
         # TODO: check on which quality to use
-        det = (Ops.warpower(self)/Ops.warpower(country))
+        det = (Ops.war_power(self)/Ops.war_power(country))
 
         return det
 
 
     def relationship_score(self, country):
 
-        diff_dict = list
+        diff_dict = list()
 
         for res in res_dict:
             # Iterative look in dictionary
@@ -67,7 +68,8 @@ class Country:
             country_quantity = country.resources[res]
 
             # Analyze diff (- of this is the advantage of other country to us)
-            diff_dict.append(our_quantity - country_quantity)
+            diff = our_quantity - country_quantity
+            diff_dict.append(diff)
 
         # Now find max, min in diff_dict. Negate min and apply to formula
         MaxDiff_XY = max(diff_dict)
@@ -296,6 +298,42 @@ class State:
                                         # append the new state to the successor state list
                                         successor_list.append(new_state)
 
+        def successors_for_war(path, countries, depth, player):
+            if countries[player].war_quality >= -1:
+                for target_c in countries:
+                    if target_c != player:
+                        war_inclination = countries[player].war_inclination(countries[target_c])
+                        if war_inclination >= -100000000000:
+                            path_to_update = copy.deepcopy(path)
+                            countries_to_update = copy.deepcopy(countries)
+                            init_state1 = countries[player].init_state_quality
+                            init_state2 = countries[target_c].init_state_quality
+                            new_state = State(depth + 1, countries_to_update, path_to_update)
+                            new_state = Ops.war(player, target_c, new_state)
+
+                            d_r1, par_p1 = self.country_participation_probability(new_state.countries[player].resources, init_state1, 0.9,
+                                                                                  depth + 1, 0, 1)
+                            d_r2, par_p2 = self.country_participation_probability(new_state.countries[target_c].resources, init_state2, 0.9,
+                                                                                  depth + 1, 0, 1)
+
+                            new_state.countries[player].participation_prob = par_p1
+                            new_state.countries[target_c].participation_prob = par_p2
+
+                            p = 1
+                            for i in countries:
+
+                                # multiply all involved countries' participation probability except the two
+                                # countries involved in the trade
+                                if i != target_c and i != player and countries[i].participation_prob != -1:
+                                    p = p * countries[i].participation_prob
+
+                            # get utility by multiply p with both countries' participation probabilities and
+                            # MyCountry's discounted reward
+                            eu = p * par_p1 * par_p2 * d_r2
+                            new_state.eu = eu
+                            successor_list.append(new_state)
+
+
         # define quantity choices list for TRANSFORM successor function
         quantity_choices = (2 ** 0, 2 ** 1, 2 ** 2, 2 ** 3, 2 ** 4, 2 ** 5, 2 ** 6)
 
@@ -322,6 +360,8 @@ class State:
             successors_for_transform(self.path, self.countries, self.depth, player)
         if type == "transfer":
             successors_for_transfer(self.path, self.countries, self.depth, player)
+        if type == 'war':
+            successors_for_war(self.path, self.countries, self.depth, player)
 
         return tuple(successor_list)
 

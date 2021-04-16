@@ -182,11 +182,17 @@ def distribute_spoils(victor, loser, state, proportion):
     v_country = state.countries[victor]
     l_country = state.countries[loser]
 
+    changed_resources = []
+
     for res in v_country.resources:
-        taking = l_country[res] * proportion
+        taking = l_country.resources[res] * proportion
 
         v_country.resources[res] += taking
         l_country.resources[res] -= taking
+        changed_resources.append((res, taking))
+    #
+    operator_summary = ('WAR', loser, victor, tuple(changed_resources))
+    state.path.append(operator_summary)
 
     state.countries[victor] = v_country
     state.countries[loser] = l_country
