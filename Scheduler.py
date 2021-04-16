@@ -13,26 +13,12 @@ def print_solution(answer_item, count):
     answer_value = -answer_item[1]
     answer_path = answer_item[0].path
 
-<<<<<<< Updated upstream
     # TODO: Remove after testing.
     f.write("Number of solutions: %d\n" % (count + 1))
     f.write("Best solution EU: %d\n" % answer_value)
     f.write("Best Path: \n")
     for action in answer_path:
         f.write("%s\n" % (action, ))
-=======
-    # We will have a queue of possible, valid paths discovered in the search
-    solution_queue = queue.PriorityQueue()
-
-    # A "schedule" is defined as list of actions (transfers or transforms)
-
-    # Keeps track of solutions explored
-    count = 0
-
-    # Open output file
-    f = open(output_schedule_filename, "a")
-    f.write("\nThreshold Set 6\n")
->>>>>>> Stashed changes
 
 # inpsired by group 5
 def search(start, depth, file, solution_limit, player, type, frontier_size):
@@ -63,24 +49,13 @@ def search(start, depth, file, solution_limit, player, type, frontier_size):
     return answer_item[0], other
 
 
-<<<<<<< Updated upstream
 initial_state_filename = "./input_files/countries.xlsx"
 output_schedule_filename = "./output_files/equal2.txt"
 num_rounds = 3
 solution_limit = 10000
 depth = 15
 frontier_size = 100
-=======
-<<<<<<< Updated upstream
-initial_state_filename = "./input_files/MLD0_ARQ1.xlsx"
-output_schedule_filename = "./output_files/MLD0_ARQ1.txt"
-=======
-initial_state_filename = "./input_files/countries_threshold.xlsx"
-output_schedule_filename = "./output_files/change_threshold.txt"
->>>>>>> Stashed changes
-depth = 4
-solution_limit = 1000
->>>>>>> Stashed changes
+
 if __name__ == '__main__':
     country_dict = ReadCountries.getCountryDict(initial_state_filename)
     cur_state = State(0, country_dict, [])
