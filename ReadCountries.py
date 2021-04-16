@@ -3,15 +3,17 @@ from ResourceQuality import getStateQuality
 from Classes import Country
 
 
-
-
 def getCountryDict(FILE_PATH_INITSTATES):
     """
     Read countries information from countries.xlsx file, create country object for every country in the list, and pass
     in all the information to a dictionary.
     :return A dictionary containing all country objects
     """
+<<<<<<< Updated upstream:ReadCountries.py
     
+=======
+
+>>>>>>> Stashed changes:ReadInFile.py
     # reads in the initial country states
     initStates = xl.load_workbook(FILE_PATH_INITSTATES, data_only=True).active
 

@@ -1,6 +1,6 @@
 import openpyxl as xl
 
-FILE_PATH_WEIGHTS = "./input_files/Resources.xlsx"
+FILE_PATH_WEIGHTS = "./input_files/Resources_Different_Threshold.xlsx"
 
 
 def getResources():
@@ -8,7 +8,8 @@ def getResources():
     Read resources information from Resources.xlsx file and pass in all the information to a dictionary.
     :return A dictionary containing information (weights, type, etc.) of each resource
     """
-    weightFrame = xl.load_workbook(FILE_PATH_WEIGHTS, data_only=True).active
+    wb = xl.load_workbook(FILE_PATH_WEIGHTS, data_only=True)
+    weightFrame = wb.get_sheet_by_name("Sheet6")
 
     resourceDict = dict()
     for row in weightFrame['A{}:I{}'.format(weightFrame.min_row + 1, weightFrame.max_row)]:
