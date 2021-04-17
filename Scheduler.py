@@ -55,9 +55,9 @@ def search(start, depth, file, solution_limit, player, type, frontier_size):
 
 initial_state_filename = "./input_files/countries.xlsx"
 output_schedule_filename = "./output_files/equal2.txt"
-num_rounds = 2
-solution_limit = 10000
-depth = 4
+num_rounds = 5
+solution_limit = 1000
+depth = 3
 frontier_size = 100
 
 if __name__ == '__main__':
