@@ -138,8 +138,8 @@ def transfer(sender, receiver, sender_resources, receiver_resources, transfer_re
     return operator_summary, sender_updated_resources, receiver_updated_resources
 
 
-
-def war(attacker, defender, state, seed=None):
+# Determine = True - attacker wins by default
+def war(attacker, defender, state, determine=False, seed=None):
     a_country = state.countries[attacker]
     d_country = state.countries[defender]
 
@@ -156,7 +156,7 @@ def war(attacker, defender, state, seed=None):
     a_winner = val >= -1
 
     # Handle redistribution of resources
-    if a_winner:
+    if a_winner or not determine:
         state = distribute_spoils(attacker, defender, state, 0.1)
     else:
         state = distribute_spoils(defender, attacker, state, 0.1)

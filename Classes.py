@@ -7,6 +7,9 @@ import random
 
 res_dict = ResourceQuality.resourceDict
 
+seed = 123456654321
+
+
 class Country:
     """
     A class that defines the country object for every country in our countries dictionary. Each country object contains
@@ -288,7 +291,7 @@ class State:
                             init_state1 = countries[player].init_state_quality
                             init_state2 = countries[target_c].init_state_quality
                             new_state = State(depth + 1, countries_to_update, path_to_update)
-                            new_state = Ops.war(player, target_c, new_state)
+                            new_state = Ops.war(player, target_c, new_state, False, seed)
 
                             d_r1, par_p1 = self.country_participation_probability(new_state.countries[player].resources, init_state1, 0.9,
                                                                                   depth + 1, 0, 1)
@@ -356,7 +359,10 @@ class State:
         dr = gamma ** depth * (sq - init_s)
 
         # calculate the country's participation probability
-        cpp = L / (1 + math.exp(-k * (dr - x_0))) if -k * (dr - x_0) < 100 else -1
+        if abs(dr) < 0.00001:
+            cpp = L / (1 + math.exp(-k * (dr - x_0))) if -k * (dr - x_0) < 100 else -1
+        else:
+            cpp = L / (1 + math.exp(-k * (dr - x_0))) if -(k ** (dr/abs(dr) * -1)) * (dr - x_0) < 100 else -1
 
         return dr, cpp
 

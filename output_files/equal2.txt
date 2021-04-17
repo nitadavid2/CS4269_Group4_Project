@@ -1,0 +1,125 @@
+Number of solutions: 334
+Best solution EU: -494685
+Best Path: 
+('TRANSFORM', 'Atlantis', (('population', 192), ('metalElements', 128), ('metalAlloys', 128)), (('population', 192), ('electronics', 128), ('electronicsWaste', 128)), 'EU: 494685')
+Number of solutions: 100
+Best solution EU: -784879
+Best Path: 
+('TRANSFER', 'Erewhon', 'Atlantis', ('electronics', 100), 'EU: 784879')
+('TRANSFER', 'Atlantis', 'Erewhon', ('metalAlloys', 195.45454545454547), 'EU: 784879')
+Number of solutions: 224
+Best solution EU: -403118
+Best Path: 
+('TRANSFORM', 'Erewhon', (('population', 64), ('metalElements', 128)), (('population', 64), ('metalAlloys', 64), ('metalAlloysWaste', 64)), 'EU: 403118')
+Number of solutions: 159
+Best solution EU: -126709
+Best Path: 
+('TRANSFORM', 'Erewhon', (('population', 64), ('metalElements', 128)), (('population', 64), ('metalAlloys', 64), ('metalAlloysWaste', 64)), 'EU: 126709')
+Number of solutions: 5
+Best solution EU: 957214
+Best Path: 
+('WAR', 'Erewhon', 'Atlantis', (('population', 1200.0), ('metalElements', 160.0), ('timber', 350.0), ('landArea', 1000.0), ('water', 4500.0), ('metalAlloys', 129.54545454545456), ('electronics', 40.0), ('housing', 2200.0), ('food', 2200.0), ('metalAlloysWaste', 200.0), ('housingWaste', 180.0), ('electronicsWaste', 160.0), ('foodWaste', 120.0)))
+Number of solutions: 171
+Best solution EU: -126707
+Best Path: 
+('TRANSFORM', 'Brobdingnag', (('population', 64), ('metalElements', 128)), (('population', 64), ('metalAlloys', 64), ('metalAlloysWaste', 64)), 'EU: 126707')
+Number of solutions: 100
+Best solution EU: -324697
+Best Path: 
+('TRANSFER', 'Atlantis', 'Brobdingnag', ('metalAlloys', 100), 'EU: 324697')
+('TRANSFER', 'Brobdingnag', 'Atlantis', ('metalElements', 104.76190476190476), 'EU: 324697')
+Number of solutions: 226
+Best solution EU: -1187342
+Best Path: 
+('TRANSFORM', 'Atlantis', (('population', 192), ('metalElements', 128), ('metalAlloys', 128)), (('population', 192), ('electronics', 128), ('electronicsWaste', 128)), 'EU: 1187342')
+Number of solutions: 226
+Best solution EU: -1188684
+Best Path: 
+('TRANSFORM', 'Atlantis', (('population', 192), ('metalElements', 128), ('metalAlloys', 128)), (('population', 192), ('electronics', 128), ('electronicsWaste', 128)), 'EU: 1188684')
+Number of solutions: 5
+Best solution EU: -275303
+Best Path: 
+('WAR', 'Atlantis', 'Brobdingnag', (('population', 1920.0), ('metalElements', 123.2), ('timber', 1785.0), ('landArea', 3600.0), ('water', 4450.0), ('metalAlloys', 30.609090909090913), ('electronics', 136.8), ('housing', 1420.0), ('food', 2020.0), ('metalAlloysWaste', 120.0), ('housingWaste', 118.0), ('electronicsWaste', 228.8), ('foodWaste', 172.0)))
+Number of solutions: 421
+Best solution EU: -241913
+Best Path: 
+('TRANSFORM', 'Carpania', (('population', 192), ('metalElements', 128), ('metalAlloys', 128)), (('population', 192), ('electronics', 128), ('electronicsWaste', 128)), 'EU: 241913')
+Number of solutions: 100
+Best solution EU: -628904
+Best Path: 
+('TRANSFER', 'Brobdingnag', 'Carpania', ('electronics', 100), 'EU: 628904')
+('TRANSFER', 'Carpania', 'Brobdingnag', ('metalElements', 204.76190476190476), 'EU: 628904')
+Number of solutions: 226
+Best solution EU: -7790886
+Best Path: 
+('TRANSFORM', 'Brobdingnag', (('population', 64), ('metalElements', 128)), (('population', 64), ('metalAlloys', 64), ('metalAlloysWaste', 64)), 'EU: 7790886')
+Number of solutions: 226
+Best solution EU: -7795875
+Best Path: 
+('TRANSFORM', 'Brobdingnag', (('population', 64), ('metalElements', 128)), (('population', 64), ('metalAlloys', 64), ('metalAlloysWaste', 64)), 'EU: 7795875')
+Number of solutions: 5
+Best solution EU: -3623607
+Best Path: 
+('WAR', 'Brobdingnag', 'Carpania', (('population', 1192.0), ('metalElements', 159.52), ('timber', 703.5), ('landArea', 1860.0), ('water', 4945.0), ('metalAlloys', 79.4609090909091), ('electronics', 143.68), ('housing', 1342.0), ('food', 1402.0), ('metalAlloysWaste', 178.4), ('housingWaste', 151.8), ('electronicsWaste', 222.88000000000002), ('foodWaste', 197.20000000000002)))
+Number of solutions: 397
+Best solution EU: -241912
+Best Path: 
+('TRANSFORM', 'Dinotopia', (('population', 192), ('metalElements', 128), ('metalAlloys', 128)), (('population', 192), ('electronics', 128), ('electronicsWaste', 128)), 'EU: 241912')
+Number of solutions: 100
+Best solution EU: -533571
+Best Path: 
+('TRANSFER', 'Brobdingnag', 'Dinotopia', ('electronics', 100), 'EU: 533571')
+('TRANSFER', 'Dinotopia', 'Brobdingnag', ('metalElements', 204.76190476190476), 'EU: 533571')
+Number of solutions: 279
+Best solution EU: -3631791
+Best Path: 
+('TRANSFORM', 'Brobdingnag', (('population', 192), ('metalElements', 128), ('metalAlloys', 128)), (('population', 192), ('electronics', 128), ('electronicsWaste', 128)), 'EU: 3631791')
+Number of solutions: 226
+Best solution EU: -3750316
+Best Path: 
+('TRANSFORM', 'Brobdingnag', (('population', 64), ('metalElements', 128)), (('population', 64), ('metalAlloys', 64), ('metalAlloysWaste', 64)), 'EU: 3750316')
+Number of solutions: 5
+Best solution EU: -137631
+Best Path: 
+('WAR', 'Carpania', 'Dinotopia', (('population', 2119.2000000000003), ('metalElements', 163.15200000000002), ('timber', 1295.3500000000001), ('landArea', 3686.0), ('water', 5494.5), ('metalAlloys', 85.14609090909092), ('electronics', 117.168), ('housing', 2334.2000000000003), ('food', 1940.2), ('metalAlloysWaste', 217.84000000000003), ('housingWaste', 215.18000000000004), ('electronicsWaste', 135.08800000000002), ('foodWaste', 179.72000000000003)))
+Number of solutions: 1
+Best solution EU: -137631
+Best Path: 
+Number of solutions: 58
+Best solution EU: -1343148
+Best Path: 
+('TRANSFER', 'Atlantis', 'Erewhon', ('electronics', 100), 'EU: 1343148')
+('TRANSFER', 'Erewhon', 'Atlantis', ('metalAlloys', 195.45454545454547), 'EU: 1343148')
+Number of solutions: 355
+Best solution EU: -384110
+Best Path: 
+('TRANSFORM', 'Atlantis', (('population', 192), ('metalElements', 128), ('metalAlloys', 128)), (('population', 192), ('electronics', 128), ('electronicsWaste', 128)), 'EU: 384110')
+Number of solutions: 151
+Best solution EU: -556244
+Best Path: 
+('TRANSFORM', 'Atlantis', (('population', 192), ('metalElements', 128), ('metalAlloys', 128)), (('population', 192), ('electronics', 128), ('electronicsWaste', 128)), 'EU: 556244')
+Number of solutions: 5
+Best solution EU: -1762909
+Best Path: 
+('WAR', 'Dinotopia', 'Erewhon', (('population', 1811.92), ('metalElements', 143.51520000000002), ('timber', 1004.5350000000001), ('landArea', 2868.6000000000004), ('water', 4549.45), ('metalAlloys', 125.7146090909091), ('electronics', 134.51680000000002), ('housing', 1433.42), ('food', 2194.02), ('metalAlloysWaste', 181.78400000000002), ('housingWaste', 141.518), ('electronicsWaste', 166.30880000000002), ('foodWaste', 217.97200000000004)))
+Number of solutions: 422
+Best solution EU: -241907
+Best Path: 
+('TRANSFORM', 'MyCountry', (('population', 192), ('metalElements', 128), ('metalAlloys', 128)), (('population', 192), ('electronics', 128), ('electronicsWaste', 128)), 'EU: 241907')
+Number of solutions: 100
+Best solution EU: -533559
+Best Path: 
+('TRANSFER', 'Brobdingnag', 'MyCountry', ('electronics', 100), 'EU: 533559')
+('TRANSFER', 'MyCountry', 'Brobdingnag', ('metalElements', 204.76190476190476), 'EU: 533559')
+Number of solutions: 279
+Best solution EU: -3631791
+Best Path: 
+('TRANSFORM', 'Brobdingnag', (('population', 192), ('metalElements', 128), ('metalAlloys', 128)), (('population', 192), ('electronics', 128), ('electronicsWaste', 128)), 'EU: 3631791')
+Number of solutions: 226
+Best solution EU: -3750316
+Best Path: 
+('TRANSFORM', 'Brobdingnag', (('population', 64), ('metalElements', 128)), (('population', 64), ('metalAlloys', 64), ('metalAlloysWaste', 64)), 'EU: 3750316')
+Number of solutions: 5
+Best solution EU: -792063
+Best Path: 
+('WAR', 'Erewhon', 'MyCountry', (('population', 1261.192), ('metalElements', 158.35152000000002), ('timber', 415.4535), ('landArea', 1186.8600000000001), ('water', 4504.945), ('metalAlloys', 129.16237), ('electronics', 49.45168), ('housing', 2123.342), ('food', 2199.402), ('metalAlloysWaste', 198.1784), ('housingWaste', 176.1518), ('electronicsWaste', 160.63088000000002), ('foodWaste', 129.7972)))
