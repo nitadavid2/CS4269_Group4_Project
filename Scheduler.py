@@ -53,7 +53,7 @@ def search(start, depth, file, solution_limit, player, type, frontier_size):
     return answer_item[0], other
 
 
-initial_state_filename = "./input_files/countries.xlsx"
+initial_state_filename = "./input_files/countries_for_test.xlsx"
 output_schedule_filename = "./output_files/equal2.txt"
 num_rounds = 5
 solution_limit = 1000
