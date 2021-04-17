@@ -49,7 +49,6 @@ class Country:
 
         return det
 
-
     def relationship_score(self, country):
 
         diff_dict = list()
@@ -146,18 +145,8 @@ class State:
                         # calculate the probability: d_r as the discounted reward and par_p as the probability
                         d_r, par_p = self.country_participation_probability(b, init_state, 0.9, depth + 1, 0, 1)
 
-                        # First calculate the schedule success probability by multiplying the participation probability
-                        # of all countries involved in the schedule. Then calculate the expected utility of this
-                        # schedule.
-                        p = 1
-                        for i in countries:
-
-                            # multiply all involved countries' participation probability except MyCountry
-                            if i != player and countries[i].participation_prob != -1:
-                                p = p * countries[i].participation_prob
-
                         # get utility by multiply p with MyCountry's participation probability and discounted reward
-                        eu = p * par_p * d_r
+                        eu =  d_r
 
                         # only generate and append the state to the list if the expected utility is larger than the
                         # threshold
@@ -254,20 +243,10 @@ class State:
                                     d_r2, par_p2 = self.country_participation_probability(c2, init_state2, 0.9,
                                                                                           depth + 1, 0, 1)
 
-                                    # First calculate the schedule success probability by multiplying the participation
-                                    # probability of all countries involved in the schedule. Then calculate the expected
-                                    # utility of this schedule.
-                                    p = 1
-                                    for i in countries:
-
-                                        # multiply all involved countries' participation probability except the two
-                                        # countries involved in the trade
-                                        if i != target_c and i != player and countries[i].participation_prob != -1:
-                                            p = p * countries[i].participation_prob
 
                                     # get utility by multiply p with both countries' participation probabilities and
                                     # MyCountry's discounted reward
-                                    eu = p * par_p1 * par_p2 * d_r2
+                                    eu = par_p1 * d_r2
 
                                     # only generate append the state to the list if the expected utility is larger than
                                     # the threshold
@@ -319,17 +298,9 @@ class State:
                             new_state.countries[player].participation_prob = par_p1
                             new_state.countries[target_c].participation_prob = par_p2
 
-                            p = 1
-                            for i in countries:
-
-                                # multiply all involved countries' participation probability except the two
-                                # countries involved in the trade
-                                if i != target_c and i != player and countries[i].participation_prob != -1:
-                                    p = p * countries[i].participation_prob
-
                             # get utility by multiply p with both countries' participation probabilities and
                             # MyCountry's discounted reward
-                            eu = p * par_p1 * par_p2 * d_r2
+                            eu = d_r2
                             new_state.eu = eu
                             successor_list.append(new_state)
 
