@@ -15,17 +15,23 @@ def getCountryDict(FILE_PATH_INITSTATES):
     countryDictionary = dict()
     resource_list = [i.value for i in initStates[1] if i.value != 'Country']
 
-    for row in initStates['A{}:N{}'.format(initStates.min_row + 1, initStates.max_row)]:
+    for row in initStates['A{}:P{}'.format(initStates.min_row + 1, initStates.max_row)]:
         country = row[0].value
         data_dict = {}
 
-        data = row[1:len(row)]
+        data = row[1:len(row)-2]
+        trade_selectivity = row[len(row)-2].value
+        war_ambition = row[len(row)-1].value
 
         for i in range(len(data)):
             data_dict[resource_list[i]] = data[i].value
 
         # print(data_list)
         init_state_quality = getStateQuality(data_dict)
-        countryDictionary[country] = Country(country, data_dict, init_state_quality)
+        if trade_selectivity == 1:
+            prob_parameter = [2, 200]
+        else:
+            prob_parameter = [1, 100]
+        countryDictionary[country] = Country(country, data_dict, init_state_quality, prob_parameter, war_ambition)
 
     return countryDictionary

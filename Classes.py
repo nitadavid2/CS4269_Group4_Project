@@ -15,7 +15,7 @@ class Country:
     A class that defines the country object for every country in our countries dictionary. Each country object contains
     all kinds of information for this country.
     """
-    def __init__(self, countryName, resources, init_state_quality):
+    def __init__(self, countryName, resources, init_state_quality, prob_parameter, war_ambition):
         """
         Initializing the country's name, resources, initial state quality, and participation probability here.
         :param countryName: String for the country's name
@@ -27,6 +27,8 @@ class Country:
         self.init_state_quality = init_state_quality
         self.participation_prob = -1
         self.war_quality = self.warfare_quality()
+        self.prob_parameter = prob_parameter
+        self.war_ambition = war_ambition
 
     def warfare_quality(self):
         war_Quality = 0
@@ -239,12 +241,17 @@ class State:
                                     init_state1 = countries[target_c].init_state_quality
                                     init_state2 = countries[player].init_state_quality
 
+                                    prob_parameter1 = countries[target_c].prob_parameter
+                                    prob_parameter2 = countries[player].prob_parameter
+
                                     # calculate the probabilities for both countries: d_r as the discounted reward and
                                     # par_p as the probability
                                     d_r1, par_p1 = self.country_participation_probability(b2, init_state1, 0.9,
-                                                                                          depth + 1, 0, 1)
+                                                                                          depth + 1, prob_parameter1[0],
+                                                                                          prob_parameter1[1])
                                     d_r2, par_p2 = self.country_participation_probability(c2, init_state2, 0.9,
-                                                                                          depth + 1, 0, 1)
+                                                                                          depth + 1, prob_parameter2[0],
+                                                                                          prob_parameter2[1])
 
 
                                     # get utility by multiply p with both countries' participation probabilities and
