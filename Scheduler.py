@@ -87,10 +87,10 @@ if __name__ == '__main__':
     country_dict = ReadCountries.getCountryDict(initial_state_filename)
     start_state = State(0, country_dict, [])
     start = time.perf_counter()
-    print(Inequality.mean_log_dev(start_state))
-    print(Inequality.actor_rel_quality(start_state))
+    print("IN_MLD: ", Inequality.mean_log_dev(start_state))
+    print("IN_ARQ: ", Inequality.actor_rel_quality(start_state))
     test = a_star_search(start_state, depth, output_schedule_filename, solution_limit)
-    print(Inequality.mean_log_dev(test))
-    print(Inequality.actor_rel_quality(test))
+    print("\nOUT_MLD: ", Inequality.mean_log_dev(test))  # MLD
+    print("OUT_ARQ: ", Inequality.actor_rel_quality(test))  # Rel. Quality
     end = time.perf_counter()
     print(f"Search time: {end - start:0.4f}")
