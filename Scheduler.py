@@ -39,11 +39,15 @@ def search(start, depth, file, solution_limit, player, type, frontier_size):
         if next_state.depth < depth:
             for suc in next_state.findSuccessor(player, type):
                 search_queue.insert(suc, suc.eu)
-    answer_item = solution_queue.get()
+    other = "No trade"
+    if solution_queue.empty():
+        answer_item = (start, start.eu)
+    else:
+        answer_item = solution_queue.get(False)
+        if type == "transfer":
+            other = answer_item[0].path[0][1]
     print_solution(answer_item, solution_queue.qsize())
-    other = "testing"
-    if type == "transfer":
-        other = answer_item[0].path[0][1]
+
     answer_item[0].path = []
     answer_item[0].depth = 0
     return answer_item[0], other
@@ -52,8 +56,8 @@ def search(start, depth, file, solution_limit, player, type, frontier_size):
 initial_state_filename = "./input_files/countries.xlsx"
 output_schedule_filename = "./output_files/equal2.txt"
 num_rounds = 2
-#solution_limit = 10000
-#depth = 10
+solution_limit = 10000
+depth = 4
 frontier_size = 100
 
 if __name__ == '__main__':
@@ -72,18 +76,21 @@ if __name__ == '__main__':
     for i in range(num_rounds):
         for key in country_dict:
             cur_state = InterventionManager.intervention_manager(cur_state, key)
-            solution_limit = (country_dict[key].resources["population"] - 9000) / 100
-            depth = (country_dict[key].resources["population"] - 8000) / 1000
+            #solution_limit = (country_dict[key].resources["population"] - 9000) / 100
+            #depth = (country_dict[key].resources["population"] - 8000) / 1000
             cur_state, notpartner = search(cur_state, depth, f, solution_limit, key, "transform", frontier_size)
             proposed_state, partner = search(cur_state, 1, f, solution_limit, key, "transfer", frontier_size)
-            accept, notpartner = search(proposed_state, depth, f, solution_limit, partner, "transform", frontier_size)
-            decline, notpartner = search(cur_state, depth, f, solution_limit, partner, "transform", frontier_size)
-            if accept.eu >= decline.eu:
-                cur_state = proposed_state
-                print("accepted transfer")
+            if partner != "No trade":
+                accept, notpartner = search(proposed_state, depth, f, solution_limit, partner, "transform", frontier_size)
+                decline, notpartner = search(cur_state, depth, f, solution_limit, partner, "transform", frontier_size)
+                if accept.eu >= decline.eu:
+                    cur_state = proposed_state
+                    print("accepted transfer")
+                else:
+                    print("declined transfer")
             else:
-                print("declined transfer")
-            
+                cur_state = proposed_state
+            cur_state, notpartner = search(cur_state, 1, f, solution_limit, key, "war", frontier_size)
 
     #    cur_state, notpartner = a_star_search(cur_state, 4, f, solution_limit, key, "transform")
     end = time.perf_counter()

@@ -157,9 +157,9 @@ def war(attacker, defender, state, seed=None):
 
     # Handle redistribution of resources
     if a_winner:
-        state = distribute_spoils(attacker, defender, state, -1.1)
+        state = distribute_spoils(attacker, defender, state, 0.1)
     else:
-        state = distribute_spoils(defender, attacker, state, -1.1)
+        state = distribute_spoils(defender, attacker, state, 0.1)
 
     return state
 
