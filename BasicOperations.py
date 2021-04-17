@@ -4,6 +4,7 @@
 import ResourceQuality
 from numpy.random import default_rng
 
+res_dict = ResourceQuality.resourceDict
 
 def return_transform_info(resources, updated_resources, input_resources, output_resources, operator_summary):
     """
@@ -157,9 +158,9 @@ def war(attacker, defender, state, determine=False, seed=None):
 
     # Handle redistribution of resources
     if a_winner or not determine:
-        state = distribute_spoils(attacker, defender, state, 0.1)
+        state = distribute_spoils(attacker, defender, state)
     else:
-        state = distribute_spoils(defender, attacker, state, 0.1)
+        state = distribute_spoils(defender, attacker, state)
 
     return state
 
@@ -171,21 +172,21 @@ def war_power(country):
     # Iterate across resources
     for res in c_resources:
         quantity = c_resources[res]
-        quality = ResourceQuality.resourceDict[res][-1]  # TODO: Point to new column for 'war weight'
+        quality = res_dict[res][8]
 
         power += quality * quantity
 
     return power
 
 
-def distribute_spoils(victor, loser, state, proportion):
+def distribute_spoils(victor, loser, state):
     v_country = state.countries[victor]
     l_country = state.countries[loser]
 
     changed_resources = []
 
     for res in v_country.resources:
-        taking = l_country.resources[res] * proportion
+        taking = l_country.resources[res] * res_dict[res][6]
 
         v_country.resources[res] += taking
         l_country.resources[res] -= taking
@@ -200,6 +201,19 @@ def distribute_spoils(victor, loser, state, proportion):
     return state
 
 
-def destrustion(victor,loser):
-    # TODO define destruction
-    return -1
+def destruction(victor,loser,state):
+    v_country = state.countries[victor]
+    l_country = state.countries[loser]
+
+    for res in l_country.resources:
+        destroy = l_country.resources[res] * res_dict[res][7]
+        l_country.resources[res] -= destroy
+
+    for res in v_country.resources:
+        destroy = v_country.resources[res] * res_dict[res][7]
+        v_country.resources[res] -= destroy
+
+    state.countries[victor] = v_country
+    state.countries[loser] = l_country
+
+    return state
