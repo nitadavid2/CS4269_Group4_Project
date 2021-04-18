@@ -305,12 +305,12 @@ class State:
 
                             d_r1, par_p1 = self.country_participation_probability(new_state.countries[player].resources, init_state1, 0.9,
                                                                                   depth + 1, 0, 1)
-                            
+
                             advantage = countries[player].war_quality - countries[target_c].war_quality\
 
                             eu = d_r1 * advantage
                             new_state.eu = eu
-                            if eu > 1000:
+                            if eu > (1000 - (countries[player].war_ambition * 700)):
                                 successor_list.append(new_state)
 
 
