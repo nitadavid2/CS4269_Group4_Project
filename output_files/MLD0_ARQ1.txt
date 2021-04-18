@@ -1,41 +1,41 @@
 Number of solutions: 1
 Best solution EU: 538562
-MLD: 0.495631
-ARQ: 0.993148
+MLD: 0.000013
+ARQ: 0.988428
 Best Path: 
 ('TRANSFORM', 'MyCountry', (('population', 320), ('metalElements', 64), ('timber', 320), ('metalAlloys', 192), ('landArea', 64)), (('population', 320), ('housing', 64), ('housingWaste', 64)), 'EU: 538562')
 Number of solutions: 5
 Best solution EU: 969411
-MLD: 0.495661
-ARQ: 0.981478
+MLD: 0.000054
+ARQ: 0.976802
 Best Path: 
 ('TRANSFORM', 'MyCountry', (('population', 320), ('metalElements', 64), ('timber', 320), ('metalAlloys', 192), ('landArea', 64)), (('population', 320), ('housing', 64), ('housingWaste', 64)), 'EU: 538562')
 ('TRANSFORM', 'MyCountry', (('population', 320), ('metalElements', 64), ('timber', 320), ('metalAlloys', 192), ('landArea', 64)), (('population', 320), ('housing', 64), ('housingWaste', 64)), 'EU: 969411')
 Number of solutions: 10
 Best solution EU: 969411
-MLD: 0.495661
-ARQ: 0.981478
+MLD: 0.000054
+ARQ: 0.976802
 Best Path: 
 ('TRANSFORM', 'MyCountry', (('population', 320), ('metalElements', 64), ('timber', 320), ('metalAlloys', 192), ('landArea', 64)), (('population', 320), ('housing', 64), ('housingWaste', 64)), 'EU: 538562')
 ('TRANSFORM', 'MyCountry', (('population', 320), ('metalElements', 64), ('timber', 320), ('metalAlloys', 192), ('landArea', 64)), (('population', 320), ('housing', 64), ('housingWaste', 64)), 'EU: 969411')
 Number of solutions: 50
 Best solution EU: 969411
-MLD: 0.495661
-ARQ: 0.981478
+MLD: 0.000054
+ARQ: 0.976802
 Best Path: 
 ('TRANSFORM', 'MyCountry', (('population', 320), ('metalElements', 64), ('timber', 320), ('metalAlloys', 192), ('landArea', 64)), (('population', 320), ('housing', 64), ('housingWaste', 64)), 'EU: 538562')
 ('TRANSFORM', 'MyCountry', (('population', 320), ('metalElements', 64), ('timber', 320), ('metalAlloys', 192), ('landArea', 64)), (('population', 320), ('housing', 64), ('housingWaste', 64)), 'EU: 969411')
 Number of solutions: 100
 Best solution EU: 969411
-MLD: 0.495661
-ARQ: 0.981478
+MLD: 0.000054
+ARQ: 0.976802
 Best Path: 
 ('TRANSFORM', 'MyCountry', (('population', 320), ('metalElements', 64), ('timber', 320), ('metalAlloys', 192), ('landArea', 64)), (('population', 320), ('housing', 64), ('housingWaste', 64)), 'EU: 538562')
 ('TRANSFORM', 'MyCountry', (('population', 320), ('metalElements', 64), ('timber', 320), ('metalAlloys', 192), ('landArea', 64)), (('population', 320), ('housing', 64), ('housingWaste', 64)), 'EU: 969411')
 Number of solutions: 100
 Best solution EU: 969411
-MLD: 0.495661
-ARQ: 0.981478
+MLD: 0.000054
+ARQ: 0.976802
 Best Path: 
 ('TRANSFORM', 'MyCountry', (('population', 320), ('metalElements', 64), ('timber', 320), ('metalAlloys', 192), ('landArea', 64)), (('population', 320), ('housing', 64), ('housingWaste', 64)), 'EU: 538562')
 ('TRANSFORM', 'MyCountry', (('population', 320), ('metalElements', 64), ('timber', 320), ('metalAlloys', 192), ('landArea', 64)), (('population', 320), ('housing', 64), ('housingWaste', 64)), 'EU: 969411')

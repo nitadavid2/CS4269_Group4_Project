@@ -41,11 +41,14 @@ def a_star_search(start, depth, output_schedule_filename, solution_limit):
 
     def print_solution(answer_item):
         answer_value = -answer_item[0]
-        answer_path = answer_item[1].path
+        answer_state = answer_item[1]
+        answer_path = answer_state.path
 
         # TODO: Remove after testing.
         f.write("Number of solutions: %d\n" % (solution_queue.qsize() + 1))
         f.write("Best solution EU: %d\n" % answer_value)
+        f.write("MLD: %f\n" % Inequality.mean_log_dev(answer_state))
+        f.write("ARQ: %f\n" % Inequality.actor_rel_quality(answer_state))
         f.write("Best Path: \n")
         for action in answer_path:
             f.write("%s\n" % (action, ))
