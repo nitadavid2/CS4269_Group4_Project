@@ -1,3 +1,4 @@
+import Parameters as param
 import ResourceQuality
 import BasicOperations as Ops
 import copy
@@ -7,7 +8,7 @@ import random
 
 res_dict = ResourceQuality.resourceDict
 
-seed = 123456654321
+seed = param.seed
 
 
 class Country:
@@ -290,14 +291,10 @@ class State:
 
         def successors_for_war(path, countries, depth, player):
             if countries[player].war_quality >= -1:
-                if countries[player].war_ambition == 0:
-                    inclination_threshold = 0.99
-                else:
-                    inclination_threshold = 0.3
                 for target_c in countries:
                     if target_c != player:
                         war_inclination = countries[player].war_inclination(countries[target_c])
-                        if war_inclination >= inclination_threshold:
+                        if war_inclination >= countries[player].war_ambition:
                             path_to_update = copy.deepcopy(path)
                             countries_to_update = copy.deepcopy(countries)
                             init_state1 = countries[player].init_state_quality
@@ -314,7 +311,6 @@ class State:
                             new_state.eu = eu
                             if eu > (1000 - (countries[player].war_ambition * 700)):
                                 successor_list.append(new_state)
-
 
         # define quantity choices list for TRANSFORM successor function
         quantity_choices = (2 ** 0, 2 ** 1, 2 ** 2, 2 ** 3, 2 ** 4, 2 ** 5, 2 ** 6)
@@ -374,8 +370,8 @@ class State:
 
         return dr, cpp
 
-    def current_output(self):
-        csv_file = "./game_output_files/Output5.csv"
+    def current_output(self, file_name):
+        csv_file = file_name
         csv_columns = ['Name', 'population', 'metalElements', 'timber', 'landArea', 'water', 'metalAlloys',
                        'electronics', 'housing', 'food', 'metalAlloysWaste', 'housingWaste', 'electronicsWaste',
                        'foodWaste', 'score']

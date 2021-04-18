@@ -1,3 +1,4 @@
+import Parameters as param
 import ReadCountries
 import ReadInterventions
 import InterventionManager
@@ -9,7 +10,9 @@ from depq import DEPQ
 import queue
 import time
 
-seed = 123456654321
+
+seed = param.seed
+
 
 def print_solution(answer_item, count):
     answer_value = -answer_item[1]
@@ -23,7 +26,8 @@ def print_solution(answer_item, count):
         f.write("%s\n" % (action, ))
     f.write("******************\n\n")
 
-# inpsired by group 5
+
+# Inspired by group 5
 def search(start, depth, file, solution_limit, player, type, frontier_size):
     search_queue = DEPQ(maxlen=frontier_size)
     for suc in start.findSuccessor(player, type):
@@ -59,12 +63,16 @@ def search(start, depth, file, solution_limit, player, type, frontier_size):
     return answer_item[0], other
 
 
-initial_state_filename = "./input_files/countries_for_test.xlsx"
-output_schedule_filename = "./output_files/equal2.txt"
-num_rounds = 5
-solution_limit = 1000
-depth = 3
-frontier_size = 100
+initial_state_filename = param.initial_state_filename
+output_schedule_filename = param.output_schedule_filename
+game_state_print = param.game_state_print
+game_state_filename = param.game_state_filename
+
+num_rounds = param.num_rounds
+frontier_size = param.frontier_size
+use_dynamic_limits = param.use_dynamic_limits
+solution_limit = param.solution_limit
+depth = param.depth
 
 if __name__ == '__main__':
     country_dict = ReadCountries.getCountryDict(initial_state_filename)
@@ -79,14 +87,14 @@ if __name__ == '__main__':
 
     # Start state
 
-
     start = time.perf_counter()
     f = open(output_schedule_filename, "w")
     for i in range(num_rounds):
         for key in country_dict:
             cur_state = InterventionManager.intervention_manager(cur_state, key)
-            #solution_limit = (country_dict[key].resources["population"] - 9000) / 100
-            #depth = (country_dict[key].resources["population"] - 8000) / 1000
+            if use_dynamic_limits:
+                solution_limit = (country_dict[key].resources["population"] - 9000) / 100
+                depth = (country_dict[key].resources["population"] - 8000) / 1000
             cur_state, notpartner = search(cur_state, depth, f, solution_limit, key, "transform", frontier_size)
             proposed_state, partner = search(cur_state, 1, f, solution_limit, key, "transfer", frontier_size)
             if partner != "No trade":
@@ -112,5 +120,8 @@ if __name__ == '__main__':
     #    cur_state, notpartner = a_star_search(cur_state, 4, f, solution_limit, key, "transform")
     end = time.perf_counter()
     f.close()
-    cur_state.current_output()
+
+    if game_state_print:
+        cur_state.current_output(game_state_filename)
+
     print(f"Execution time: {end - start:0.4f}")

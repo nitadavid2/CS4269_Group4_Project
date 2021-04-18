@@ -28,10 +28,7 @@ def getCountryDict(FILE_PATH_INITSTATES):
 
         # print(data_list)
         init_state_quality = getStateQuality(data_dict)
-        if trade_selectivity == 1:
-            prob_parameter = [2, 200]
-        else:
-            prob_parameter = [1, 100]
+        prob_parameter = [trade_selectivity + 1, (trade_selectivity+1) * 100]
         countryDictionary[country] = Country(country, data_dict, init_state_quality, prob_parameter, war_ambition)
 
     return countryDictionary

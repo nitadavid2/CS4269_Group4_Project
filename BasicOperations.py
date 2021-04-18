@@ -1,10 +1,10 @@
-
 # Determine the Outcome of a war
 
 import ResourceQuality
 from numpy.random import default_rng
 
 res_dict = ResourceQuality.resourceDict
+
 
 def return_transform_info(resources, updated_resources, input_resources, output_resources, operator_summary):
     """
