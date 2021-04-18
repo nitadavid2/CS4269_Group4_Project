@@ -47,10 +47,8 @@ class Country:
 
     def deterrence_score(self, country):
 
-        det = 0
-
-        # TODO: check on which quality to use
-        det = (Ops.war_power(self)/Ops.war_power(country))
+        # Higher means other country is more powerful.
+        det = (Ops.war_power(country)/Ops.war_power(self))
 
         return det
 
@@ -66,8 +64,6 @@ class Country:
             model = data[1]
             scaling = data[2]
 
-            # TODO: Do we want scaling?
-
             our_quantity = self.resources[res]
             country_quantity = country.resources[res]
 
@@ -79,13 +75,20 @@ class Country:
         MaxDiff_XY = max(diff_dict)
         MaxDiff_YX = -min(diff_dict)
 
-        rel = MaxDiff_XY * MaxDiff_YX # TODO: Normalize
+        # Normalize by dividing max advantage over min advantage
+        # This is 1 when countries have equal imbalances of resources, symbolizing high
+        # potential for trade.
+        min_Diff = min(MaxDiff_YX, MaxDiff_XY)
+        max_Diff = max(MaxDiff_YX, MaxDiff_XY)
 
-        return rel
+        return min_Diff/max_Diff
 
     def war_inclination(self, country):
         det = self.deterrence_score(country)
         rel = self.relationship_score(country)
+
+        # This approaches 1 when countries really want war.
+        # Countries can be really negative, but this doesn't matter to us.
         return 1 - det * rel
 
 
@@ -150,11 +153,11 @@ class State:
                         d_r, par_p = self.country_participation_probability(b, init_state, 0.9, depth + 1, 0, 1)
 
                         # get utility by multiply p with MyCountry's participation probability and discounted reward
-                        eu =  d_r
+                        eu = d_r
 
                         # only generate and append the state to the list if the expected utility is larger than the
                         # threshold
-                        if eu >= 100000:
+                        if eu > 0:
                             path_to_update = copy.deepcopy(path)
                             countries_to_update = copy.deepcopy(countries)
 
@@ -252,14 +255,13 @@ class State:
                                                                                           depth + 1, prob_parameter2[0],
                                                                                           prob_parameter2[1])
 
-
                                     # get utility by multiply p with both countries' participation probabilities and
                                     # MyCountry's discounted reward
                                     eu = par_p1 * d_r2
 
                                     # only generate append the state to the list if the expected utility is larger than
                                     # the threshold
-                                    if eu >= 100000:
+                                    if eu > 0:
                                         path_to_update = copy.deepcopy(path)
                                         countries_to_update = copy.deepcopy(countries)
 
@@ -289,9 +291,9 @@ class State:
         def successors_for_war(path, countries, depth, player):
             if countries[player].war_quality >= -1:
                 if countries[player].war_ambition == 0:
-                    inclination_threshold = -1000000
+                    inclination_threshold = 0.99
                 else:
-                    inclination_threshold = -10000000000
+                    inclination_threshold = 0.3
                 for target_c in countries:
                     if target_c != player:
                         war_inclination = countries[player].war_inclination(countries[target_c])
@@ -373,7 +375,7 @@ class State:
         return dr, cpp
 
     def current_output(self):
-        csv_file = "./game_output_files/Output4.csv"
+        csv_file = "./game_output_files/Output5.csv"
         csv_columns = ['Name', 'population', 'metalElements', 'timber', 'landArea', 'water', 'metalAlloys',
                        'electronics', 'housing', 'food', 'metalAlloysWaste', 'housingWaste', 'electronicsWaste',
                        'foodWaste', 'score']

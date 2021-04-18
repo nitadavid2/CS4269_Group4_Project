@@ -2,6 +2,7 @@ import ReadCountries
 import ReadInterventions
 import InterventionManager
 import BasicOperations
+import ResourceQuality
 import random
 from Classes import State
 from depq import DEPQ
@@ -14,12 +15,13 @@ def print_solution(answer_item, count):
     answer_value = -answer_item[1]
     answer_path = answer_item[0].path
 
-    # TODO: Remove after testing.
+    # Print state after each search.
     f.write("Number of solutions: %d\n" % (count + 1))
     f.write("Best solution EU: %d\n" % answer_value)
     f.write("Best Path: \n")
     for action in answer_path:
         f.write("%s\n" % (action, ))
+    f.write("******************\n\n")
 
 # inpsired by group 5
 def search(start, depth, file, solution_limit, player, type, frontier_size):
@@ -34,8 +36,11 @@ def search(start, depth, file, solution_limit, player, type, frontier_size):
     count = 0
     while not search_queue.is_empty() and count < solution_limit:
         next_item = search_queue.popfirst()
+        adjusted_next_item = next_item[0], -next_item[1]
+
         next_state_value, next_state = next_item[1], next_item[0]
-        solution_queue.put(next_item)
+        solution_queue.put(adjusted_next_item)
+
         count = count + 1
         if next_state.depth < depth:
             for suc in next_state.findSuccessor(player, type):
@@ -72,6 +77,9 @@ if __name__ == '__main__':
     ints = ReadInterventions.getInterventions()
     print("Possible Interventions: ", ints)
 
+    # Start state
+
+
     start = time.perf_counter()
     f = open(output_schedule_filename, "w")
     for i in range(num_rounds):
@@ -96,7 +104,13 @@ if __name__ == '__main__':
                 cur_state = BasicOperations.war(key, target, cur_state, True, seed)
                 print("War occurs")
 
+            # Iterate through country - set init_state to current
+            for c_name in cur_state.countries:
+                country = cur_state.countries[c_name]
+                country.init_state_quality = ResourceQuality.getStateQuality(country.resources)
+
     #    cur_state, notpartner = a_star_search(cur_state, 4, f, solution_limit, key, "transform")
     end = time.perf_counter()
     f.close()
+    cur_state.current_output()
     print(f"Execution time: {end - start:0.4f}")
