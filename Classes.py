@@ -86,7 +86,6 @@ class Country:
     def war_inclination(self, country):
         det = self.deterrence_score(country)
         rel = self.relationship_score(country)
-
         return 1 - det * rel
 
 
@@ -289,10 +288,14 @@ class State:
 
         def successors_for_war(path, countries, depth, player):
             if countries[player].war_quality >= -1:
+                if countries[player].war_ambition == 0:
+                    inclination_threshold = -1000000
+                else:
+                    inclination_threshold = -10000000000
                 for target_c in countries:
                     if target_c != player:
                         war_inclination = countries[player].war_inclination(countries[target_c])
-                        if war_inclination >= -100000000000:
+                        if war_inclination >= inclination_threshold:
                             path_to_update = copy.deepcopy(path)
                             countries_to_update = copy.deepcopy(countries)
                             init_state1 = countries[player].init_state_quality
@@ -302,17 +305,13 @@ class State:
 
                             d_r1, par_p1 = self.country_participation_probability(new_state.countries[player].resources, init_state1, 0.9,
                                                                                   depth + 1, 0, 1)
-                            d_r2, par_p2 = self.country_participation_probability(new_state.countries[target_c].resources, init_state2, 0.9,
-                                                                                  depth + 1, 0, 1)
+                            
+                            advantage = countries[player].war_quality - countries[target_c].war_quality\
 
-                            new_state.countries[player].participation_prob = par_p1
-                            new_state.countries[target_c].participation_prob = par_p2
-
-                            # get utility by multiply p with both countries' participation probabilities and
-                            # MyCountry's discounted reward
-                            eu = d_r2
+                            eu = d_r1 * advantage
                             new_state.eu = eu
-                            successor_list.append(new_state)
+                            if eu > 1000:
+                                successor_list.append(new_state)
 
 
         # define quantity choices list for TRANSFORM successor function

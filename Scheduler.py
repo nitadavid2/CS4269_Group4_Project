@@ -1,6 +1,7 @@
 import ReadCountries
 import ReadInterventions
 import InterventionManager
+import BasicOperations
 import random
 from Classes import State
 from depq import DEPQ
@@ -44,7 +45,7 @@ def search(start, depth, file, solution_limit, player, type, frontier_size):
         answer_item = (start, start.eu)
     else:
         answer_item = solution_queue.get(False)
-        if type == "transfer":
+        if (type == "transfer" or type == "war"):
             other = answer_item[0].path[0][1]
     print_solution(answer_item, solution_queue.qsize())
 
@@ -90,7 +91,10 @@ if __name__ == '__main__':
                     print("declined transfer")
             else:
                 cur_state = proposed_state
-            cur_state, notpartner = search(cur_state, 1, f, solution_limit, key, "war", frontier_size)
+            war_goal, target = search(cur_state, 1, f, solution_limit, key, "war", frontier_size)
+            if target != "No trade":
+                cur_state = BasicOperations.war(key, target, cur_state, True, seed)
+                print("War occurs")
 
     #    cur_state, notpartner = a_star_search(cur_state, 4, f, solution_limit, key, "transform")
     end = time.perf_counter()
