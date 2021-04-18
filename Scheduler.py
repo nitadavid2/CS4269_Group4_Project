@@ -82,8 +82,8 @@ def a_star_search(start, depth, output_schedule_filename, solution_limit):
     f.close()
     return answer_item[1]
 
-initial_state_filename = "./input_files/MLD0.25_ARQ1.xlsx"
-output_schedule_filename = "./output_files/MLD0.25_ARQ1.txt"
+initial_state_filename = "./input_files/MLD0_ARQ2.xlsx"
+output_schedule_filename = "./output_files/MLD0_ARQ2.txt"
 depth = 2
 solution_limit = 100
 if __name__ == '__main__':
