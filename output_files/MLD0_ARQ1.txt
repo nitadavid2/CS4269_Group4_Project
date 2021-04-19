@@ -5,37 +5,62 @@ ARQ: 0.988428
 Best Path: 
 ('TRANSFORM', 'MyCountry', (('population', 320), ('metalElements', 64), ('timber', 320), ('metalAlloys', 192), ('landArea', 64)), (('population', 320), ('housing', 64), ('housingWaste', 64)), 'EU: 538562')
 Number of solutions: 5
-Best solution EU: 969411
-MLD: 0.000054
-ARQ: 0.976802
+Best solution EU: 1209508
+MLD: 0.000182
+ARQ: 0.958599
 Best Path: 
 ('TRANSFORM', 'MyCountry', (('population', 320), ('metalElements', 64), ('timber', 320), ('metalAlloys', 192), ('landArea', 64)), (('population', 320), ('housing', 64), ('housingWaste', 64)), 'EU: 538562')
 ('TRANSFORM', 'MyCountry', (('population', 320), ('metalElements', 64), ('timber', 320), ('metalAlloys', 192), ('landArea', 64)), (('population', 320), ('housing', 64), ('housingWaste', 64)), 'EU: 969411')
+('TRANSFORM', 'MyCountry', (('population', 320), ('metalElements', 64), ('timber', 320), ('metalAlloys', 192), ('landArea', 64)), (('population', 320), ('housing', 64), ('housingWaste', 64)), 'EU: 1187050')
+('TRANSFER', 'Atlantis', 'MyCountry', ('metalElements', 100), 'EU: 1206122')
+('TRANSFER', 'MyCountry', 'Atlantis', ('electronics', 48.83720930232558), 'EU: 1206122')
+('TRANSFER', 'Atlantis', 'MyCountry', ('metalElements', 100), 'EU: 1209508')
+('TRANSFER', 'MyCountry', 'Atlantis', ('electronics', 48.83720930232558), 'EU: 1209508')
 Number of solutions: 10
-Best solution EU: 969411
-MLD: 0.000054
-ARQ: 0.976802
+Best solution EU: 1209508
+MLD: 0.000182
+ARQ: 0.958599
 Best Path: 
 ('TRANSFORM', 'MyCountry', (('population', 320), ('metalElements', 64), ('timber', 320), ('metalAlloys', 192), ('landArea', 64)), (('population', 320), ('housing', 64), ('housingWaste', 64)), 'EU: 538562')
 ('TRANSFORM', 'MyCountry', (('population', 320), ('metalElements', 64), ('timber', 320), ('metalAlloys', 192), ('landArea', 64)), (('population', 320), ('housing', 64), ('housingWaste', 64)), 'EU: 969411')
+('TRANSFORM', 'MyCountry', (('population', 320), ('metalElements', 64), ('timber', 320), ('metalAlloys', 192), ('landArea', 64)), (('population', 320), ('housing', 64), ('housingWaste', 64)), 'EU: 1187050')
+('TRANSFER', 'Atlantis', 'MyCountry', ('metalElements', 100), 'EU: 1206122')
+('TRANSFER', 'MyCountry', 'Atlantis', ('electronics', 48.83720930232558), 'EU: 1206122')
+('TRANSFER', 'Atlantis', 'MyCountry', ('metalElements', 100), 'EU: 1209508')
+('TRANSFER', 'MyCountry', 'Atlantis', ('electronics', 48.83720930232558), 'EU: 1209508')
 Number of solutions: 50
-Best solution EU: 969411
-MLD: 0.000054
-ARQ: 0.976802
+Best solution EU: 1209508
+MLD: 0.000182
+ARQ: 0.958599
 Best Path: 
 ('TRANSFORM', 'MyCountry', (('population', 320), ('metalElements', 64), ('timber', 320), ('metalAlloys', 192), ('landArea', 64)), (('population', 320), ('housing', 64), ('housingWaste', 64)), 'EU: 538562')
 ('TRANSFORM', 'MyCountry', (('population', 320), ('metalElements', 64), ('timber', 320), ('metalAlloys', 192), ('landArea', 64)), (('population', 320), ('housing', 64), ('housingWaste', 64)), 'EU: 969411')
+('TRANSFORM', 'MyCountry', (('population', 320), ('metalElements', 64), ('timber', 320), ('metalAlloys', 192), ('landArea', 64)), (('population', 320), ('housing', 64), ('housingWaste', 64)), 'EU: 1187050')
+('TRANSFER', 'Atlantis', 'MyCountry', ('metalElements', 100), 'EU: 1206122')
+('TRANSFER', 'MyCountry', 'Atlantis', ('electronics', 48.83720930232558), 'EU: 1206122')
+('TRANSFER', 'Atlantis', 'MyCountry', ('metalElements', 100), 'EU: 1209508')
+('TRANSFER', 'MyCountry', 'Atlantis', ('food', 1166.6666666666667), 'EU: 1209508')
 Number of solutions: 100
-Best solution EU: 969411
-MLD: 0.000054
-ARQ: 0.976802
+Best solution EU: 1209508
+MLD: 0.000178
+ARQ: 0.958599
 Best Path: 
 ('TRANSFORM', 'MyCountry', (('population', 320), ('metalElements', 64), ('timber', 320), ('metalAlloys', 192), ('landArea', 64)), (('population', 320), ('housing', 64), ('housingWaste', 64)), 'EU: 538562')
 ('TRANSFORM', 'MyCountry', (('population', 320), ('metalElements', 64), ('timber', 320), ('metalAlloys', 192), ('landArea', 64)), (('population', 320), ('housing', 64), ('housingWaste', 64)), 'EU: 969411')
+('TRANSFORM', 'MyCountry', (('population', 320), ('metalElements', 64), ('timber', 320), ('metalAlloys', 192), ('landArea', 64)), (('population', 320), ('housing', 64), ('housingWaste', 64)), 'EU: 1187050')
+('TRANSFER', 'Atlantis', 'MyCountry', ('metalElements', 100), 'EU: 1206122')
+('TRANSFER', 'MyCountry', 'Atlantis', ('electronics', 48.83720930232558), 'EU: 1206122')
+('TRANSFER', 'Brobdingnag', 'MyCountry', ('metalElements', 100), 'EU: 1209508')
+('TRANSFER', 'MyCountry', 'Brobdingnag', ('electronics', 48.83720930232558), 'EU: 1209508')
 Number of solutions: 100
-Best solution EU: 969411
-MLD: 0.000054
-ARQ: 0.976802
+Best solution EU: 1209508
+MLD: 0.000178
+ARQ: 0.958599
 Best Path: 
 ('TRANSFORM', 'MyCountry', (('population', 320), ('metalElements', 64), ('timber', 320), ('metalAlloys', 192), ('landArea', 64)), (('population', 320), ('housing', 64), ('housingWaste', 64)), 'EU: 538562')
 ('TRANSFORM', 'MyCountry', (('population', 320), ('metalElements', 64), ('timber', 320), ('metalAlloys', 192), ('landArea', 64)), (('population', 320), ('housing', 64), ('housingWaste', 64)), 'EU: 969411')
+('TRANSFORM', 'MyCountry', (('population', 320), ('metalElements', 64), ('timber', 320), ('metalAlloys', 192), ('landArea', 64)), (('population', 320), ('housing', 64), ('housingWaste', 64)), 'EU: 1187050')
+('TRANSFER', 'Atlantis', 'MyCountry', ('metalElements', 100), 'EU: 1206122')
+('TRANSFER', 'MyCountry', 'Atlantis', ('electronics', 48.83720930232558), 'EU: 1206122')
+('TRANSFER', 'Dinotopia', 'MyCountry', ('metalElements', 100), 'EU: 1209508')
+('TRANSFER', 'MyCountry', 'Dinotopia', ('food', 1166.6666666666667), 'EU: 1209508')

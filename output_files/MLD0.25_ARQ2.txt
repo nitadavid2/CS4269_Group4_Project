@@ -6,47 +6,67 @@ Best Path:
 ('TRANSFER', 'Carpania', 'MyCountry', ('electronics', 100), 'EU: 193432')
 ('TRANSFER', 'MyCountry', 'Carpania', ('timber', 2150.0), 'EU: 193432')
 Number of solutions: 5
-Best solution EU: 348179
-MLD: 0.248166
-ARQ: 2.006129
+Best solution EU: 495180
+MLD: 0.245029
+ARQ: 1.994176
 Best Path: 
 ('TRANSFER', 'Carpania', 'MyCountry', ('electronics', 100), 'EU: 193432')
 ('TRANSFER', 'MyCountry', 'Carpania', ('timber', 2150.0), 'EU: 193432')
 ('TRANSFER', 'Carpania', 'MyCountry', ('electronics', 100), 'EU: 348179')
 ('TRANSFER', 'MyCountry', 'Carpania', ('timber', 2150.0), 'EU: 348179')
+('TRANSFER', 'Carpania', 'MyCountry', ('electronics', 100), 'EU: 470044')
+('TRANSFER', 'MyCountry', 'Carpania', ('timber', 2150.0), 'EU: 470044')
+('TRANSFER', 'Atlantis', 'MyCountry', ('metalAlloys', 100), 'EU: 495180')
+('TRANSFER', 'MyCountry', 'Atlantis', ('timber', 1100.0), 'EU: 495180')
 Number of solutions: 10
-Best solution EU: 348179
-MLD: 0.249360
-ARQ: 2.006131
+Best solution EU: 495180
+MLD: 0.246124
+ARQ: 1.995386
 Best Path: 
 ('TRANSFER', 'Carpania', 'MyCountry', ('electronics', 100), 'EU: 193432')
 ('TRANSFER', 'MyCountry', 'Carpania', ('timber', 2150.0), 'EU: 193432')
-('TRANSFER', 'Dinotopia', 'MyCountry', ('electronics', 100), 'EU: 348179')
-('TRANSFER', 'MyCountry', 'Dinotopia', ('timber', 2150.0), 'EU: 348179')
+('TRANSFER', 'Carpania', 'MyCountry', ('electronics', 100), 'EU: 348179')
+('TRANSFER', 'MyCountry', 'Carpania', ('timber', 2150.0), 'EU: 348179')
+('TRANSFER', 'Carpania', 'MyCountry', ('electronics', 100), 'EU: 470044')
+('TRANSFER', 'MyCountry', 'Carpania', ('timber', 2150.0), 'EU: 470044')
+('TRANSFER', 'Carpania', 'MyCountry', ('metalAlloys', 100), 'EU: 495180')
+('TRANSFER', 'MyCountry', 'Carpania', ('timber', 1100.0), 'EU: 495180')
 Number of solutions: 50
-Best solution EU: 348179
-MLD: 0.249655
-ARQ: 2.006125
+Best solution EU: 495180
+MLD: 0.246375
+ARQ: 1.994054
 Best Path: 
 ('TRANSFER', 'Carpania', 'MyCountry', ('electronics', 100), 'EU: 193432')
 ('TRANSFER', 'MyCountry', 'Carpania', ('timber', 2150.0), 'EU: 193432')
-('TRANSFER', 'Erewhon', 'MyCountry', ('electronics', 100), 'EU: 348179')
-('TRANSFER', 'MyCountry', 'Erewhon', ('timber', 2150.0), 'EU: 348179')
-Number of solutions: 100
-Best solution EU: 348179
-MLD: 0.249360
-ARQ: 2.006131
-Best Path: 
-('TRANSFER', 'Dinotopia', 'MyCountry', ('electronics', 100), 'EU: 193432')
-('TRANSFER', 'MyCountry', 'Dinotopia', ('timber', 2150.0), 'EU: 193432')
 ('TRANSFER', 'Carpania', 'MyCountry', ('electronics', 100), 'EU: 348179')
 ('TRANSFER', 'MyCountry', 'Carpania', ('timber', 2150.0), 'EU: 348179')
+('TRANSFER', 'Carpania', 'MyCountry', ('electronics', 100), 'EU: 470044')
+('TRANSFER', 'MyCountry', 'Carpania', ('timber', 2150.0), 'EU: 470044')
+('TRANSFER', 'Erewhon', 'MyCountry', ('metalAlloys', 100), 'EU: 495180')
+('TRANSFER', 'MyCountry', 'Erewhon', ('timber', 1100.0), 'EU: 495180')
 Number of solutions: 100
-Best solution EU: 348179
-MLD: 0.249655
-ARQ: 2.006125
+Best solution EU: 495180
+MLD: 0.246280
+ARQ: 1.994420
 Best Path: 
-('TRANSFER', 'Erewhon', 'MyCountry', ('electronics', 100), 'EU: 193432')
-('TRANSFER', 'MyCountry', 'Erewhon', ('timber', 2150.0), 'EU: 193432')
+('TRANSFER', 'Carpania', 'MyCountry', ('electronics', 100), 'EU: 193432')
+('TRANSFER', 'MyCountry', 'Carpania', ('timber', 2150.0), 'EU: 193432')
 ('TRANSFER', 'Carpania', 'MyCountry', ('electronics', 100), 'EU: 348179')
 ('TRANSFER', 'MyCountry', 'Carpania', ('timber', 2150.0), 'EU: 348179')
+('TRANSFER', 'Dinotopia', 'MyCountry', ('electronics', 100), 'EU: 470044')
+('TRANSFER', 'MyCountry', 'Dinotopia', ('timber', 2150.0), 'EU: 470044')
+('TRANSFER', 'Atlantis', 'MyCountry', ('metalAlloys', 100), 'EU: 495180')
+('TRANSFER', 'MyCountry', 'Atlantis', ('timber', 1100.0), 'EU: 495180')
+Number of solutions: 100
+Best solution EU: 495180
+MLD: 0.247882
+ARQ: 1.996965
+Best Path: 
+('TRANSFER', 'Carpania', 'MyCountry', ('electronics', 100), 'EU: 193432')
+('TRANSFER', 'MyCountry', 'Carpania', ('timber', 2150.0), 'EU: 193432')
+('TRANSFER', 'Carpania', 'MyCountry', ('electronics', 100), 'EU: 348179')
+('TRANSFER', 'MyCountry', 'Carpania', ('timber', 2150.0), 'EU: 348179')
+('TRANSFER', 'Dinotopia', 'MyCountry', ('electronics', 100), 'EU: 470044')
+('TRANSFER', 'MyCountry', 'Dinotopia', ('timber', 2150.0), 'EU: 470044')
+('TRANSFER', 'Carpania', 'MyCountry', ('metalAlloys', 100), 'EU: 495180')
+('TRANSFER', 'MyCountry', 'Carpania', ('timber', 1100.0), 'EU: 495180')
