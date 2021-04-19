@@ -1,6 +1,7 @@
 import openpyxl as xl
+import Scheduler
 
-FILE_PATH_WEIGHTS = "./input_files/Resources.xlsx"
+FILE_PATH_WEIGHTS = Scheduler.initial_resources_filename
 
 
 def getResources():
