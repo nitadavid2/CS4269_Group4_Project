@@ -14,6 +14,7 @@ seed = 123456654321
 # Game Input Files
 initial_state_filename = "./input_files/countries_for_test.xlsx"
 initial_resource_filename = "./input_files/Resources.xlsx"
+initial_interventions_filename = "./input_files/Interventions.xlsx"
 
 
 # Game Output Files
