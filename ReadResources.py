@@ -1,6 +1,7 @@
 import openpyxl as xl
+import Parameters
 
-FILE_PATH_WEIGHTS = "./input_files/Resources.xlsx"
+FILE_PATH_WEIGHTS = Parameters.initial_resource_filename
 
 
 def getResources():
