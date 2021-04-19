@@ -1,0 +1,52 @@
+Number of solutions: 1
+Best solution EU: 193418
+MLD: 0.480669
+ARQ: 2.015587
+Best Path: 
+('TRANSFER', 'Atlantis', 'MyCountry', ('electronics', 100), 'EU: 193418')
+('TRANSFER', 'MyCountry', 'Atlantis', ('timber', 2150.0), 'EU: 193418')
+Number of solutions: 5
+Best solution EU: 348154
+MLD: 0.464792
+ARQ: 2.006637
+Best Path: 
+('TRANSFER', 'Atlantis', 'MyCountry', ('electronics', 100), 'EU: 193418')
+('TRANSFER', 'MyCountry', 'Atlantis', ('timber', 2150.0), 'EU: 193418')
+('TRANSFER', 'Atlantis', 'MyCountry', ('electronics', 100), 'EU: 348154')
+('TRANSFER', 'MyCountry', 'Atlantis', ('timber', 2150.0), 'EU: 348154')
+Number of solutions: 10
+Best solution EU: 348154
+MLD: 0.479076
+ARQ: 2.006619
+Best Path: 
+('TRANSFER', 'Atlantis', 'MyCountry', ('electronics', 100), 'EU: 193418')
+('TRANSFER', 'MyCountry', 'Atlantis', ('timber', 2150.0), 'EU: 193418')
+('TRANSFER', 'Carpania', 'MyCountry', ('electronics', 100), 'EU: 348154')
+('TRANSFER', 'MyCountry', 'Carpania', ('timber', 2150.0), 'EU: 348154')
+Number of solutions: 50
+Best solution EU: 348154
+MLD: 0.480554
+ARQ: 2.006615
+Best Path: 
+('TRANSFER', 'Atlantis', 'MyCountry', ('electronics', 100), 'EU: 193418')
+('TRANSFER', 'MyCountry', 'Atlantis', ('timber', 2150.0), 'EU: 193418')
+('TRANSFER', 'Erewhon', 'MyCountry', ('electronics', 100), 'EU: 348154')
+('TRANSFER', 'MyCountry', 'Erewhon', ('timber', 2150.0), 'EU: 348154')
+Number of solutions: 100
+Best solution EU: 348154
+MLD: 0.480263
+ARQ: 2.006622
+Best Path: 
+('TRANSFER', 'Atlantis', 'MyCountry', ('electronics', 100), 'EU: 193418')
+('TRANSFER', 'MyCountry', 'Atlantis', ('timber', 2150.0), 'EU: 193418')
+('TRANSFER', 'Dinotopia', 'MyCountry', ('electronics', 100), 'EU: 348154')
+('TRANSFER', 'MyCountry', 'Dinotopia', ('timber', 2150.0), 'EU: 348154')
+Number of solutions: 100
+Best solution EU: 348154
+MLD: 0.480554
+ARQ: 2.006615
+Best Path: 
+('TRANSFER', 'Atlantis', 'MyCountry', ('electronics', 100), 'EU: 193418')
+('TRANSFER', 'MyCountry', 'Atlantis', ('timber', 2150.0), 'EU: 193418')
+('TRANSFER', 'Erewhon', 'MyCountry', ('electronics', 100), 'EU: 348154')
+('TRANSFER', 'MyCountry', 'Erewhon', ('timber', 2150.0), 'EU: 348154')
