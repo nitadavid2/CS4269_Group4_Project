@@ -1,0 +1,60 @@
+Number of solutions: 1
+Best solution EU: 494686
+Best Path: 
+('TRANSFORM', 'MyCountry', (('population', 192), ('metalElements', 128), ('metalAlloys', 128)), (('population', 192), ('electronics', 128), ('electronicsWaste', 128)), 'EU: 494686')
+Number of solutions: 5
+Best solution EU: 1316548
+Best Path: 
+('TRANSFORM', 'MyCountry', (('population', 192), ('metalElements', 128), ('metalAlloys', 128)), (('population', 192), ('electronics', 128), ('electronicsWaste', 128)), 'EU: 494686')
+('TRANSFORM', 'MyCountry', (('population', 192), ('metalElements', 128), ('metalAlloys', 128)), (('population', 192), ('electronics', 128), ('electronicsWaste', 128)), 'EU: 890252')
+('TRANSFORM', 'MyCountry', (('population', 192), ('metalElements', 128), ('metalAlloys', 128)), (('population', 192), ('electronics', 128), ('electronicsWaste', 128)), 'EU: 1201388')
+('TRANSFER', 'Brobdingnag', 'MyCountry', ('electronics', 100), 'EU: 1316548')
+('TRANSFER', 'MyCountry', 'Brobdingnag', ('food', 2388.8888888888887), 'EU: 1316548')
+Number of solutions: 10
+Best solution EU: 1316548
+Best Path: 
+('TRANSFORM', 'MyCountry', (('population', 192), ('metalElements', 128), ('metalAlloys', 128)), (('population', 192), ('electronics', 128), ('electronicsWaste', 128)), 'EU: 494686')
+('TRANSFORM', 'MyCountry', (('population', 192), ('metalElements', 128), ('metalAlloys', 128)), (('population', 192), ('electronics', 128), ('electronicsWaste', 128)), 'EU: 890252')
+('TRANSFORM', 'MyCountry', (('population', 192), ('metalElements', 128), ('metalAlloys', 128)), (('population', 192), ('electronics', 128), ('electronicsWaste', 128)), 'EU: 1201388')
+('TRANSFER', 'Dinotopia', 'MyCountry', ('electronics', 100), 'EU: 1316548')
+('TRANSFER', 'MyCountry', 'Dinotopia', ('food', 2388.8888888888887), 'EU: 1316548')
+Number of solutions: 50
+Best solution EU: 1316548
+Best Path: 
+('TRANSFORM', 'MyCountry', (('population', 192), ('metalElements', 128), ('metalAlloys', 128)), (('population', 192), ('electronics', 128), ('electronicsWaste', 128)), 'EU: 494686')
+('TRANSFORM', 'MyCountry', (('population', 192), ('metalElements', 128), ('metalAlloys', 128)), (('population', 192), ('electronics', 128), ('electronicsWaste', 128)), 'EU: 890252')
+('TRANSFORM', 'MyCountry', (('population', 192), ('metalElements', 128), ('metalAlloys', 128)), (('population', 192), ('electronics', 128), ('electronicsWaste', 128)), 'EU: 1201388')
+('TRANSFER', 'Erewhon', 'MyCountry', ('electronics', 100), 'EU: 1316548')
+('TRANSFER', 'MyCountry', 'Erewhon', ('food', 2388.8888888888887), 'EU: 1316548')
+Number of solutions: 100
+Best solution EU: 1316548
+Best Path: 
+('TRANSFORM', 'MyCountry', (('population', 192), ('metalElements', 128), ('metalAlloys', 128)), (('population', 192), ('electronics', 128), ('electronicsWaste', 128)), 'EU: 494686')
+('TRANSFORM', 'MyCountry', (('population', 192), ('metalElements', 128), ('metalAlloys', 128)), (('population', 192), ('electronics', 128), ('electronicsWaste', 128)), 'EU: 890252')
+('TRANSFORM', 'MyCountry', (('population', 192), ('metalElements', 128), ('metalAlloys', 128)), (('population', 192), ('electronics', 128), ('electronicsWaste', 128)), 'EU: 1201388')
+('TRANSFER', 'Brobdingnag', 'MyCountry', ('electronics', 100), 'EU: 1316548')
+('TRANSFER', 'MyCountry', 'Brobdingnag', ('food', 2388.8888888888887), 'EU: 1316548')
+Number of solutions: 500
+Best solution EU: 1316548
+Best Path: 
+('TRANSFORM', 'MyCountry', (('population', 192), ('metalElements', 128), ('metalAlloys', 128)), (('population', 192), ('electronics', 128), ('electronicsWaste', 128)), 'EU: 494686')
+('TRANSFORM', 'MyCountry', (('population', 192), ('metalElements', 128), ('metalAlloys', 128)), (('population', 192), ('electronics', 128), ('electronicsWaste', 128)), 'EU: 890252')
+('TRANSFORM', 'MyCountry', (('population', 192), ('metalElements', 128), ('metalAlloys', 128)), (('population', 192), ('electronics', 128), ('electronicsWaste', 128)), 'EU: 1201388')
+('TRANSFER', 'Erewhon', 'MyCountry', ('electronics', 100), 'EU: 1316548')
+('TRANSFER', 'MyCountry', 'Erewhon', ('food', 2388.8888888888887), 'EU: 1316548')
+Number of solutions: 1000
+Best solution EU: 1316548
+Best Path: 
+('TRANSFORM', 'MyCountry', (('population', 192), ('metalElements', 128), ('metalAlloys', 128)), (('population', 192), ('electronics', 128), ('electronicsWaste', 128)), 'EU: 494686')
+('TRANSFORM', 'MyCountry', (('population', 192), ('metalElements', 128), ('metalAlloys', 128)), (('population', 192), ('electronics', 128), ('electronicsWaste', 128)), 'EU: 890252')
+('TRANSFORM', 'MyCountry', (('population', 192), ('metalElements', 128), ('metalAlloys', 128)), (('population', 192), ('electronics', 128), ('electronicsWaste', 128)), 'EU: 1201388')
+('TRANSFER', 'Brobdingnag', 'MyCountry', ('electronics', 100), 'EU: 1316548')
+('TRANSFER', 'MyCountry', 'Brobdingnag', ('food', 2388.8888888888887), 'EU: 1316548')
+Number of solutions: 100000
+Best solution EU: 1316548
+Best Path: 
+('TRANSFORM', 'MyCountry', (('population', 192), ('metalElements', 128), ('metalAlloys', 128)), (('population', 192), ('electronics', 128), ('electronicsWaste', 128)), 'EU: 494686')
+('TRANSFORM', 'MyCountry', (('population', 192), ('metalElements', 128), ('metalAlloys', 128)), (('population', 192), ('electronics', 128), ('electronicsWaste', 128)), 'EU: 890252')
+('TRANSFER', 'Brobdingnag', 'MyCountry', ('electronics', 100), 'EU: 1062670')
+('TRANSFER', 'MyCountry', 'Brobdingnag', ('food', 2388.8888888888887), 'EU: 1062670')
+('TRANSFORM', 'MyCountry', (('population', 192), ('metalElements', 128), ('metalAlloys', 128)), (('population', 192), ('electronics', 128), ('electronicsWaste', 128)), 'EU: 1316548')
