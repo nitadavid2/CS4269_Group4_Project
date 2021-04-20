@@ -4,7 +4,9 @@
 num_rounds = 5
 frontier_size = 100
 
-use_dynamic_limits = True  # Calculate solution_limit and depth limit dynamically based on country properties ?
+  # Calculate solution_limit and depth limit dynamically based on country properties ?
+use_dynamic_solution_limit = True
+use_dynamic_depth_limit = True
 solution_limit = 1000
 depth = 3
 
@@ -14,9 +16,9 @@ seed = 123456654321
 
 
 # Game Input Files
-initial_state_filename = "./input_files/part1_samples/countries_for_test.xlsx"
+initial_state_filename = "./input_files/countries_for_test.xlsx"
 initial_resource_filename = "./input_files/Resources.xlsx"
-initial_interventions_filename = "./input_files/Interventions.xlsx"
+initial_interventions_filename = "./input_files/Interventions_case0.xlsx"
 
 
 # Game Output Files
