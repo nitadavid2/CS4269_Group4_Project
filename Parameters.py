@@ -4,7 +4,9 @@
 num_rounds = 7
 frontier_size = 100
 
-use_dynamic_limits = True  # Calculate solution_limit and depth limit dynamically based on country properties ?
+# Calculate solution_limit and depth limit dynamically based on country properties ?
+use_dynamic_solution_limit = True
+use_dynamic_depth_limit = True
 solution_limit = 1000
 depth = 3
 
