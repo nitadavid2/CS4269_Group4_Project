@@ -1,6 +1,7 @@
 import openpyxl as xl
 from ResourceQuality import getStateQuality
 from Classes import Country
+import Parameters
 
 
 def getCountryDict(FILE_PATH_INITSTATES):
@@ -28,7 +29,11 @@ def getCountryDict(FILE_PATH_INITSTATES):
 
         # print(data_list)
         init_state_quality = getStateQuality(data_dict)
-        prob_parameter = [trade_selectivity + 1, (trade_selectivity+1) * 100]
+        selectivity_parameter = Parameters.trade_selectivity_parameters
+        if trade_selectivity == 0:
+            prob_parameter = [selectivity_parameter[0], selectivity_parameter[1]]
+        else:
+            prob_parameter = [selectivity_parameter[2], selectivity_parameter[3]]
         countryDictionary[country] = Country(country, data_dict, init_state_quality, prob_parameter, war_ambition)
 
     return countryDictionary

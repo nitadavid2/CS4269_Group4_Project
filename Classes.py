@@ -367,7 +367,10 @@ class State:
         if abs(dr) < 0.00001:
             cpp = L / (1 + math.exp(-k * (dr - x_0))) if -k * (dr - x_0) < 100 else -1
         else:
-            cpp = L / (1 + math.exp(-k * (dr - x_0))) if -(k ** (dr/abs(dr) * -1)) * (dr - x_0) < 100 else -1
+            if -(k ** ((dr - x_0) / abs((dr - x_0)) * -1)) * (dr - x_0) < 100:
+                cpp = L / (1 + math.exp(-(k ** ((dr - x_0)/abs((dr - x_0)) * -1)) * (dr - x_0)))
+            else:
+                cpp = -1
 
         return dr, cpp
 
