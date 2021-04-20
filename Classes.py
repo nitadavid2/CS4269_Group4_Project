@@ -26,6 +26,7 @@ class Country:
         self.name = countryName
         self.resources = resources
         self.init_state_quality = init_state_quality
+        self.first_round_quality = init_state_quality
         self.participation_prob = -1
         self.war_quality = self.warfare_quality()
         self.prob_parameter = prob_parameter
@@ -379,7 +380,7 @@ class State:
             writer = csv.DictWriter(csv_file, fieldnames=csv_columns)
             writer.writeheader()
             for i in self.countries:
-                score = ResourceQuality.getStateQuality(self.countries[i].resources) - self.countries[i].init_state_quality
+                score = ResourceQuality.getStateQuality(self.countries[i].resources) - self.countries[i].first_round_quality
                 s = {'score': score}
                 a = {'Name': i}
                 a.update(self.countries[i].resources)
