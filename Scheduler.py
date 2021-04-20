@@ -74,6 +74,9 @@ use_dynamic_limits = param.use_dynamic_limits
 solution_limit = param.solution_limit
 depth = param.depth
 
+interventions_on = param.interventions_on
+
+
 if __name__ == '__main__':
     country_dict = ReadCountries.getCountryDict(initial_state_filename)
     cur_state = State(0, country_dict, [])
@@ -91,7 +94,10 @@ if __name__ == '__main__':
     f = open(output_schedule_filename, "w")
     for i in range(num_rounds):
         for key in country_dict:
-            cur_state = InterventionManager.intervention_manager(cur_state, key)
+
+            if interventions_on:
+                cur_state = InterventionManager.intervention_manager(cur_state, key)
+
             if use_dynamic_limits:
                 solution_limit = (country_dict[key].resources["population"] - 9000) / 100
                 depth = (country_dict[key].resources["population"] - 8000) / 1000

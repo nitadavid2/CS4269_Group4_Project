@@ -8,11 +8,13 @@ use_dynamic_limits = True  # Calculate solution_limit and depth limit dynamicall
 solution_limit = 1000
 depth = 3
 
+interventions_on = True  # Do we want interventions ?
+
 seed = 123456654321
 
 
 # Game Input Files
-initial_state_filename = "./input_files/countries_for_test.xlsx"
+initial_state_filename = "./input_files/part1_samples/countries_for_test.xlsx"
 initial_resource_filename = "./input_files/Resources.xlsx"
 initial_interventions_filename = "./input_files/Interventions.xlsx"
 
