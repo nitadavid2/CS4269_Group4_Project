@@ -9,6 +9,7 @@ from Classes import State
 from depq import DEPQ
 import queue
 import time
+import Inequality
 
 
 seed = param.seed
@@ -17,10 +18,13 @@ seed = param.seed
 def print_solution(answer_item, count):
     answer_value = -answer_item[1]
     answer_path = answer_item[0].path
+    answer_state = answer_item[0]
 
     # Print state after each search.
     f.write("Number of solutions: %d\n" % (count + 1))
     f.write("Best solution EU: %d\n" % answer_value)
+    if log_inequality:
+        f.write("MLD: %f\n" % Inequality.mean_log_dev(answer_state))
     f.write("Best Path: \n")
     for action in answer_path:
         f.write("%s\n" % (action, ))
@@ -76,11 +80,16 @@ solution_limit = param.solution_limit
 depth = param.depth
 
 interventions_on = param.interventions_on
+log_inequality = param.log_inequality
 
 
 if __name__ == '__main__':
     country_dict = ReadCountries.getCountryDict(initial_state_filename)
     cur_state = State(0, country_dict, [])
+
+    # print inequality
+    if log_inequality:
+        print("MLD: %f\n" % Inequality.mean_log_dev(cur_state))
 
     # Set random "seed"
     random.seed(seed)
@@ -124,7 +133,8 @@ if __name__ == '__main__':
             for c_name in cur_state.countries:
                 country = cur_state.countries[c_name]
                 country.init_state_quality = ResourceQuality.getStateQuality(country.resources)
-
+        if log_inequality:
+            print("MLD: %f\n" % Inequality.mean_log_dev(cur_state))
     #    cur_state, notpartner = a_star_search(cur_state, 4, f, solution_limit, key, "transform")
     end = time.perf_counter()
     f.close()
