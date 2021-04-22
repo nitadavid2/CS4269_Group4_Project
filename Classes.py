@@ -81,7 +81,7 @@ class Country:
         # This is 1 when countries have equal imbalances of resources, symbolizing high
         # potential for trade.
         min_Diff = min(MaxDiff_YX, MaxDiff_XY)
-        max_Diff = max(MaxDiff_YX, MaxDiff_XY)
+        max_Diff = max(MaxDiff_YX, MaxDiff_XY, 0.0000000001)
 
         return min_Diff/max_Diff
 
