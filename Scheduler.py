@@ -31,8 +31,11 @@ def print_solution(answer_item, count):
     f.write("******************\n\n")
 
 
-# Inspired by group 5
+# Searches for possible states that can be reached within a given depth, frontier and search limit
+# for a given action type by a given player. Logs schedules to provided output file.
 def search(start, depth, file, solution_limit, player, type, frontier_size):
+
+    # Use double ended priority queue for search frontier, inspired by group 5
     search_queue = DEPQ(maxlen=frontier_size)
     for suc in start.findSuccessor(player, type):
         # Use -util since PriorityQueue.get() takes item with lowest priority
