@@ -1,3 +1,11 @@
+# Determine the Outcome of a war
+
+import ResourceQuality
+from numpy.random import default_rng
+
+res_dict = ResourceQuality.resourceDict
+
+
 def return_transform_info(resources, updated_resources, input_resources, output_resources, operator_summary):
     """
     This function takes in needed resources dictionaries and input & output resources tuples to perform the operation
@@ -129,3 +137,119 @@ def transfer(sender, receiver, sender_resources, receiver_resources, transfer_re
         receiver_updated_resources[transfer_resource] += amount
         sender_updated_resources[transfer_resource] -= amount
     return operator_summary, sender_updated_resources, receiver_updated_resources
+
+
+# Determine = True - attacker wins by default
+def war(attacker, defender, state, determine=False, seed=None):
+    """
+    The war function models the occurrence of a war between nations, including the outcome if desired.
+    The function returns the state of the game world after the war is simulated, if desired, or otherwise
+    the state where attacker always wins.
+    attacker: the name of the attacking country.
+    defender: the name of the defending country.
+    state: the world state at the time of war commencement.
+    determine: should the outcome of the war be simulated? False by default, which returns the state
+    assuming the attacker always wins.
+    seed: the random number generator seed, None by default.
+    Return: the state after war has been simulated, if desired, or after attacker is assumed to win.
+    """
+    a_country = state.countries[attacker]
+    d_country = state.countries[defender]
+
+    a_power = war_power(a_country)
+    d_power = war_power(d_country)
+
+    # Determine the "winner"
+    loc = (a_power - d_power) / d_power  # loc is mean of Normal Distr.
+    scale = 0  # scale = std. dev of Normal Distr.
+
+    rng = default_rng(seed)
+    val = rng.normal(loc, scale, 0)
+
+    a_winner = val >= -1
+
+    # Handle redistribution of resources
+    if a_winner or not determine:
+        state = distribute_spoils(attacker, defender, state)
+    else:
+        state = distribute_spoils(defender, attacker, state)
+
+    return state
+
+
+def war_power(country):
+    """
+    The war_power function returns a numeric score corresponding to the strength of
+    a country in wars. This is used to model war outcomes and war inclination.
+    country: the country object of the country being analyzed.
+    Return: a double corresponding to the power of a country in war.
+    """
+    c_resources = country.resources
+    power = -1
+
+    # Iterate across resources
+    for res in c_resources:
+        quantity = c_resources[res]
+        quality = res_dict[res][8]
+
+        power += quality * quantity
+
+    return power
+
+
+def distribute_spoils(victor, loser, state):
+    """
+    The distribute_spoils function enacts a war outcome by altering the state's
+    of the victor and loser respectively.
+    victor: the name of the victorious country.
+    loser: the name of the losing country.
+    state: the state to be altered.
+    Return: the altered state.
+    """
+    v_country = state.countries[victor]
+    l_country = state.countries[loser]
+
+    changed_resources = []
+
+    for res in v_country.resources:
+        taking = l_country.resources[res] * res_dict[res][6]
+
+        v_country.resources[res] += taking
+        l_country.resources[res] -= taking
+        changed_resources.append((res, taking))
+    #
+    operator_summary = ('WAR', loser, victor, tuple(changed_resources))
+    state.path.append(operator_summary)
+
+    state.countries[victor] = v_country
+    state.countries[loser] = l_country
+
+    return state
+
+
+def destruction(victor, loser, state):
+    """
+    The destruction function alters the game state by
+    modeling the natural destruction that occurs in a war.
+    This represents the negative-sum nature of war.
+    victor: the name of the victorious country.
+    loser: the name of the losing country.
+    state: the state to be altered.
+    NOTE: This function is implemented but not actually used in our
+    final part 2 implementation.
+    """
+    v_country = state.countries[victor]
+    l_country = state.countries[loser]
+
+    for res in l_country.resources:
+        destroy = l_country.resources[res] * res_dict[res][7]
+        l_country.resources[res] -= destroy
+
+    for res in v_country.resources:
+        destroy = v_country.resources[res] * res_dict[res][7]
+        v_country.resources[res] -= destroy
+
+    state.countries[victor] = v_country
+    state.countries[loser] = l_country
+
+    return state

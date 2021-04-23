@@ -9,11 +9,29 @@ import ReadInterventions
 def intervention_manager(state, key, interventions_list=ReadInterventions.getInterventions()):
     """
     Manage the interventions that may/may not occur to a country during a given turn.
-    NOTE: This function relies on a file being read in to populate interventions_list.
     :param state: The current world state
     :param key: The country that is to be given (or spared) interventions.
-    :param interventions_list: A dictionary of possible interventions.
-    TODO: Format details
+    :param interventions_list: A dictionary of possible interventions. Otherwise,
+    this function relies on a file read in to populate interventions_list at start of game.
+    The format of this file is:
+    [Name] [Type] [Base Probability] [Min Probability] [Max Probability] [Scaling] [Impacts].
+    [Name] = Intervention Name
+    [Type] = The type of disaster being modeled. I.e., deterministic (determined by country's state)
+            or fixed (constant %)
+    [Base Probability] = The starting point for probability calculations. When type is fixed, this
+                        equals the actual disaster probability.
+    [Min Probability] = This applies to deterministic calculations. Calculated probability will
+                        never be lower than this limit.
+    [Max Probability] = This applies to deterministic calculations. Calculated probability will
+                        never be greater than this limit.
+    [Scaling] = A dictionary of resources and scalar values used in deterministic probability
+                calculations. A country's resource quantity is multiplied by the associated
+                scalar. These calculated values are added to base probability to determine the
+                final probability.
+    [Impacts] = A dictionary of resources and scalars that represent the impact of a disaster
+                happening. A country's resource quantity is multiplied by the scalar and that
+                calculated value is added to the existing amount of a country's resource (usually
+                this is negative, so resources are lost in disaster).
     :return: The country state after any possible interventions are applied.
     """
     country = state.countries[key]
@@ -60,7 +78,6 @@ def intervention_manager(state, key, interventions_list=ReadInterventions.getInt
             #       "%.",
             #       sep='')
 
-        # TODO finish impl.
         r = random.random()
 
         # Do we apply event?

@@ -1,8 +1,13 @@
+import Parameters as param
 import ResourceQuality
-import BasicOperations
+import BasicOperations as Ops
 import copy
 import math
 import csv
+
+res_dict = ResourceQuality.resourceDict
+
+seed = param.seed
 
 
 class Country:
@@ -10,27 +15,115 @@ class Country:
     A class that defines the country object for every country in our countries dictionary. Each country object contains
     all kinds of information for this country.
     """
-    def __init__(self, countryName, resources, init_state_quality):
+    def __init__(self, countryName, resources, init_state_quality, prob_parameter, war_ambition):
         """
         Initializing the country's name, resources, initial state quality, and participation probability here.
         :param countryName: String for the country's name
         :param resources: A dictionary containing the amounts of resources in the country
         :param init_state_quality: Int for the initial state quality of the country
+        :param prob_parameter: A list containing parameters for probability calculation in transfer successor function
+        :param war_ambition: Long indicating the war ambition level of a country
         """
         self.name = countryName
         self.resources = resources
         self.init_state_quality = init_state_quality
+        self.first_round_quality = init_state_quality
         self.participation_prob = -1
+        self.war_quality = self.warfare_quality()
+        self.prob_parameter = prob_parameter
+        self.war_ambition = war_ambition
 
     def warfare_quality(self):
+        """
+        The warfare_quality function returns a number corresponding to the
+        necessity of a country needing to resort to war to meet its needs.
+        Return: a double corresponding to the necessity for the country to go to war.
+        """
+        war_Quality = 0
+        for res in res_dict:
 
-        # TODO: define implentation
-        return -1
+            set = res_dict[res]
+            thresh1 = set[3]
+            our_res = self.resources[res]
+            warweight = set[8]
 
-    def deterrence_score(self,state):
+            #no the war weights yet
+            war_Quality += (((thresh1 - our_res)/thresh1) * warweight)
 
-        # TODO: define
-        return -1
+        return war_Quality
+
+    def deterrence_score(self, country):
+        """
+        The deterrence_score function returns a number corresponding to the fear
+        a country has in taking on another specific country based on the relative weighting
+        of the other's war power and the country's own war power.
+        country: the name of the country to which self is being compared to.
+        Return: a double representing the ratio of the potential opponent's power to the
+        war power of self.
+        """
+
+        # Higher means other country is more powerful.
+        det = (Ops.war_power(country)/Ops.war_power(self))
+
+        return det
+
+    def relationship_score(self, country):
+        """
+        The relationship_score function models the preference a country has to trading with
+        another specific country as opposed to war with that other country.
+        country: the name of the country to which self is being compared to.
+        Return: a double representing the strength of the preference
+        that self has to trading with the other country rather than
+        resorting to war.
+        """
+
+        diff_dict = list()
+
+        for res in res_dict:
+            # Iterative look in dictionary
+            data = res_dict[res]
+
+            weight = data[0]  # Economic weights
+            model = data[1]
+            scaling = data[2]
+
+            our_quantity = self.resources[res]
+            country_quantity = country.resources[res]
+
+            # Analyze diff (- of this is the advantage of other country to us)
+            diff = our_quantity - country_quantity
+            diff_dict.append(diff)
+
+        # Now find max, min in diff_dict. Negate min and apply to formula. This
+        # represents the amount of the difference between the countries most
+        # unequal resource.
+        MaxDiff_XY = max(diff_dict)
+        MaxDiff_YX = -min(diff_dict)
+
+        # Normalize by dividing max advantage over min advantage
+        # This is 1 when countries have equal imbalances of resources, symbolizing high
+        # potential for trade.
+        min_Diff = min(MaxDiff_YX, MaxDiff_XY)
+        max_Diff = max(MaxDiff_YX, MaxDiff_XY, 0.0000000001)
+
+        return min_Diff/max_Diff
+
+    def war_inclination(self, country):
+        """
+        The war_inclination function returns a single numeric value representing the potential
+        gains vs. losses of self going to war with another specific country.
+        country: the name of the country to which self is considering war with.
+        Return: a double representing the inclination of self going to
+        war with another specific country. The closer this is to 1, the more inclined
+        the country is to war.
+        """
+        det = self.deterrence_score(country)
+        rel = self.relationship_score(country)
+
+        # This approaches 1 when countries really want war.
+        # Countries can be really negative, but this doesn't matter to us.
+        return 1 - det * rel
+
 
 class State:
     """
@@ -60,17 +153,20 @@ class State:
         This function finds all possible successor states for the given state. It contains two inner functions:
         successors_for_transform and successors_for_transfer which find successor states for different TRANSFORM and
         TRANSFER operations respectively.
+        :param player: A string indicating the player/country
+        :param type: A string indicating the operation type
         :return: A tuple containing all the states found.
         """
 
         def successors_for_transform(path, countries, depth, player):
             """
-            This function finds all possible successor states after performing TRANSFORM for the given state. I explores
-            all possible TRANSFORM operations for MyCountry in this state and only passes in states whose expected
+            This function finds all possible successor states after performing TRANSFORM for the given state. It explores
+            all possible TRANSFORM operations for the player in this state and only passes in states whose expected
             utilities are higher than the threshold.
             :param path: A list indicating the given state's path
             :param countries: A dictionary indicating all of the countries in the given state's
             :param depth: Int indicating the given state's schedule depth in the search tree
+            :param player: String indicating the country/player
             """
             # go through the list of different quantities for TRANSFORM operator which determine the resource
             # amount that MyCountry can get in this TRANSFORM
@@ -80,7 +176,7 @@ class State:
                 for transform_type in transform_types:
 
                     # perform the TRANSFORM operator
-                    a, b = BasicOperations.transform(player, resources, quantity, transform_type)
+                    a, b = Ops.transform(player, resources, quantity, transform_type)
 
                     # look at the new state if the operator is successfully performed
                     if a:
@@ -92,22 +188,12 @@ class State:
                         # calculate the probability: d_r as the discounted reward and par_p as the probability
                         d_r, par_p = self.country_participation_probability(b, init_state, 0.9, depth + 1, 0, 1)
 
-                        # First calculate the schedule success probability by multiplying the participation probability
-                        # of all countries involved in the schedule. Then calculate the expected utility of this
-                        # schedule.
-                        p = 1
-                        for i in countries:
-
-                            # multiply all involved countries' participation probability except MyCountry
-                            if i != player and countries[i].participation_prob != -1:
-                                p = p * countries[i].participation_prob
-
                         # get utility by multiply p with MyCountry's participation probability and discounted reward
-                        eu = p * par_p * d_r
+                        eu = d_r
 
                         # only generate and append the state to the list if the expected utility is larger than the
                         # threshold
-                        if eu >= 100000:
+                        if eu > 0:
                             path_to_update = copy.deepcopy(path)
                             countries_to_update = copy.deepcopy(countries)
 
@@ -132,12 +218,13 @@ class State:
 
         def successors_for_transfer(path, countries, depth, player):
             """
-            This function finds all possible successor states after performing TRANSFER for the given state. I explores
-            all possible TRANSFER operations for MyCountry in this state and only passes in states whose expected
+            This function finds all possible successor states after performing TRANSFER for the given state. It explores
+            all possible TRANSFER operations for the player in this state and only passes in states whose expected
             utilities are higher than the threshold.
             :param path: A list indicating the given state's path
             :param countries: A dictionary indicating all of the countries in the given state's
             :param depth: Int indicating the given state's schedule depth in the search tree
+            :param player: String indicating the country/player
             """
             # go through the list of different quantities for TRANSFER operator which determine the resource
             # amount that MyCountry can get in this TRANSFER
@@ -167,7 +254,7 @@ class State:
 
                                 # perform step 1 of the trade by doing one TRANSFER (MyCountry accepts desired
                                 # resources from the target country)
-                                a1, b1, c1 = BasicOperations.transfer(target_c, player,
+                                a1, b1, c1 = Ops.transfer(target_c, player,
                                                                       countries[target_c].resources, resources,
                                                                       desired_resource[0], quantity)
 
@@ -177,11 +264,11 @@ class State:
 
                                 # perform step 2 of the trade (when we choose to accept wastes)
                                 if 'Waste' in r[0]:
-                                    a2, b2, c2 = BasicOperations.transfer(target_c, player, b1,
+                                    a2, b2, c2 = Ops.transfer(target_c, player, b1,
                                                                           c1, r[0], trade_amount)
                                 # perform step 2 of the trade (when we choose to give out other resources)
                                 else:
-                                    a2, c2, b2 = BasicOperations.transfer(player, target_c, c1,
+                                    a2, c2, b2 = Ops.transfer(player, target_c, c1,
                                                                           b1, r[0], trade_amount)
 
                                 # look at the new state if the 2 TRANSFER operators for both steps of the trade are
@@ -193,31 +280,28 @@ class State:
                                     init_state1 = countries[target_c].init_state_quality
                                     init_state2 = countries[player].init_state_quality
 
+                                    # prob_parameter1 as the k, x_0 for not trading selective countries, prob_parameter2
+                                    # for selective countries
+                                    prob_parameter1 = countries[target_c].prob_parameter
+                                    prob_parameter2 = countries[player].prob_parameter
+
                                     # calculate the probabilities for both countries: d_r as the discounted reward and
-                                    # par_p as the probability
+                                    # par_p as the probability using the prob_parameter as an implementation of trading
+                                    # strategies here
                                     d_r1, par_p1 = self.country_participation_probability(b2, init_state1, 0.9,
-                                                                                          depth + 1, 0, 1)
+                                                                                          depth + 1, prob_parameter1[0],
+                                                                                          prob_parameter1[1])
                                     d_r2, par_p2 = self.country_participation_probability(c2, init_state2, 0.9,
-                                                                                          depth + 1, 0, 1)
-
-                                    # First calculate the schedule success probability by multiplying the participation
-                                    # probability of all countries involved in the schedule. Then calculate the expected
-                                    # utility of this schedule.
-                                    p = 1
-                                    for i in countries:
-
-                                        # multiply all involved countries' participation probability except the two
-                                        # countries involved in the trade
-                                        if i != target_c and i != player and countries[i].participation_prob != -1:
-                                            p = p * countries[i].participation_prob
+                                                                                          depth + 1, prob_parameter2[0],
+                                                                                          prob_parameter2[1])
 
                                     # get utility by multiply p with both countries' participation probabilities and
                                     # MyCountry's discounted reward
-                                    eu = p * par_p1 * par_p2 * d_r2
+                                    eu = par_p1 * d_r2
 
                                     # only generate append the state to the list if the expected utility is larger than
                                     # the threshold
-                                    if eu >= 100000:
+                                    if eu > 0:
                                         path_to_update = copy.deepcopy(path)
                                         countries_to_update = copy.deepcopy(countries)
 
@@ -243,6 +327,44 @@ class State:
 
                                         # append the new state to the successor state list
                                         successor_list.append(new_state)
+
+        def successors_for_war(path, countries, depth, player):
+            """
+            This function finds all possible successor states after performing WAR for the given state. It explores
+            all possible WAR operations for the player in this state and only passes in states when warfare quality
+            and war inclination function tell it that the war is appropriate.
+            :param path: A list indicating the given state's path
+            :param countries: A dictionary indicating all of the countries in the given state's
+            :param depth: Int indicating the given state's schedule depth in the search tree
+            :param player: String indicating the country/player
+            """
+            # check warfare quality here
+            if countries[player].war_quality >= -1:
+
+                for target_c in countries:
+                    if target_c != player:
+                        war_inclination = countries[player].war_inclination(countries[target_c])
+
+                        # comparing war inclination and the country's war ambition to decide if go to war
+                        if war_inclination >= countries[player].war_ambition:
+                            path_to_update = copy.deepcopy(path)
+                            countries_to_update = copy.deepcopy(countries)
+                            init_state1 = countries[player].init_state_quality
+                            new_state = State(depth + 1, countries_to_update, path_to_update)
+                            new_state = Ops.war(player, target_c, new_state, False, seed)
+
+                            # calculate participation probability for expected utility
+                            d_r1, par_p1 = self.country_participation_probability(new_state.countries[player].resources, init_state1, 0.9,
+                                                                                  depth + 1, 0, 1)
+
+                            advantage = countries[player].war_quality - countries[target_c].war_quality\
+
+                            eu = d_r1 * advantage
+                            new_state.eu = eu
+
+                            # check expected utility before appending the new state into the list
+                            if eu > (1000 - (countries[player].war_ambition * 700)):
+                                successor_list.append(new_state)
 
         # define quantity choices list for TRANSFORM successor function
         quantity_choices = (2 ** 0, 2 ** 1, 2 ** 2, 2 ** 3, 2 ** 4, 2 ** 5, 2 ** 6)
@@ -270,6 +392,8 @@ class State:
             successors_for_transform(self.path, self.countries, self.depth, player)
         if type == "transfer":
             successors_for_transfer(self.path, self.countries, self.depth, player)
+        if type == 'war':
+            successors_for_war(self.path, self.countries, self.depth, player)
 
         return tuple(successor_list)
 
@@ -293,12 +417,24 @@ class State:
         dr = gamma ** depth * (sq - init_s)
 
         # calculate the country's participation probability
-        cpp = L / (1 + math.exp(-k * (dr - x_0))) if -k * (dr - x_0) < 100 else -1
+        if abs(dr) < 0.00001:
+            cpp = L / (1 + math.exp(-k * (dr - x_0))) if -k * (dr - x_0) < 100 else -1
+        else:
+            if -(k ** ((dr - x_0) / abs((dr - x_0)) * -1)) * (dr - x_0) < 100:
+                cpp = L / (1 + math.exp(-(k ** ((dr - x_0)/abs((dr - x_0)) * -1)) * (dr - x_0)))
+            else:
+                cpp = -1
 
         return dr, cpp
 
-    def current_output(self):
-        csv_file = "./game_output_files/Output1.csv"
+    def current_output(self, file_name):
+        """
+        current_output is a helper function that prints the current best path, and best path EU
+        to a file.
+        file_name: the path to write to.
+        Return: void.
+        """
+        csv_file = file_name
         csv_columns = ['Name', 'population', 'metalElements', 'timber', 'landArea', 'water', 'metalAlloys',
                        'electronics', 'housing', 'food', 'metalAlloysWaste', 'housingWaste', 'electronicsWaste',
                        'foodWaste', 'score']
@@ -306,7 +442,7 @@ class State:
             writer = csv.DictWriter(csv_file, fieldnames=csv_columns)
             writer.writeheader()
             for i in self.countries:
-                score = ResourceQuality.getStateQuality(self.countries[i].resources) - self.countries[i].init_state_quality
+                score = ResourceQuality.getStateQuality(self.countries[i].resources) - self.countries[i].first_round_quality
                 s = {'score': score}
                 a = {'Name': i}
                 a.update(self.countries[i].resources)

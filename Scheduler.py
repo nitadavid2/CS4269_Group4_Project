@@ -1,97 +1,98 @@
+import Parameters as param
 import ReadCountries
 import ReadInterventions
 import InterventionManager
+import BasicOperations
+import ResourceQuality
 import random
 from Classes import State
+from depq import DEPQ
 import queue
 import time
+import Inequality
 
-seed = 123456654321
+
+seed = param.seed
 
 
-def a_star_search(start, depth, f, solution_limit, player, type):
-    """
-    Implement a search algorithm based on A* algorithm. The specific implementation we use
-    does not currently use a heuristic (so it is more like a greedy search algorithm for now).
-    In addition, this is a depth limited algorithm, so the most promising successors that
-    do not violate the depth limit are explored before less promising successors. The function is designed
-    to either run to completion or it can be modified with a timer/frontier limit to behave like
-    an "anytime algorithm."
-    :param start: the start state.
-    :param depth: the depth limit
-    :return: The best solution (expected utility) found.
-    """
-    # We will use a priority queue for the A* implementation.
-    # We will expand the frontier each time by expanding the "best path" using the
-    # -(expected utility - utility) as priority.
-    search_queue = queue.PriorityQueue()
+def print_solution(answer_item, count):
+    answer_value = -answer_item[1]
+    answer_path = answer_item[0].path
+    answer_state = answer_item[0]
 
-    # We will have a queue of possible, valid paths discovered in the search
-    solution_queue = queue.PriorityQueue()
+    # Print state after each search.
+    f.write("Number of solutions: %d\n" % (count + 1))
+    f.write("Best solution EU: %d\n" % answer_value)
+    if log_inequality:
+        f.write("MLD: %f\n" % Inequality.mean_log_dev(answer_state))
+    f.write("Best Path: \n")
+    for action in answer_path:
+        f.write("%s\n" % (action, ))
+    f.write("******************\n\n")
 
-    # A "schedule" is defined as list of actions (transfers or transforms)
 
-    # Keeps track of solutions explored
-    count = 0
+# Searches for possible states that can be reached within a given depth, frontier and search limit
+# for a given action type by a given player. Logs schedules to provided output file.
+def search(start, depth, file, solution_limit, player, type, frontier_size):
 
-    # Open output file
-
-    # Initialize search_queue
+    # Use double ended priority queue for search frontier, inspired by group 5
+    search_queue = DEPQ(maxlen=frontier_size)
     for suc in start.findSuccessor(player, type):
         # Use -util since PriorityQueue.get() takes item with lowest priority
         # if eu >= 10:
-        search_queue.put((-suc.eu, suc))
+        search_queue.insert(suc, suc.eu)
 
-    def print_solution(answer_item):
-        answer_value = -answer_item[0]
-        answer_path = answer_item[1].path
+    solution_queue = queue.PriorityQueue()
 
-        # TODO: Remove after testing.
-        f.write("Number of solutions: %d\n" % (solution_queue.qsize() + 1))
-        f.write("Best solution EU: %d\n" % answer_value)
-        f.write("Best Path: \n")
-        for action in answer_path:
-            f.write("%s\n" % (action, ))
+    count = 0
+    while not search_queue.is_empty() and count < solution_limit:
+        next_item = search_queue.popfirst()
+        adjusted_next_item = next_item[0], -next_item[1]
 
-    # Explore search_queue
-    while search_queue.qsize() > 0:
-        next_item = search_queue.get()
-        next_state_value, next_state = next_item[0], next_item[1]
+        next_state_value, next_state = next_item[1], next_item[0]
+        solution_queue.put(adjusted_next_item)
 
-        # Push current state to queue storing possible solutions
-        solution_queue.put(next_item)
         count = count + 1
-        #if count == 1 or count == 5 or count == 10 or count == 50 or count == 100 or count == 500 or count == 1000:
-        #    answer_item = solution_queue.get()
-        #    print_solution(answer_item)
-        #    solution_queue.put(answer_item)
-        if count == solution_limit:
-            break
-
-        # Before we go on, check current depth
         if next_state.depth < depth:
-            # Now generate successors
             for suc in next_state.findSuccessor(player, type):
-                # Add to queue
-                search_queue.put((-suc.eu, suc))
+                search_queue.insert(suc, suc.eu)
+    other = "No trade"
+    if solution_queue.empty():
+        answer_item = (start, start.eu)
+    else:
+        answer_item = solution_queue.get(False)
+        if (type == "transfer" or type == "war"):
+            other = answer_item[0].path[0][1]
+    print_solution(answer_item, solution_queue.qsize())
 
-    # Return best option
-    answer_item = solution_queue.get()
-    print_solution(answer_item)
-    other = "testing"
-    if type == "transfer":
-        other = answer_item[1].path[0][1]
-    answer_item[1].path = []
-    answer_item[1].depth = 0
-    return answer_item[1], other
+    answer_item[0].path = []
+    answer_item[0].depth = 0
+    return answer_item[0], other
 
-initial_state_filename = "./input_files/countries.xlsx"
-output_schedule_filename = "./output_files/equal2.txt"
-num_rounds = 4
-solution_limit = 100
+
+initial_state_filename = param.initial_state_filename
+output_schedule_filename = param.output_schedule_filename
+game_state_print = param.game_state_print
+game_state_filename = param.game_state_filename
+
+num_rounds = param.num_rounds
+frontier_size = param.frontier_size
+use_dynamic_solution_limit = param.use_dynamic_solution_limit
+use_dynamic_depth_limit = param.use_dynamic_depth_limit
+solution_limit = param.solution_limit
+depth = param.depth
+
+interventions_on = param.interventions_on
+log_inequality = param.log_inequality
+
+
 if __name__ == '__main__':
     country_dict = ReadCountries.getCountryDict(initial_state_filename)
     cur_state = State(0, country_dict, [])
+
+    # print inequality
+    if log_inequality:
+        print("MLD: %f\n" % Inequality.mean_log_dev(cur_state))
 
     # Set random "seed"
     random.seed(seed)
@@ -100,24 +101,48 @@ if __name__ == '__main__':
     ints = ReadInterventions.getInterventions()
     print("Possible Interventions: ", ints)
 
+    # Start state
+
     start = time.perf_counter()
     f = open(output_schedule_filename, "w")
     for i in range(num_rounds):
         for key in country_dict:
-            cur_state = InterventionManager.intervention_manager(cur_state, key)
-            solution_limit = (country_dict[key].resources["population"] - 9000) / 100
-            depth = (country_dict[key].resources["population"] - 8000) / 1000
-            cur_state, notpartner = a_star_search(cur_state, depth, f, solution_limit, key, "transform")
-            proposed_state, partner = a_star_search(cur_state, 1, f, solution_limit, key, "transfer")
-            accept, notpartner = a_star_search(proposed_state, depth, f, solution_limit, partner, "transform")
-            decline, notpartner = a_star_search(cur_state, depth, f, solution_limit, partner, "transform")
-            if accept.eu >= decline.eu:
-                cur_state = proposed_state
-                print("accepted transfer")
-            else:
-                print("declined transfer")
 
+            if interventions_on:
+                cur_state = InterventionManager.intervention_manager(cur_state, key)
+
+            if use_dynamic_solution_limit:
+                solution_limit = (country_dict[key].resources["population"] - 9000) / 100
+            if use_dynamic_depth_limit:
+                depth = (country_dict[key].resources["population"] - 8000) / 1000
+            cur_state, notpartner = search(cur_state, depth, f, solution_limit, key, "transform", frontier_size)
+            proposed_state, partner = search(cur_state, 1, f, solution_limit, key, "transfer", frontier_size)
+            if partner != "No trade":
+                accept, notpartner = search(proposed_state, depth, f, solution_limit, partner, "transform", frontier_size)
+                decline, notpartner = search(cur_state, depth, f, solution_limit, partner, "transform", frontier_size)
+                if accept.eu >= decline.eu:
+                    cur_state = proposed_state
+                    print("accepted transfer")
+                else:
+                    print("declined transfer")
+            else:
+                cur_state = proposed_state
+            war_goal, target = search(cur_state, 1, f, solution_limit, key, "war", frontier_size)
+            if target != "No trade":
+                cur_state = BasicOperations.war(key, target, cur_state, True, seed)
+                print("War occurs")
+
+            # Iterate through country - set init_state to current
+            for c_name in cur_state.countries:
+                country = cur_state.countries[c_name]
+                country.init_state_quality = ResourceQuality.getStateQuality(country.resources)
+        if log_inequality:
+            print("MLD: %f\n" % Inequality.mean_log_dev(cur_state))
     #    cur_state, notpartner = a_star_search(cur_state, 4, f, solution_limit, key, "transform")
     end = time.perf_counter()
     f.close()
+
+    if game_state_print:
+        cur_state.current_output(game_state_filename)
+
     print(f"Execution time: {end - start:0.4f}")
