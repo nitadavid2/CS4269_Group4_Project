@@ -34,6 +34,11 @@ class Country:
         self.war_ambition = war_ambition
 
     def warfare_quality(self):
+        """
+        The warfare_quality function returns a number corresponding to the
+        necessity of a country needing to resort to war to meet its needs.
+        Return: a double corresponding to the necessity for the country to go to war.
+        """
         war_Quality = 0
         for res in res_dict:
 
@@ -48,6 +53,14 @@ class Country:
         return war_Quality
 
     def deterrence_score(self, country):
+        """
+        The deterrence_score function returns a number corresponding to the fear
+        a country has in taking on another specific country based on the relative weighting
+        of the other's war power and the country's own war power.
+        country: the name of the country to which self is being compared to.
+        Return: a double representing the ratio of the potential opponent's power to the
+        war power of self.
+        """
 
         # Higher means other country is more powerful.
         det = (Ops.war_power(country)/Ops.war_power(self))
@@ -55,6 +68,14 @@ class Country:
         return det
 
     def relationship_score(self, country):
+        """
+        The relationship_score function models the preference a country has to trading with
+        another specific country as opposed to war with that other country.
+        country: the name of the country to which self is being compared to.
+        Return: a double representing the strength of the preference
+        that self has to trading with the other country rather than
+        resorting to war.
+        """
 
         diff_dict = list()
 
@@ -73,7 +94,9 @@ class Country:
             diff = our_quantity - country_quantity
             diff_dict.append(diff)
 
-        # Now find max, min in diff_dict. Negate min and apply to formula
+        # Now find max, min in diff_dict. Negate min and apply to formula. This
+        # represents the amount of the difference between the countries most
+        # unequal resource.
         MaxDiff_XY = max(diff_dict)
         MaxDiff_YX = -min(diff_dict)
 
@@ -86,6 +109,14 @@ class Country:
         return min_Diff/max_Diff
 
     def war_inclination(self, country):
+        """
+        The war_inclination function returns a single numeric value representing the potential
+        gains vs. losses of self going to war with another specific country.
+        country: the name of the country to which self is considering war with.
+        Return: a double representing the inclination of self going to
+        war with another specific country. The closer this is to 1, the more inclined
+        the country is to war.
+        """
         det = self.deterrence_score(country)
         rel = self.relationship_score(country)
 
@@ -397,6 +428,12 @@ class State:
         return dr, cpp
 
     def current_output(self, file_name):
+        """
+        current_output is a helper function that prints the current best path, and best path EU
+        to a file.
+        file_name: the path to write to.
+        Return: void.
+        """
         csv_file = file_name
         csv_columns = ['Name', 'population', 'metalElements', 'timber', 'landArea', 'water', 'metalAlloys',
                        'electronics', 'housing', 'food', 'metalAlloysWaste', 'housingWaste', 'electronicsWaste',
