@@ -35,10 +35,15 @@ Search function:
 Transform operator:
 Transform operator:
 This function passes parameters to different TRANSFORM functions based on the value of transform_type.
+
 :param country: String of country's name
+
 :param resources: A dictionary containing the amounts of resources in the country
+
 :param n: Number multiplied to increase the transformation yield
+
 :param transform_type: String indicating the type of transform
+
 :return: Operator summary and updated resources dictionary.
 
 Transfer operator:
