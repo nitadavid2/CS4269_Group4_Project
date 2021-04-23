@@ -26,14 +26,13 @@ A diagram of the system architecture is included below. The arrows from the Para
 
 The main top-level functions are the main function in Scheduler.py. This function takes no parameters from the console. The parameters are instead defined in the Parameters.py file, the main function understands where to find the needed input files based on the defined parameters in the Parameters.py file. The search function, the transfer, transform, and war operators, the find_successor function, and the country_participation_probability function are the other high-level functions.
 
-Main function:
+#### Main function:
 
 
-Search function:
+#### Search function:
 
 
-Transform operator:
-Transform operator:
+#### Transform operator:
 This function passes parameters to different TRANSFORM functions based on the value of transform_type.
 
 :param country: String of country's name
@@ -46,44 +45,68 @@ This function passes parameters to different TRANSFORM functions based on the va
 
 :return: Operator summary and updated resources dictionary.
 
-Transfer operator:
+#### Transfer operator:
 This TRANSFER function makes changes to both the sender and the receiver's dictionaries based on the resource
 type and the trading amount for the TRANSFER.
+
 :param sender: String of sender country's name
+
 :param receiver: String of receiver country's name
+
 :param sender_resources: A dictionary containing the amounts of resources in the sender country
+
 :param receiver_resources: A dictionary containing the amounts of resources in the receiver country
+
 :param transfer_resource: String of the resource type for this TRANSFER
+
 :param amount: Int of the trading amount for this TRANSFER
+
 :return: Operator summary and updated resources dictionary.
 
-War operator:
+#### War operator:
 The war function models the occurrence of a war between nations, including the outcome if desired.
 The function returns the state of the game world after the war is simulated, if desired, or otherwise
 the state where attacker always wins.
+
 attacker: the name of the attacking country.
+
 defender: the name of the defending country.
+
 state: the world state at the time of war commencement.
+
 determine: should the outcome of the war be simulated? False by default, which returns the state assuming the attacker always wins.
+
 seed: the random number generator seed, None by default.
+
 Return: the state after war has been simulated, if desired, or after attacker is assumed to win.
 
-find_successor :
+#### find_successor :
 This function finds all possible successor states for the given state. It contains two inner functions:
 successors_for_transform and successors_for_transfer which find successor states for different TRANSFORM and TRANSFER operations respectively.
+
 :param player: A string indicating the player/country
+
 :param type: A string indicating the operation type
+
 :return: A tuple containing all the states found.
 
-Country_participation_probability: 
+#### Country_participation_probability: 
         This function calculates the participation probability of a specific country.
+        
         :param resources: A dictionary for the country's resources
+        
         :param init_s: Int for the country's initial state
+        
         :param gamma: Int for gamma in calculating discounted reward
+        
         :param depth: Int for the successor state's depth
+        
         :param x_0: Int for x_0 in calculating the country participation probability
+        
         :param k: Int for k in calculating the country participation probability
+        
         :param L: Int for L in calculating the country participation probability
+        
         :return: An int for the discounted reward, an int for the country participation probability.
 
 ### Modeling 
