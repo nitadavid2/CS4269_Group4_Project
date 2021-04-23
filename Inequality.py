@@ -3,6 +3,12 @@ import math
 
 
 def mean_log_dev(state):
+    """
+    The mean_log_dev function analyzes the inequality of a given world state's distribution
+    of resources among countries.
+    state: the world state to analyze.
+    Return: the mean-log deviation (MLD) of the world state.
+    """
 
     total_state_qual = 0
     n_countries = 0
