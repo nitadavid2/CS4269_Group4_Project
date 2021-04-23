@@ -3,17 +3,24 @@
 README:
 ### Setup For A simulation
 We simulate the gradual, turn-based evolution of a world of N virtual countries, each with M resources and some amount of each resource, including possibly zero units of some resources.
+
 Files needed: 
 BasicOperations.py, Classes.py, Parameters.py, ReadCountries.py,  ReadResources.py, Resources.py, ResourceQuality.py, Scheduler.py
+
 Execution instructions :
-Required dependencies:
-DEPQ: “pip install depq”
-openpyxl: “pip install openpyxl”
-Numpy: “pip install numpy”
-Clone or download a zip file for the project
-open terminal and cd into the project directory
-Define execution parameters in Parameters.py
-Run python Scheduler.py to execute the simulation
+
+* Required dependencies:
+
+        - DEPQ: “pip install depq”
+
+        - openpyxl: “pip install openpyxl”
+
+        - Numpy: “pip install numpy”
+
+* Clone or download a zip file for the project
+* open terminal and cd into the project directory
+* Define execution parameters in Parameters.py
+* Run python Scheduler.py to execute the simulation
 
 ### Overview of Simulation
 Our program is built from several different subcomponent portions. The major components include a file containing global variables and parameters in Parmeters.py, definitions of Country and State Classes, the definition of key helper functions in BasicOperations.py, the search and main function in Scheduler.py, and several helper files that implement functions to read in the input files and manage game operations based on the input files.
