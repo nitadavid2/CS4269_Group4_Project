@@ -22,7 +22,7 @@ A diagram of the system architecture is included below. The arrows from the Para
 
 ### Data structure or code structure
 
-[Diagram here]
+![Diagram here](/diagram.png)
 
 The main top-level functions are the main function in Scheduler.py. This function takes no parameters from the console. The parameters are instead defined in the Parameters.py file, the main function understands where to find the needed input files based on the defined parameters in the Parameters.py file. The search function, the transfer, transform, and war operators, the find_successor function, and the country_participation_probability function are the other high-level functions.
 
