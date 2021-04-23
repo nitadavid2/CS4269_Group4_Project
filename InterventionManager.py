@@ -60,7 +60,6 @@ def intervention_manager(state, key, interventions_list=ReadInterventions.getInt
             #       "%.",
             #       sep='')
 
-        # TODO finish impl.
         r = random.random()
 
         # Do we apply event?

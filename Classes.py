@@ -4,7 +4,6 @@ import BasicOperations as Ops
 import copy
 import math
 import csv
-import random
 
 res_dict = ResourceQuality.resourceDict
 
@@ -22,6 +21,8 @@ class Country:
         :param countryName: String for the country's name
         :param resources: A dictionary containing the amounts of resources in the country
         :param init_state_quality: Int for the initial state quality of the country
+        :param prob_parameter: A list containing parameters for probability calculation in transfer successor function
+        :param war_ambition: Long indicating the war ambition level of a country
         """
         self.name = countryName
         self.resources = resources
@@ -34,7 +35,6 @@ class Country:
 
     def warfare_quality(self):
         war_Quality = 0
-        # TODO: define set up war weights in excel
         for res in res_dict:
 
             set = res_dict[res]
@@ -122,17 +122,20 @@ class State:
         This function finds all possible successor states for the given state. It contains two inner functions:
         successors_for_transform and successors_for_transfer which find successor states for different TRANSFORM and
         TRANSFER operations respectively.
+        :param player: A string indicating the player/country
+        :param type: A string indicating the operation type
         :return: A tuple containing all the states found.
         """
 
         def successors_for_transform(path, countries, depth, player):
             """
-            This function finds all possible successor states after performing TRANSFORM for the given state. I explores
-            all possible TRANSFORM operations for MyCountry in this state and only passes in states whose expected
+            This function finds all possible successor states after performing TRANSFORM for the given state. It explores
+            all possible TRANSFORM operations for the player in this state and only passes in states whose expected
             utilities are higher than the threshold.
             :param path: A list indicating the given state's path
             :param countries: A dictionary indicating all of the countries in the given state's
             :param depth: Int indicating the given state's schedule depth in the search tree
+            :param player: String indicating the country/player
             """
             # go through the list of different quantities for TRANSFORM operator which determine the resource
             # amount that MyCountry can get in this TRANSFORM
@@ -184,12 +187,13 @@ class State:
 
         def successors_for_transfer(path, countries, depth, player):
             """
-            This function finds all possible successor states after performing TRANSFER for the given state. I explores
-            all possible TRANSFER operations for MyCountry in this state and only passes in states whose expected
+            This function finds all possible successor states after performing TRANSFER for the given state. It explores
+            all possible TRANSFER operations for the player in this state and only passes in states whose expected
             utilities are higher than the threshold.
             :param path: A list indicating the given state's path
             :param countries: A dictionary indicating all of the countries in the given state's
             :param depth: Int indicating the given state's schedule depth in the search tree
+            :param player: String indicating the country/player
             """
             # go through the list of different quantities for TRANSFER operator which determine the resource
             # amount that MyCountry can get in this TRANSFER
@@ -245,11 +249,14 @@ class State:
                                     init_state1 = countries[target_c].init_state_quality
                                     init_state2 = countries[player].init_state_quality
 
+                                    # prob_parameter1 as the k, x_0 for not trading selective countries, prob_parameter2
+                                    # for selective countries
                                     prob_parameter1 = countries[target_c].prob_parameter
                                     prob_parameter2 = countries[player].prob_parameter
 
                                     # calculate the probabilities for both countries: d_r as the discounted reward and
-                                    # par_p as the probability
+                                    # par_p as the probability using the prob_parameter as an implementation of trading
+                                    # strategies here
                                     d_r1, par_p1 = self.country_participation_probability(b2, init_state1, 0.9,
                                                                                           depth + 1, prob_parameter1[0],
                                                                                           prob_parameter1[1])
@@ -291,18 +298,31 @@ class State:
                                         successor_list.append(new_state)
 
         def successors_for_war(path, countries, depth, player):
+            """
+            This function finds all possible successor states after performing WAR for the given state. It explores
+            all possible WAR operations for the player in this state and only passes in states when warfare quality
+            and war inclination function tell it that the war is appropriate.
+            :param path: A list indicating the given state's path
+            :param countries: A dictionary indicating all of the countries in the given state's
+            :param depth: Int indicating the given state's schedule depth in the search tree
+            :param player: String indicating the country/player
+            """
+            # check warfare quality here
             if countries[player].war_quality >= -1:
+
                 for target_c in countries:
                     if target_c != player:
                         war_inclination = countries[player].war_inclination(countries[target_c])
+
+                        # comparing war inclination and the country's war ambition to decide if go to war
                         if war_inclination >= countries[player].war_ambition:
                             path_to_update = copy.deepcopy(path)
                             countries_to_update = copy.deepcopy(countries)
                             init_state1 = countries[player].init_state_quality
-                            init_state2 = countries[target_c].init_state_quality
                             new_state = State(depth + 1, countries_to_update, path_to_update)
                             new_state = Ops.war(player, target_c, new_state, False, seed)
 
+                            # calculate participation probability for expected utility
                             d_r1, par_p1 = self.country_participation_probability(new_state.countries[player].resources, init_state1, 0.9,
                                                                                   depth + 1, 0, 1)
 
@@ -310,6 +330,8 @@ class State:
 
                             eu = d_r1 * advantage
                             new_state.eu = eu
+
+                            # check expected utility before appending the new state into the list
                             if eu > (1000 - (countries[player].war_ambition * 700)):
                                 successor_list.append(new_state)
 
