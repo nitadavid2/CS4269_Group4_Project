@@ -141,6 +141,18 @@ def transfer(sender, receiver, sender_resources, receiver_resources, transfer_re
 
 # Determine = True - attacker wins by default
 def war(attacker, defender, state, determine=False, seed=None):
+    """
+    The war function models the occurrence of a war between nations, including the outcome if desired.
+    The function returns the state of the game world after the war is simulated, if desired, or otherwise
+    the state where attacker always wins.
+    attacker: the name of the attacking country.
+    defender: the name of the defending country.
+    state: the world state at the time of war commencement.
+    determine: should the outcome of the war be simulated? False by default, which returns the state
+    assuming the attacker always wins.
+    seed: the random number generator seed, None by default.
+    Return: the state after war has been simulated, if desired, or after attacker is assumed to win.
+    """
     a_country = state.countries[attacker]
     d_country = state.countries[defender]
 
@@ -166,6 +178,12 @@ def war(attacker, defender, state, determine=False, seed=None):
 
 
 def war_power(country):
+    """
+    The war_power function returns a numeric score corresponding to the strength of
+    a country in wars. This is used to model war outcomes and war inclination.
+    country: the country object of the country being analyzed.
+    Return: a double corresponding to the power of a country in war.
+    """
     c_resources = country.resources
     power = -1
 
@@ -180,6 +198,14 @@ def war_power(country):
 
 
 def distribute_spoils(victor, loser, state):
+    """
+    The distribute_spoils function enacts a war outcome by altering the state's
+    of the victor and loser respectively.
+    victor: the name of the victorious country.
+    loser: the name of the losing country.
+    state: the state to be altered.
+    Return: the altered state.
+    """
     v_country = state.countries[victor]
     l_country = state.countries[loser]
 
@@ -201,7 +227,17 @@ def distribute_spoils(victor, loser, state):
     return state
 
 
-def destruction(victor,loser,state):
+def destruction(victor, loser, state):
+    """
+    The destruction function alters the game state by
+    modeling the natural destruction that occurs in a war.
+    This represents the negative-sum nature of war.
+    victor: the name of the victorious country.
+    loser: the name of the losing country.
+    state: the state to be altered.
+    NOTE: This function is implemented but not actually used in our
+    final part 2 implementation.
+    """
     v_country = state.countries[victor]
     l_country = state.countries[loser]
 
